@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Halls — GTEC</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
+        <span class="brand-name">GTEC</span>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="halls.html" class="active">Halls</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin.html" class="hide-mobile">Admin</a>
+      </nav>
+      <div class="actions">
+        <button class="book-now-btn" id="openBookingTop">Book Now</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="container">
+    <h1 class="page-title">Our Conference Halls</h1>
+    <p class="subtle">Choose from our diverse range of professionally equipped conference halls, each designed to meet your specific event requirements.</p>
+
+    <div class="hall-grid big">
+      <!-- Three cards similar to index, but larger with icons and price -->
+      <article class="hall-card">
+        <div class="hall-media">
+          <img src="images/Paul_Effah-Ground_Floor.jpeg" alt="Grand Auditorium">
+          <div class="capacity bubble">600 pax</div>
+        </div>
+        <div class="hall-body">
+          <h3>Paul Effah Hall- Full Capacity</h3>
+          <div class="icons">🔊 • 📽️ • WiFi</div>
+          <div class="price">Starting from ₵5,000/hr</div>
+          <div class="hall-actions">
+            <a class="btn btn-outline" href="hall-details.html?hall=grand">View Details</a>
+            <button class="btn btn-primary" onclick="openBookingModal('Grand Auditorium')">Book</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="hall-card">
+        <div class="hall-media">
+          <img src="images/Paul_Effah-Ground_Floor.jpeg" alt="Executive Boardroom">
+          <div class="capacity bubble">50 pax</div>
+        </div>
+        <div class="hall-body">
+          <h3>Paul Effah Hall- Ground Floor</h3>
+          <div class="icons">🔊 • 📽️ • 🪑 • WiFi</div>
+          <div class="price">Starting from ₵2,500/hr</div>
+          <div class="hall-actions">
+            <a class="btn btn-outline" href="hall-details.html?hall=boardroom">View Details</a>
+            <button class="btn btn-primary" onclick="openBookingModal('Executive Boardroom')">Book</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="hall-card">
+        <div class="hall-media">
+          <img src="images/Jinapor_Hall.jpeg" alt="Innovation Hub">
+          <div class="capacity bubble">150 pax</div>
+        </div>
+        <div class="hall-body">
+          <h3>Jinapor Hall</h3>
+          <div class="icons">💡 • 🪑 • WiFi</div>
+          <div class="price">Starting from ₵3,500/hr</div>
+          <div class="hall-actions">
+            <a class="btn btn-outline" href="hall-details.html?hall=innovation">View Details</a>
+            <button class="btn btn-primary" onclick="openBookingModal('Innovation Hub')">Book</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="center"><a href="#" class="book-now-btn">View All Halls</a></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year2"></span> GTEC. All rights reserved.</div>
+      <div class="socials">
+        <a href="#">Facebook</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Reuse booking modal from index by loading main.js -->
+  <div class="modal" id="bookingModal" aria-hidden="true">
+    <!-- modal content is injected by JS when opened -->
+  </div>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
