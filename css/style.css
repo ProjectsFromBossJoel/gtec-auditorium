@@ -1,0 +1,179 @@
+/* Base
+   Colors: navy (#0f2740), gold (#d4ad2b), soft-white (#fbf8f5) */
+:root{
+  --navy:#0f2740;
+  --gold:#d4ad2b;
+  --muted:#6b7280;
+  --soft:#fbf8f5;
+  --card:#ffffff;
+}
+*{box-sizing:border-box}
+body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial;line-height:1.5;color:var(--navy);background:linear-gradient(180deg,#fbfaf9 0%, #ffffff 100%)}
+.container{max-width:1100px;margin:0 auto;padding:24px}
+.site-header{background:var(--soft);box-shadow:0 1px 6px rgba(15,39,64,0.06);position:sticky;top:0;z-index:40}
+.header-inner{display:flex;align-items:center;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:10px}
+.logo{width:48px;height:48px;object-fit:contain;border-radius:6px}
+.brand-name{font-weight:700}
+.nav a{margin:0 12px;color:var(--navy);text-decoration:none}
+.nav a.active{font-weight:700}
+.hide-mobile{display:inline}
+.actions{display:flex;align-items:center;gap:10px}
+.btn{padding:10px 16px;border-radius:22px;border:0;cursor:pointer}
+.btn-primary{background:var(--navy);color:#fff}
+.btn-secondary{background:transparent;border:2px solid var(--navy);color:var(--navy)}
+.btn-outline{background:transparent;border:1px solid #e8e6e4;padding:8px 14px;border-radius:12px}
+.book-now-btn{background:var(--gold);color:var(--navy);border-radius:20px;padding:8px 14px}
+.hero{padding:56px 0}
+.hero-inner{display:flex;gap:32px;align-items:center}
+.hero h1{font-size:34px;margin-bottom:10px}
+.lead{color:var(--muted);max-width:640px}
+.hero-image img{width:420px;border-radius:12px;box-shadow:0 10px 20px rgba(15,39,64,0.08)}
+.features{padding:24px 0}
+.grid-3{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.card{background:var(--card);padding:20px;border-radius:12px;box-shadow:0 6px 18px rgba(15,39,64,0.04)}
+.small h3{margin-bottom:8px}
+.showcase{padding:40px 0}
+.section-title{text-align:center;font-size:28px;margin-bottom:8px}
+.hall-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px}
+.hall-card{background:var(--card);border-radius:12px;overflow:hidden;box-shadow:0 10px 30px rgba(15,39,64,0.06)}
+.hall-media{position:relative}
+.hall-media img{width:100%;height:200px;object-fit:cover}
+.hall-media .capacity{position:absolute;top:12px;right:12px;background:var(--navy);color:#fff;padding:8px;border-radius:28px;font-weight:700}
+.hall-body{padding:18px}
+.hall-meta{color:var(--muted);margin-bottom:12px}
+.hall-actions{display:flex;gap:10px}
+.center{text-align:center;margin-top:20px}
+.site-footer{padding:18px 0;background:#fff;border-top:1px solid #f0efee;margin-top:40px}
+.footer-inner{display:flex;justify-content:space-between;align-items:center}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;background:rgba(11,15,30,0.4);padding:20px}
+.modal[aria-hidden="false"]{display:flex}
+.modal-dialog{background:#fff;padding:20px;border-radius:10px;max-width:520px;width:100%;position:relative}
+.modal-close{position:absolute;right:12px;top:12px;background:transparent;border:0;font-size:18px}
+.modal form label{display:block;margin-top:12px;color:var(--muted)}
+.modal input,.modal select,.modal textarea{width:100%;padding:10px;border-radius:8px;border:1px solid #e6e3e1;margin-top:6px}
+.services label{display:block;margin-top:8px}
+.modal-actions{display:flex;gap:8px;margin-top:12px}
+.booking-preview{background:#fbfaf9;padding:12px;border-radius:8px;margin-top:10px}
+.page-title{text-align:center;margin-top:28px}
+.subtle{text-align:center;color:var(--muted);margin-bottom:18px}
+.bubble{position:absolute;top:12px;right:12px;background:#0f2740;color:#fff;padding:10px;border-radius:28px}
+.hall-grid.big .hall-card .hall-media img{height:220px}
+.center .btn-ghost{padding:12px 20px}
+/* Admin */
+.admin-main{padding:24px 0}
+.admin .nav a{margin-right:10px}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+.table{width:100%;border-collapse:collapse}
+.table th,.table td{padding:10px;border-bottom:1px solid #eee;text-align:left}
+@media(max-width:900px){.grid-3{grid-template-columns:1fr}.hero-inner{flex-direction:column}.hide-mobile{display:none}.hall-grid{grid-template-columns:1fr}}
+
+/* ===== MODAL BACKDROP ===== */
+.modal {
+  display: none;
+  position: fixed;
+  z-index: 3000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(4px);
+  justify-content: center;
+  align-items: center;
+}
+
+/* ===== MODAL BOX ===== */
+.modal-content {
+  background: #ffffff;
+  width: 95%;
+  max-width: 600px;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 4px 25px rgba(0,0,0,0.2);
+  animation: popIn 0.3s ease;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.7); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
+}
+
+.close-btn {
+  float: right;
+  font-size: 28px;
+  cursor: pointer;
+  font-weight: bold;
+}
+
+.modal-content h2 {
+  margin-bottom: 15px;
+  color: #0A2342;
+  font-weight: 700;
+}
+
+.modal-content label {
+  margin-top: 12px;
+  font-weight: 600;
+  display: block;
+}
+
+.modal-content input,
+.modal-content select,
+.modal-content textarea {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 14px;
+}
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: #0A2342;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  margin-top: 22px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+.submit-btn:hover {
+  background: #0d3566;
+}
+
+.success {
+  color: green;
+  margin-top: 10px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.rentals-section {
+  padding: 15px;
+  border: 1px solid #ddd;
+  margin-top: 18px;
+  border-radius: 6px;
+  background: #fafafa;
+}
+
+.booking-subtitle {
+  font-size: 18px;
+  margin-bottom: 10px;
+  font-weight: 600;
+  color: #333;
+}
+
+.input-row {
+  margin-bottom: 12px;
+}
+
+.input-row input {
+  width: 100%;
+}
+
