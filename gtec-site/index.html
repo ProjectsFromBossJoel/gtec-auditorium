@@ -1,0 +1,232 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GTEC Conference Halls</title>
+  <meta name="description" content="GTEC - Professional conference halls available for booking.">
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand">
+        <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
+        <span class="brand-name">GTEC</span>
+      </div>
+      <nav class="nav">
+        <a href="index.html">Home</a>
+        <a href="halls.html">Halls</a>
+        <a href="about.html">About</a>
+        <a href="contact.html">Contact</a>
+        <a href="admin.html" class="hide-mobile">Admin1</a>
+        <a href="https://gtecconferencefacility.netlify.app/" class="hide-mobile">Admin2</a>
+      </nav>
+      <div class="actions">
+        <button class="book-now-btn" id="openBooking">Book Now</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-inner">
+          <div>
+            <h1>Professional Conference Halls for Every Event</h1>
+            <p class="lead">Modern, fully-equipped venues with configurable seating and optional services. Book with ease for corporate events, seminars, exams, and special occasions.</p>
+            <a href="halls.html" class="btn btn-primary">View Halls</a>
+            <button class="btn btn-secondary" id="openBookingHero">Book Now</button>
+          </div>
+          <div class="hero-image">
+            <img src="images/GTEC Conference Facility_(Front View).jpg" alt="Conference hall">
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container features">
+      <h2 class="section-title">Why choose GTEC</h2>
+      <div class="grid-3">
+        <div class="card small">
+          <h3>Professional Support</h3>
+          <p>Experienced on-site staff and AV technicians to ensure your event runs smoothly.</p>
+        </div>
+        <div class="card small">
+          <h3>Flexible Layouts</h3>
+          <p>Configurable seating: theatre, classroom, boardroom, and banquet layouts.</p>
+        </div>
+        <div class="card small">
+          <h3>Secure & Accessible</h3>
+          <p>Secure premises with accessible facilities and parking options.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="container showcase">
+      <h2 class="section-title">Featured Halls</h2>
+      <div class="hall-grid">
+        <article class="hall-card">
+          <div class="hall-media">
+            <img src="images/Paul_Effah-Full_Capacity.jpeg" alt="Grand Auditorium">
+            <div class="capacity">600 pax</div>
+          </div>
+          <div class="hall-body">
+            <h3>Paul Effah Hall- Full Capacity</h3>
+            <p class="hall-meta">Starting from ₵5,000/hr • Theatre seating • LED & Mini Screens • PA System</p>
+            <div class="hall-actions">
+              <button class="btn btn-outline" onclick="openHallDetails('Grand Auditorium')">View Details</button>
+              <button class="btn btn-primary" onclick="openBookingModal('Grand Auditorium')">Book</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="hall-card">
+          <div class="hall-media">
+            <img src="images/Paul_Effah-Ground_Floor.jpeg" alt="Executive Boardroom">
+            <div class="capacity">320 pax</div>
+          </div>
+          <div class="hall-body">
+            <h3>Paul Effah Hall- Ground Floor</h3>
+            <p class="hall-meta">Starting from ₵2,500/hr • Theatre seating • LED & Mini Screens • PA System</p>
+            <div class="hall-actions">
+              <button class="btn btn-outline" onclick="openHallDetails('Executive Boardroom')">View Details</button>
+              <button class="btn btn-primary" onclick="openBookingModal('Executive Boardroom')">Book</button>
+            </div>
+          </div>
+        </article>
+
+        <article class="hall-card">
+          <div class="hall-media">
+            <img src="images/Jinapor_Hall.jpeg" alt="Innovation Hub">
+            <div class="capacity">150 pax</div>
+          </div>
+          <div class="hall-body">
+            <h3>Jinapor Hall</h3>
+            <p class="hall-meta">Starting from ₵3,500/hr • Screen • PA System</p>
+            <div class="hall-actions">
+              <button class="btn btn-outline" onclick="openHallDetails('Innovation Hub')">View Details</button>
+              <button class="btn btn-primary" onclick="openBookingModal('Innovation Hub')">Book</button>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year"></span> GTEC. All rights reserved.</div>
+      <div class="socials">
+        <a href="#">Facebook</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Booking Modal -->
+  <!-- ===================== BOOKING POPUP MODAL ===================== -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+
+    <h2>Conference Hall Booking Form</h2>
+
+    <form id="bookingForm">
+
+      <label>Name of Applicant (Full Name)</label>
+      <input type="text" name="applicantName" required>
+
+      <label>Telephone</label>
+      <input type="tel" name="telephone" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Booking Type</label>
+      <select name="bookingType" required>
+        <option value="">-- Select Type --</option>
+        <option value="Institution/Organization">Institution/Organization</option>
+        <option value="Personal">Personal</option>
+      </select>
+
+      <label>Name of Institution / Organization / Person</label>
+      <input type="text" name="institutionName" required>
+
+      <label>Number of Participants</label>
+      <input type="number" name="participants" required>
+
+      <label>Venue (Hall)</label>
+      <select name="venue" required>
+        <option value="">-- Select Hall --</option>
+        <option value="Grand Auditorium">Grand Auditorium</option>
+        <option value="Executive Boardroom">Executive Boardroom</option>
+        <option value="Innovation Hub">Innovation Hub</option>
+      </select>
+
+      <label>Additional Services</label>
+<select name="additionalServices" required>
+  <option value="">-- Select Service --</option>
+  <option value="Changing Room">Changing Room</option>
+  <option value="Rehearsals">Rehearsals</option>
+  <option value="Dining Area">Dining Area</option>
+  <option value="None">None</option>
+</select>
+
+<!-- RENTALS SECTION -->
+<h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
+<div class="rentals-section">
+  <h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
+
+  <div class="input-row">
+    <label>Tables</label>
+    <input type="number" name="tables" min="0" placeholder="0">
+  </div>
+
+  <div class="input-row">
+    <label>Chairs</label>
+    <input type="number" name="chairs" min="0" placeholder="0">
+  </div>
+</div>
+
+
+
+      <label>Event Description</label>
+      <textarea name="eventDescription" rows="3" required></textarea>
+
+      <label>Event Start Date</label>
+      <input type="date" name="startDate" id="startDate" required>
+
+      <label>Event End Date</label>
+      <input type="date" name="endDate" id="endDate" required>
+
+      <label>Number of Days of Event</label>
+      <input type="number" name="days" id="eventDays" readonly>
+
+      <label>Time Event Starts</label>
+      <input type="time" name="startTime" required>
+
+      <label>Time Event Ends</label>
+      <input type="time" name="endTime" required>
+
+      <label>Recipient Name for Invoice</label>
+      <input type="text" name="invoiceName" required>
+
+      <label>Recipient Email for Invoice</label>
+      <input type="email" name="invoiceEmail" required>
+
+      <button type="submit" class="submit-btn">Submit Booking</button>
+    </form>
+
+    <p id="successMessage" class="success"></p>
+  </div>
+</div>
+
+<script>
+  
+</script>
+
+  <script src="js/main.js"></script>
+</body>
+</html>
