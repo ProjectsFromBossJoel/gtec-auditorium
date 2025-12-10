@@ -74,7 +74,7 @@ function saveLocal(booking){
 
 // === Send Booking to Google Sheet ===
 async function sendToSheet(booking){
-  const sheetURL = "YOUR_WEB_APP_URL"; // Replace with your Web App URL
+  const sheetURL = "https://script.google.com/macros/s/AKfycbwsV3UX76hZaQaacIXFkr_7dDiso8dgXP3bNC2Jchql_51SdWtsLKjJXFkYv83zsUbJmw/exec"; // Replace with your Web App URL
 
   try {
     await fetch(sheetURL, {
