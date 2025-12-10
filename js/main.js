@@ -27,6 +27,47 @@ function calculateDays(){
 startDateInput.addEventListener('change', calculateDays);
 endDateInput.addEventListener('change', calculateDays);
 
+
+// === Modal Handling ===
+const bookingModal = document.getElementById('bookingModal');
+
+// Open modal with optional default hall
+function openBookingModal(defaultHall = "") {
+  if (!bookingModal) return;
+
+  bookingModal.style.display = "block";   // Show modal
+  bookingModal.setAttribute('aria-hidden','false');
+
+  // Set default hall if provided
+  const venueSelect = bookingModal.querySelector('select[name="venue"]');
+  if(venueSelect && defaultHall){
+    venueSelect.value = defaultHall;
+  }
+}
+
+// Close modal
+function closeBookingModal(){
+  if(!bookingModal) return;
+  bookingModal.style.display = "none";
+  bookingModal.setAttribute('aria-hidden','true');
+}
+
+// Close when clicking outside modal content
+window.addEventListener('click', function(e){
+  if(e.target === bookingModal){
+    closeBookingModal();
+  }
+});
+
+// Wire up the close button inside the modal
+const closeBtn = bookingModal.querySelector('#closeModal');
+if(closeBtn) closeBtn.addEventListener('click', closeBookingModal);
+
+// Make the function available globally for inline onclick
+window.openBookingModal = openBookingModal;
+
+
+
 // === Submit Booking Form ===
 const form = document.getElementById("bookingForm");
 
