@@ -1,133 +1,129 @@
-// === Initialize Year in footer ===
-['year','year2','year3','year4','year5'].forEach(id=>{
-  const el = document.getElementById(id);
-  if(el) el.textContent = new Date().getFullYear();
-});
+document.addEventListener("DOMContentLoaded", function () {
 
-// === Calculate Event Days ===
-const startDateInput = document.getElementById('startDate');
-const endDateInput = document.getElementById('endDate');
-const daysInput = document.getElementById('eventDays');
+  // === Initialize Year in footer ===
+  ['year','year2','year3','year4','year5'].forEach(id=>{
+    const el = document.getElementById(id);
+    if(el) el.textContent = new Date().getFullYear();
+  });
 
-function calculateDays(){
-  if(startDateInput.value && endDateInput.value){
-    const start = new Date(startDateInput.value);
-    const end = new Date(endDateInput.value);
-    if(end >= start){
-      const days = Math.ceil((end - start)/(1000*60*60*24))+1;
-      daysInput.value = days;
-    } else {
-      alert("End date cannot be earlier than start date.");
-      endDateInput.value = "";
-      daysInput.value = "";
+  // === Calculate Event Days ===
+  const startDateInput = document.getElementById('startDate');
+  const endDateInput = document.getElementById('endDate');
+  const daysInput = document.getElementById('eventDays');
+
+  function calculateDays(){
+    if(startDateInput.value && endDateInput.value){
+      const start = new Date(startDateInput.value);
+      const end = new Date(endDateInput.value);
+      if(end >= start){
+        const days = Math.ceil((end - start)/(1000*60*60*24))+1;
+        daysInput.value = days;
+      } else {
+        alert("End date cannot be earlier than start date.");
+        endDateInput.value = "";
+        daysInput.value = "";
+      }
     }
   }
-}
 
-startDateInput.addEventListener('change', calculateDays);
-endDateInput.addEventListener('change', calculateDays);
-
-
-// === Modal Handling ===
-const bookingModal = document.getElementById('bookingModal');
-
-// Open modal with optional default hall
-function openBookingModal(defaultHall = "") {
-  if (!bookingModal) return;
-
-  bookingModal.style.display = "block";   // Show modal
-  bookingModal.setAttribute('aria-hidden','false');
-
-  // Set default hall if provided
-  const venueSelect = bookingModal.querySelector('select[name="venue"]');
-  if(venueSelect && defaultHall){
-    venueSelect.value = defaultHall;
+  if(startDateInput && endDateInput){
+    startDateInput.addEventListener('change', calculateDays);
+    endDateInput.addEventListener('change', calculateDays);
   }
-}
 
-// Close modal
-function closeBookingModal(){
-  if(!bookingModal) return;
-  bookingModal.style.display = "none";
-  bookingModal.setAttribute('aria-hidden','true');
-}
+  // === Modal Handling ===
+  const bookingModal = document.getElementById('bookingModal');
+  const closeBtn = document.getElementById('closeModal');
 
-// Close when clicking outside modal content
-window.addEventListener('click', function(e){
-  if(e.target === bookingModal){
-    closeBookingModal();
+  function openBookingModal(defaultHall = "") {
+    if (!bookingModal) return;
+
+    bookingModal.style.display = "block";
+
+    const venueSelect = bookingModal.querySelector('select[name="venue"]');
+    if(venueSelect && defaultHall){
+      venueSelect.value = defaultHall;
+    }
   }
-});
 
-// Wire up the close button inside the modal
-const closeBtn = bookingModal.querySelector('#closeModal');
-if(closeBtn) closeBtn.addEventListener('click', closeBookingModal);
+  function closeBookingModal(){
+    if(!bookingModal) return;
+    bookingModal.style.display = "none";
+  }
 
-// Make the function available globally for inline onclick
-window.openBookingModal = openBookingModal;
+  if(closeBtn){
+    closeBtn.addEventListener('click', closeBookingModal);
+  }
 
+  window.addEventListener('click', function(e){
+    if(e.target === bookingModal){
+      closeBookingModal();
+    }
+  });
 
+  // 🔥 VERY IMPORTANT: expose globally
+  window.openBookingModal = openBookingModal;
 
-// === Submit Booking Form ===
-const form = document.getElementById("bookingForm");
+  // === Submit Booking Form ===
+  const form = document.getElementById("bookingForm");
 
-form.addEventListener("submit", async function(e){
-  e.preventDefault();
+  if(form){
+    form.addEventListener("submit", async function(e){
+      e.preventDefault();
 
-  const formData = new FormData(form);
+      const formData = new FormData(form);
 
-  const booking = {
-    id: Date.now(),
-    applicantName: formData.get('applicantName'),
-    telephone: formData.get('telephone'),
-    email: formData.get('email'),
-    bookingType: formData.get('bookingType'),
-    institutionName: formData.get('institutionName'),
-    participants: formData.get('participants'),
-    venue: formData.get('venue'),
-    additionalServices: formData.get('additionalServices'),
-    tables: formData.get('tables') || "0",
-    chairs: formData.get('chairs') || "0",
-    eventDescription: formData.get('eventDescription'),
-    startDate: formData.get('startDate'),
-    endDate: formData.get('endDate'),
-    days: formData.get('days'),
-    startTime: formData.get('startTime'),
-    endTime: formData.get('endTime'),
-    invoiceName: formData.get('invoiceName'),
-    invoiceEmail: formData.get('invoiceEmail')
-  };
+      const booking = {
+        id: Date.now(),
+        applicantName: formData.get('applicantName'),
+        telephone: formData.get('telephone'),
+        email: formData.get('email'),
+        bookingType: formData.get('bookingType'),
+        institutionName: formData.get('institutionName'),
+        participants: formData.get('participants'),
+        venue: formData.get('venue'),
+        additionalServices: formData.get('additionalServices'),
+        tables: formData.get('tables') || "0",
+        chairs: formData.get('chairs') || "0",
+        eventDescription: formData.get('eventDescription'),
+        startDate: formData.get('startDate'),
+        endDate: formData.get('endDate'),
+        days: formData.get('days'),
+        startTime: formData.get('startTime'),
+        endTime: formData.get('endTime'),
+        invoiceName: formData.get('invoiceName'),
+        invoiceEmail: formData.get('invoiceEmail')
+      };
 
-  saveLocal(booking);
-  await sendToSheet(booking);
+      saveLocal(booking);
+      await sendToSheet(booking);
 
-  alert("Booking successfully submitted!");
-  form.reset();
-  daysInput.value = "";
-});
-
-// === Save to localStorage ===
-function saveLocal(booking){
-  const all = JSON.parse(localStorage.getItem('gtec_bookings')||'[]');
-  all.push(booking);
-  localStorage.setItem('gtec_bookings',JSON.stringify(all));
-}
-
-// === Send Booking to Google Sheet ===
-async function sendToSheet(booking){
-  const sheetURL = "https://script.google.com/macros/s/AKfycbwsV3UX76hZaQaacIXFkr_7dDiso8dgXP3bNC2Jchql_51SdWtsLKjJXFkYv83zsUbJmw/exec"; // Replace with your Web App URL
-
-  try {
-    await fetch(sheetURL, {
-      method: "POST",
-      mode: "no-cors", // prevents CORS errors
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify(booking)
+      alert("Booking successfully submitted!");
+      form.reset();
+      if(daysInput) daysInput.value = "";
+      closeBookingModal();
     });
-    console.log("Booking sent to Google Sheet successfully");
-  } catch (err) {
-    console.error("Failed to send booking to Google Sheet", err);
   }
-}
+
+  function saveLocal(booking){
+    const all = JSON.parse(localStorage.getItem('gtec_bookings')||'[]');
+    all.push(booking);
+    localStorage.setItem('gtec_bookings',JSON.stringify(all));
+  }
+
+  async function sendToSheet(booking){
+    const sheetURL = "https://script.google.com/macros/s/AKfycbwsV3UX76hZaQaacIXFkr_7dDiso8dgXP3bNC2Jchql_51SdWtsLKjJXFkYv83zsUbJmw/exec";
+
+    try {
+      await fetch(sheetURL, {
+        method: "POST",
+        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(booking)
+      });
+    } catch (err) {
+      console.error("Failed to send booking", err);
+    }
+  }
+
+});
