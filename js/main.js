@@ -1,37 +1,24 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-  // === Initialize Year in footer ===
-  ['year','year2','year3','year4','year5'].forEach(id=>{
+  // ==================================================
+  // PREVENT JS CRASH FROM "View Details" BUTTONS
+  // ==================================================
+  function openHallDetails(hallName) {
+    alert("Details for " + hallName + " coming soon.");
+  }
+  window.openHallDetails = openHallDetails;
+
+  // ==================================================
+  // INITIALIZE YEAR IN FOOTER
+  // ==================================================
+  ['year','year2','year3','year4','year5'].forEach(id => {
     const el = document.getElementById(id);
-    if(el) el.textContent = new Date().getFullYear();
+    if (el) el.textContent = new Date().getFullYear();
   });
 
-  // === Calculate Event Days ===
-  const startDateInput = document.getElementById('startDate');
-  const endDateInput = document.getElementById('endDate');
-  const daysInput = document.getElementById('eventDays');
-
-  function calculateDays(){
-    if(startDateInput.value && endDateInput.value){
-      const start = new Date(startDateInput.value);
-      const end = new Date(endDateInput.value);
-      if(end >= start){
-        const days = Math.ceil((end - start)/(1000*60*60*24))+1;
-        daysInput.value = days;
-      } else {
-        alert("End date cannot be earlier than start date.");
-        endDateInput.value = "";
-        daysInput.value = "";
-      }
-    }
-  }
-
-  if(startDateInput && endDateInput){
-    startDateInput.addEventListener('change', calculateDays);
-    endDateInput.addEventListener('change', calculateDays);
-  }
-
-  // === Modal Handling ===
+  // ==================================================
+  // MODAL HANDLING
+  // ==================================================
   const bookingModal = document.getElementById('bookingModal');
   const closeBtn = document.getElementById('closeModal');
 
@@ -41,34 +28,78 @@ document.addEventListener("DOMContentLoaded", function () {
     bookingModal.style.display = "block";
 
     const venueSelect = bookingModal.querySelector('select[name="venue"]');
-    if(venueSelect && defaultHall){
+    if (venueSelect && defaultHall) {
       venueSelect.value = defaultHall;
     }
   }
 
-  function closeBookingModal(){
-    if(!bookingModal) return;
+  function closeBookingModal() {
+    if (!bookingModal) return;
     bookingModal.style.display = "none";
   }
 
-  if(closeBtn){
+  // expose globally for inline onclick
+  window.openBookingModal = openBookingModal;
+
+  if (closeBtn) {
     closeBtn.addEventListener('click', closeBookingModal);
   }
 
-  window.addEventListener('click', function(e){
-    if(e.target === bookingModal){
+  window.addEventListener('click', function (e) {
+    if (e.target === bookingModal) {
       closeBookingModal();
     }
   });
 
-  // 🔥 VERY IMPORTANT: expose globally
-  window.openBookingModal = openBookingModal;
+  // ==================================================
+  // HEADER & HERO "BOOK NOW" BUTTONS
+  // ==================================================
+  const openBooking = document.getElementById("openBooking");
+  const openBookingHero = document.getElementById("openBookingHero");
 
-  // === Submit Booking Form ===
+  if (openBooking) {
+    openBooking.addEventListener("click", () => openBookingModal());
+  }
+
+  if (openBookingHero) {
+    openBookingHero.addEventListener("click", () => openBookingModal());
+  }
+
+  // ==================================================
+  // CALCULATE EVENT DAYS
+  // ==================================================
+  const startDateInput = document.getElementById('startDate');
+  const endDateInput = document.getElementById('endDate');
+  const daysInput = document.getElementById('eventDays');
+
+  function calculateDays() {
+    if (startDateInput.value && endDateInput.value) {
+      const start = new Date(startDateInput.value);
+      const end = new Date(endDateInput.value);
+
+      if (end >= start) {
+        const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
+        daysInput.value = days;
+      } else {
+        alert("End date cannot be earlier than start date.");
+        endDateInput.value = "";
+        daysInput.value = "";
+      }
+    }
+  }
+
+  if (startDateInput && endDateInput) {
+    startDateInput.addEventListener('change', calculateDays);
+    endDateInput.addEventListener('change', calculateDays);
+  }
+
+  // ==================================================
+  // SUBMIT BOOKING FORM
+  // ==================================================
   const form = document.getElementById("bookingForm");
 
-  if(form){
-    form.addEventListener("submit", async function(e){
+  if (form) {
+    form.addEventListener("submit", async function (e) {
       e.preventDefault();
 
       const formData = new FormData(form);
@@ -100,18 +131,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
       alert("Booking successfully submitted!");
       form.reset();
-      if(daysInput) daysInput.value = "";
+      if (daysInput) daysInput.value = "";
       closeBookingModal();
     });
   }
 
-  function saveLocal(booking){
-    const all = JSON.parse(localStorage.getItem('gtec_bookings')||'[]');
+  // ==================================================
+  // SAVE TO LOCAL STORAGE
+  // ==================================================
+  function saveLocal(booking) {
+    const all = JSON.parse(localStorage.getItem('gtec_bookings') || '[]');
     all.push(booking);
-    localStorage.setItem('gtec_bookings',JSON.stringify(all));
+    localStorage.setItem('gtec_bookings', JSON.stringify(all));
   }
 
-  async function sendToSheet(booking){
+  // ==================================================
+  // SEND TO GOOGLE SHEETS
+  // ==================================================
+  async function sendToSheet(booking) {
     const sheetURL = "https://script.google.com/macros/s/AKfycbwsV3UX76hZaQaacIXFkr_7dDiso8dgXP3bNC2Jchql_51SdWtsLKjJXFkYv83zsUbJmw/exec";
 
     try {
