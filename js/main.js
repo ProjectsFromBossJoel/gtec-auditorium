@@ -1,5 +1,14 @@
 document.addEventListener("DOMContentLoaded", function () {
 
+function showLoader() {
+  if (loadingOverlay) loadingOverlay.style.display = "flex";
+}
+
+function hideLoader() {
+  if (loadingOverlay) loadingOverlay.style.display = "none";
+}
+
+  
   // ==================================================
   // PREVENT JS CRASH FROM "View Details" BUTTONS
   // ==================================================
