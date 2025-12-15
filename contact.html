@@ -96,23 +96,32 @@
     /* ===== Footer ===== */
     .site-footer { background: #fff; color: #000; text-align: center; padding: 15px 0; margin-top: 50px; }
 
-    /* ===== Loading Overlay ===== */
-    #loadingOverlay {
-      position: fixed;
-      inset: 0;
-      background: rgba(0,0,0,0.75);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      flex-direction: column;
-      z-index: 9999;
-      color: #fff;
-      font-size: 18px;
-      text-align: center;
-      display: none;
-    }
-    #loadingOverlay img { width: 120px; margin-bottom: 15px; animation: spin 1.5s linear infinite; }
-    @keyframes spin { 0% { transform: rotate(0deg);} 100% { transform: rotate(360deg);} }
+   /* ===== Loading Overlay ===== */
+#loadingOverlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  display: none;
+}
+
+.spinner {
+  border: 6px solid #f3f3f3;
+  border-top: 6px solid #ff6a00;
+  border-radius: 50%;
+  width: 60px;
+  height: 60px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg);}
+  100% { transform: rotate(360deg);}
+}
+
 
     /* Responsive */
     @media(max-width: 768px){
@@ -175,10 +184,12 @@
   </footer>
 
   <!-- Loading Overlay -->
-  <div id="loadingOverlay">
-    <img src="images/logo1.jpg" alt="GTEC Logo">
-    <p>Sending your message...</p>
-  </div>
+  <!-- Loading Overlay -->
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <p style="color:white; margin-top:10px;">Sending your message...</p>
+</div>
+
 
   <script>
     // Initialize Year
