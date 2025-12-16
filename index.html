@@ -123,19 +123,29 @@
         </article>
 
         <article class="hall-card">
-          <div class="hall-media">
-            <img src="images/Jinapor_Hall.jpeg" alt="Innovation Hub">
-            <div class="capacity">150 pax</div>
-          </div>
-          <div class="hall-body">
-            <h3>Jinapor Hall</h3>
-            <p class="hall-meta">• Screen • PA System</p>
-            <div class="hall-actions">
-              <button class="btn btn-outline" onclick="openHallDetails('Innovation Hub')">View Details</button>
-              <button class="btn btn-primary" onclick="openBookingModal('Innovation Hub')">Book</button>
-            </div>
-          </div>
-        </article>
+  <div class="hall-media">
+    <img src="images/Jinapor_Hall.jpeg" alt="Jinapor Hall">
+    <div class="capacity">150 pax</div>
+  </div>
+
+  <div class="hall-body">
+    <h3>Jinapor Hall</h3>
+    <p class="hall-meta">• Screen • PA System</p>
+
+    <div class="hall-actions">
+      <button class="btn btn-outline"
+              onclick="openGallery('jinapor-hall')">
+        View Details
+      </button>
+
+      <button class="btn btn-primary"
+              onclick="openBookingModal('Innovation Hub')">
+        Book
+      </button>
+    </div>
+  </div>
+</article>
+
         </div>
       <div class="center"><a href="halls.html" class="book-now-btn">View All Halls</a></div>
       
@@ -339,7 +349,7 @@ const hallGalleries = {
     "images/paul-effah/3.jpg"
   ],
 
-  "executive-boardroom": [
+  "jinapor-hall": [
     "images/boardroom/1.jpg",
     "images/boardroom/2.jpg"
   ],
@@ -375,5 +385,18 @@ function changeSlide(step) {
 
 
   <script src="js/main.js"></script>
+
+  <div id="galleryModal" class="gallery-modal">
+  <span class="close" onclick="closeGallery()">×</span>
+
+  <div class="gallery-content">
+    <button class="nav prev" onclick="changeSlide(-1)">❮</button>
+    <img id="galleryImage" alt="Hall gallery image">
+    <button class="nav next" onclick="changeSlide(1)">❯</button>
+  </div>
+</div>
+
+
+  
 </body>
 </html>
