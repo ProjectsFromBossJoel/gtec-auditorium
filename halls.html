@@ -149,6 +149,111 @@
     </div>
   </footer>
 
+
+  <!-- Booking Modal -->
+  <!-- ===================== BOOKING POPUP MODAL ===================== -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+
+    <h2>Conference Hall Booking Form</h2>
+
+    <form id="bookingForm">
+
+      <label>Name of Applicant (Full Name)</label>
+      <input type="text" name="applicantName" required>
+
+      <label>Telephone</label>
+      <input type="tel" name="telephone" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Booking Type</label>
+      <select name="bookingType" required>
+        <option value="">-- Select Type --</option>
+        <option value="Institution/Organization">Institution/Organization</option>
+        <option value="Personal">Personal</option>
+      </select>
+
+      <label>Name of Institution / Organization / Person</label>
+      <input type="text" name="institutionName" required>
+
+      <label>Number of Participants</label>
+      <input type="number" name="participants" required>
+
+      <label>Venue (Hall)</label>
+      <select name="venue" required>
+        <option value="">-- Select Hall --</option>
+        <option value="Grand Auditorium">Grand Auditorium</option>
+        <option value="Executive Boardroom">Executive Boardroom</option>
+        <option value="Innovation Hub">Innovation Hub</option>
+      </select>
+
+      <label>Additional Services</label>
+<select name="additionalServices" required>
+  <option value="">-- Select Service --</option>
+  <option value="Changing Room">Changing Room</option>
+  <option value="Rehearsals">Rehearsals</option>
+  <option value="Dining Area">Dining Area</option>
+  <option value="None">None</option>
+</select>
+
+<!-- RENTALS SECTION -->
+<h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
+<div class="rentals-section">
+  <h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
+
+  <div class="input-row">
+    <label>Tables</label>
+    <input type="number" name="tables" min="0" placeholder="0">
+  </div>
+
+  <div class="input-row">
+    <label>Chairs</label>
+    <input type="number" name="chairs" min="0" placeholder="0">
+  </div>
+</div>
+
+
+
+      <label>Event Description</label>
+      <textarea name="eventDescription" rows="3" required></textarea>
+
+      <label>Event Start Date</label>
+      <input type="date" name="startDate" id="startDate" required>
+
+      <label>Event End Date</label>
+      <input type="date" name="endDate" id="endDate" required>
+
+      <label>Number of Days of Event</label>
+      <input type="number" name="days" id="eventDays" readonly>
+
+      <label>Time Event Starts</label>
+      <input type="time" name="startTime" required>
+
+      <label>Time Event Ends</label>
+      <input type="time" name="endTime" required>
+
+      <label>Recipient Name for Invoice</label>
+      <input type="text" name="invoiceName" required>
+
+      <label>Recipient Email for Invoice</label>
+      <input type="email" name="invoiceEmail" required>
+
+      <button type="submit" class="submit-btn">Submit Booking</button>
+    </form>
+
+    <p id="successMessage" class="success"></p>
+  </div>
+</div>
+
+<script>
+  
+</script>
+
+  <script src="js/main.js"></script>
+
   <!-- Reuse booking modal from index by loading main.js -->
   <div class="modal" id="bookingModal" aria-hidden="true">
     <!-- modal content is injected by JS when opened -->
