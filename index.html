@@ -53,7 +53,10 @@
           <div>
             <h1>Professional Conference Halls for Every Event</h1>
             <p class="lead">Modern, fully-equipped venues with configurable seating and optional services. Book with ease for corporate events, seminars, exams, and special occasions.</p>
-            <a href="halls.html" class="btn btn-primary">View Halls</a>
+             <button class="btn btn-outline"
+              onclick="openGallery('paul-effah')">
+        View Details
+      </button>
             <button class="btn btn-secondary" id="openBookingHero">Book Now</button>
           </div>
           <div class="hero-image">
@@ -322,6 +325,49 @@
 <script>
   
 </script>
+
+  <script>
+const hallGalleries = {
+  "paul-effah": [
+    "images/paul-effah/1.jpg",
+    "images/paul-effah/2.jpg",
+    "images/paul-effah/3.jpg"
+  ],
+
+  "executive-boardroom": [
+    "images/boardroom/1.jpg",
+    "images/boardroom/2.jpg"
+  ],
+
+  "grand-auditorium": [
+    "images/auditorium/1.jpg",
+    "images/auditorium/2.jpg",
+    "images/auditorium/3.jpg",
+    "images/auditorium/4.jpg"
+  ]
+};
+
+let images = [];
+let index = 0;
+
+function openGallery(hallId) {
+  images = hallGalleries[hallId];
+  index = 0;
+
+  document.getElementById("galleryImage").src = images[index];
+  document.getElementById("galleryModal").style.display = "flex";
+}
+
+function closeGallery() {
+  document.getElementById("galleryModal").style.display = "none";
+}
+
+function changeSlide(step) {
+  index = (index + step + images.length) % images.length;
+  document.getElementById("galleryImage").src = images[index];
+}
+</script>
+
 
   <script src="js/main.js"></script>
 </body>
