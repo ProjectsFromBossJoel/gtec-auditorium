@@ -10,14 +10,6 @@ function hideLoader() {
 
   
   // ==================================================
-  // PREVENT JS CRASH FROM "View Details" BUTTONS
-  // ==================================================
-  function openHallDetails(hallName) {
-    alert("Details for " + hallName + " coming soon.");
-  }
-  window.openHallDetails = openHallDetails;
-
-  // ==================================================
   // INITIALIZE YEAR IN FOOTER
   // ==================================================
   ['year','year2','year3','year4','year5'].forEach(id => {
