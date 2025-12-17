@@ -102,7 +102,9 @@
             <h3>Paul Effah Hall- Full Capacity</h3>
             <p class="hall-meta">• Theatre seating • LED & Mini Screens • PA System</p>
             <div class="hall-actions">
-              <button class="btn btn-outline" onclick="openGallery('paul-effah')">View Details</button>
+              <button class="btn btn-primary" onclick="openHallDetails('grand-auditorium')">
+  View Details
+</button>
 
                 
 
@@ -122,7 +124,9 @@
             <h3>Paul Effah Hall- Ground Floor</h3>
             <p class="hall-meta">• Theatre seating • LED & Mini Screens • PA System</p>
             <div class="hall-actions">
-              <button class="btn btn-outline" onclick="openGallery('Executive Boardroom')">View Details</button>
+              <button class="btn btn-primary" onclick="openHallDetails('paul-effah')">
+  View Details
+</button>
               <button class="btn btn-primary" onclick="openBookingModal('Executive Boardroom')">Book</button>
             </div>
           </div>
@@ -139,10 +143,9 @@
     <p class="hall-meta">• Screen • PA System</p>
 
     <div class="hall-actions">
-      <button class="btn btn-outline"
-              onclick="openGallery('jinapor-hall')">
-        View Details
-      </button>
+      <button class="btn btn-primary" onclick="openHallDetails('jinapor-hall')">
+  View Details
+</button>
 
       <button class="btn btn-primary"
               onclick="openBookingModal('Innovation Hub')">
@@ -354,13 +357,11 @@ const hallGalleries = {
     "paul_effah-full/paul-effah_full_auditorium_11.jpeg",
     "paul_effah-full/paul-effah_full_auditorium_12.jpeg"
   ],
-
   "jinapor-hall": [
     "jinapor/jinapor_11.jpeg",
     "jinapor/jinapor_12.jpeg",
     "jinapor/jinapor_13.jpeg"
   ],
-
   "grand-auditorium": [
     "images/auditorium/1.jpg",
     "images/auditorium/2.jpg",
@@ -368,7 +369,6 @@ const hallGalleries = {
     "images/auditorium/4.jpg"
   ]
 };
-
 
 let currentImages = [];
 let currentIndex = 0;
@@ -379,32 +379,77 @@ function openHallDetails(hallName) {
   currentImages = hallGalleries[hallName];
   currentIndex = 0;
 
+  // Create overlay if it doesn't exist
+  let overlay = document.getElementById("galleryOverlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "galleryOverlay";
+    overlay.style.position = "fixed";
+    overlay.style.top = "0";
+    overlay.style.left = "0";
+    overlay.style.width = "100%";
+    overlay.style.height = "100%";
+    overlay.style.background = "rgba(0,0,0,0.8)";
+    overlay.style.display = "flex";
+    overlay.style.justifyContent = "center";
+    overlay.style.alignItems = "center";
+    overlay.style.zIndex = "1000";
+    overlay.addEventListener("click", () => overlay.style.display = "none");
+
+    const img = document.createElement("img");
+    img.id = "galleryImage";
+    img.style.maxWidth = "80%";
+    img.style.maxHeight = "80%";
+    overlay.appendChild(img);
+
+    // Add navigation buttons
+    const prev = document.createElement("button");
+    prev.innerText = "<";
+    prev.style.position = "absolute";
+    prev.style.left = "20px";
+    prev.style.top = "50%";
+    prev.style.fontSize = "2rem";
+    prev.style.background = "transparent";
+    prev.style.color = "white";
+    prev.style.border = "none";
+    prev.style.cursor = "pointer";
+    prev.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showImage(currentIndex - 1);
+    });
+    overlay.appendChild(prev);
+
+    const next = document.createElement("button");
+    next.innerText = ">";
+    next.style.position = "absolute";
+    next.style.right = "20px";
+    next.style.top = "50%";
+    next.style.fontSize = "2rem";
+    next.style.background = "transparent";
+    next.style.color = "white";
+    next.style.border = "none";
+    next.style.cursor = "pointer";
+    next.addEventListener("click", (e) => {
+      e.stopPropagation();
+      showImage(currentIndex + 1);
+    });
+    overlay.appendChild(next);
+
+    document.body.appendChild(overlay);
+  }
+
+  showImage(0);
+  overlay.style.display = "flex";
+}
+
+function showImage(index) {
+  if (index < 0) index = currentImages.length - 1;
+  if (index >= currentImages.length) index = 0;
+  currentIndex = index;
   document.getElementById("galleryImage").src = currentImages[currentIndex];
-  document.getElementById("galleryModal").style.display = "flex";
 }
-
-function closeGallery() {
-  document.getElementById("galleryModal").style.display = "none";
-}
-
-function nextImage() {
-  currentIndex = (currentIndex + 1) % currentImages.length;
-  document.getElementById("galleryImage").src = currentImages[currentIndex];
-}
-
-function prevImage() {
-  currentIndex =
-    (currentIndex - 1 + currentImages.length) % currentImages.length;
-  document.getElementById("galleryImage").src = currentImages[currentIndex];
-}
-
-// expose globally
-window.openHallDetails = openHallDetails;
-window.closeGallery = closeGallery;
-window.nextImage = nextImage;
-window.prevImage = prevImage;
-
 </script>
+
 
 
   <script src="js/main.js"></script>
