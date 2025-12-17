@@ -55,10 +55,14 @@
           <div>
             <h1>Professional Conference Halls for Every Event</h1>
             <p class="lead">Modern, fully-equipped venues with configurable seating and optional services. Book with ease for corporate events, seminars, exams, and special occasions.</p>
-             <button class="btn btn-outline"
-              onclick="openGallery('paul-effah')">
-        View Details
-      </button>
+             
+            
+            <button type="button" onclick="openHallDetails('Grand Auditorium')">
+  View Details
+</button>
+
+
+            
             <button class="btn btn-secondary" id="openBookingHero">Book Now</button>
           </div>
           <div class="hero-image">
@@ -365,14 +369,17 @@ const hallGalleries = {
   ]
 };
 
-let images = [];
-let index = 0;
 
-function openGallery(hallId) {
-  images = hallGalleries[hallId];
-  index = 0;
+let currentImages = [];
+let currentIndex = 0;
 
-  document.getElementById("galleryImage").src = images[index];
+function openHallDetails(hallName) {
+  if (!hallGalleries[hallName]) return;
+
+  currentImages = hallGalleries[hallName];
+  currentIndex = 0;
+
+  document.getElementById("galleryImage").src = currentImages[currentIndex];
   document.getElementById("galleryModal").style.display = "flex";
 }
 
@@ -380,10 +387,23 @@ function closeGallery() {
   document.getElementById("galleryModal").style.display = "none";
 }
 
-function changeSlide(step) {
-  index = (index + step + images.length) % images.length;
-  document.getElementById("galleryImage").src = images[index];
+function nextImage() {
+  currentIndex = (currentIndex + 1) % currentImages.length;
+  document.getElementById("galleryImage").src = currentImages[currentIndex];
 }
+
+function prevImage() {
+  currentIndex =
+    (currentIndex - 1 + currentImages.length) % currentImages.length;
+  document.getElementById("galleryImage").src = currentImages[currentIndex];
+}
+
+// expose globally
+window.openHallDetails = openHallDetails;
+window.closeGallery = closeGallery;
+window.nextImage = nextImage;
+window.prevImage = prevImage;
+
 </script>
 
 
@@ -402,6 +422,21 @@ menuToggle.addEventListener("click", () => {
   menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
 });
 </script>
+  
+
+  <!-- GALLERY MODAL -->
+<div id="galleryModal" class="gallery-modal">
+  <span class="gallery-close" onclick="closeGallery()">&times;</span>
+
+  <div class="gallery-content">
+    <img id="galleryImage" src="" alt="Hall Image">
+  </div>
+
+  <div class="gallery-controls">
+    <button onclick="prevImage()">❮</button>
+    <button onclick="nextImage()">❯</button>
+  </div>
+</div>
 
   
 </body>
