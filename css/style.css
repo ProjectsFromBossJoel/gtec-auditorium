@@ -306,3 +306,46 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
   color: #fff;
 }
 
+/* Hamburger */
+.menu-toggle {
+  display: none;
+  font-size: 26px;
+  cursor: pointer;
+  color: #fff;
+}
+
+/* Mobile styles */
+@media (max-width: 768px) {
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .nav {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: #0f2740;
+    display: none;
+    flex-direction: column;
+    padding: 15px 0;
+  }
+
+  .nav a {
+    padding: 12px 20px;
+    margin: 0;
+    display: block;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+
+  .nav.show {
+    display: flex;
+  }
+
+  .actions {
+    display: none; /* optional: hide Book Now in portrait */
+  }
+}
+
+
