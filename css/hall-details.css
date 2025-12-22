@@ -1,0 +1,70 @@
+.hall-details-page {
+  margin-top: 2rem;
+}
+
+.hall-meta {
+  color: #666;
+  margin-bottom: 1rem;
+}
+
+.hall-gallery {
+  position: relative;
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 10px;
+  border-radius: 14px;
+  overflow: hidden;
+}
+
+.gallery-main img {
+  width: 100%;
+  height: 420px;
+  object-fit: cover;
+}
+
+.gallery-side {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.gallery-side img {
+  width: 100%;
+  height: 205px;
+  object-fit: cover;
+}
+
+.show-all-btn {
+  position: absolute;
+  bottom: 15px;
+  right: 15px;
+  background: #fff;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.hall-info {
+  margin-top: 2rem;
+}
+
+.features-list {
+  list-style: none;
+  padding: 0;
+}
+
+.features-list li {
+  margin-bottom: 8px;
+}
+
+@media (max-width: 768px) {
+  .hall-gallery {
+    grid-template-columns: 1fr;
+  }
+
+  .gallery-main img,
+  .gallery-side img {
+    height: auto;
+  }
+}
