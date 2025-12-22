@@ -349,4 +349,17 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
   }
 }
 
+.hall-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.hall-card {
+  cursor: pointer;
+}
+
+.hall-actions button {
+  cursor: pointer;
+}
 
