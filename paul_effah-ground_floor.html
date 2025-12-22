@@ -11,7 +11,32 @@
 <body>
 
 <header class="site-header">
-  <!-- reuse your existing header -->
+  <div class="container header-inner">
+
+    <div class="brand">
+      <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
+      <span class="brand-name">GTEC Conference Facility</span>
+    </div>
+
+    <!-- Hamburger Icon (Mobile only) -->
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+
+    <nav class="nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="halls.html">Halls</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="policies.html">Policies</a>
+      <a href="https://gtecconferencefacility.netlify.app/" class="hide-mobile">Admin</a>
+    </nav>
+
+    <div class="actions">
+      <button class="book-now-btn" id="openBooking">Book Now</button>
+    </div>
+
+  </div>
 </header>
 
 <main class="container hall-details-page">
