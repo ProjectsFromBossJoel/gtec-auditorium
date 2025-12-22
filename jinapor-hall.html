@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Jinapor Hall | GTEC Conference Facility</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/hall-details.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+
+    <div class="brand">
+      <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
+      <span class="brand-name">GTEC Conference Facility</span>
+    </div>
+
+    <!-- Hamburger Icon (Mobile only) -->
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+
+    <nav class="nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="halls.html">Halls</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="policies.html">Policies</a>
+      <a href="https://gtecconferencefacility.netlify.app/" class="hide-mobile">Admin</a>
+    </nav>
+
+    <div class="actions">
+      <button class="book-now-btn" id="openBooking">Book Now</button>
+    </div>
+
+  </div>
+</header>
+
+<main class="container hall-details-page">
+
+  <!-- TITLE -->
+  <h1>Jinapor Hall</h1>
+  <p class="hall-meta">150 pax · Executive Seating · PA System</p>
+
+  <!-- IMAGE GALLERY -->
+  <section class="hall-gallery">
+
+    <div class="gallery-main">
+      <img src="jinapor/jinapor_11.jpeg" alt="Paul Effah Hall">
+    </div>
+
+    <div class="gallery-side">
+      <img src="jinapor/jinapor_11.jpeg">
+      <img src="jinapor/jinapor_12.jpeg">
+      <img src="jinapor/jinapor_13.jpeg">
+      <img src="jinapor/jinapor_11.jpeg">
+    </div>
+
+    <button class="show-all-btn" onclick="openGallery('jinapor')">
+      Show all photos
+    </button>
+
+  </section>
+
+  <!-- DETAILS -->
+  <section class="hall-info">
+    <h2>About this hall</h2>
+    <p>
+      Jinapor Hall is a medium, modern auditorium suitable for
+      conferences, examinations, graduations and corporate events.
+    </p>
+
+    <ul class="features-list">
+      <li>✔ 150 seating capacity</li>
+      <li>✔ Mini Screen</li>
+      <li>✔ Professional PA System</li>
+      <li>✔ Fully Air Conditioned</li>
+    </ul>
+  </section>
+
+  <!-- CTA -->
+  <button class="book-now-btn"
+          onclick="openBookingModal('Paul Effah Hall')">
+    Book this hall
+  </button>
+
+</main>
+
+<script src="js/main.js"></script>
+</body>
+</html>
