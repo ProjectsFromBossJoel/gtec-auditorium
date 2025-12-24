@@ -110,13 +110,11 @@
   View Details
 </button>
 
-          <button class="btn btn-primary"
-  onclick="openBookingModal(this)"
-  data-hall="Grand Auditorium"
-  data-capacity="600"
-  data-price="8000">
-  Book
-</button>
+        
+ <button class="btn btn-primary"
+              onclick="openBookingModal('Grand Auditorium')">
+        Book
+      </button>
 
             </div>
           </div>
@@ -356,18 +354,6 @@
 
       <label>Recipient Email for Invoice</label>
       <input type="email" name="invoiceEmail" required>
-
-
-      <label>Selected Hall</label>
-<input type="text" name="venueDisplay" id="venueDisplay" readonly>
-
-<input type="hidden" name="venue" id="venueHidden">
-
-<label>Hall Capacity</label>
-<input type="text" id="hallCapacity" readonly>
-
-<label>Base Price (GHS)</label>
-<input type="text" id="hallPrice" readonly>
 
       
       
