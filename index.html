@@ -79,9 +79,10 @@
             <p class="lead">Modern, fully-equipped venues with configurable seating and optional services. Book with ease for corporate events, seminars, exams, and special occasions.</p>
              
             
-            <button class="btn btn-primary">
+           <button class="btn btn-primary" onclick="openDocumentPreview()">
   View Guidelines
 </button>
+
 
 
             
@@ -546,7 +547,22 @@ bookingForm.addEventListener("submit", function (e) {
 </script>
 
 
+<div id="docModal" class="modal">
+  <div class="modal-content" style="max-width:900px;">
+    <span class="close-btn" onclick="closeDocumentPreview()">&times;</span>
 
+    <h2>Booking Guidelines</h2>
+
+    <iframe
+      src="Guidelines for Booking- 2026.pdf"
+      width="100%"
+      height="500px"
+      style="border:none;"
+    ></iframe>
+  </div>
+</div>
+
+  
   
 </body>
 </html>
