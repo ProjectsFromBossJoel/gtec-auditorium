@@ -357,6 +357,21 @@
       <label>Recipient Email for Invoice</label>
       <input type="email" name="invoiceEmail" required>
 
+
+      <label>Selected Hall</label>
+<input type="text" name="venueDisplay" id="venueDisplay" readonly>
+
+<input type="hidden" name="venue" id="venueHidden">
+
+<label>Hall Capacity</label>
+<input type="text" id="hallCapacity" readonly>
+
+<label>Base Price (GHS)</label>
+<input type="text" id="hallPrice" readonly>
+
+      
+      
+
       <button type="submit" class="submit-btn">Submit Booking</button>
     </form>
 
@@ -486,8 +501,25 @@ menuToggle.addEventListener("click", () => {
 });
 </script>
   
+<script>
+function openBookingModal(button) {
+  const hall = button.dataset.hall;
+  const capacity = button.dataset.capacity;
+  const price = button.dataset.price;
 
-  
+  document.getElementById("venueDisplay").value = hall;
+  document.getElementById("venueHidden").value = hall;
+  document.getElementById("hallCapacity").value = capacity + " pax";
+  document.getElementById("hallPrice").value = "GHS " + Number(price).toLocaleString();
+
+  document.getElementById("bookingModal").style.display = "block";
+}
+
+document.getElementById("closeModal").addEventListener("click", () => {
+  document.getElementById("bookingModal").style.display = "none";
+});
+</script>
+
   
 </body>
 </html>
