@@ -14,16 +14,29 @@
 
 <!-- Submission Overlay -->
 <div id="submissionOverlay" class="overlay" style="display:none;">
+
+  <!-- Spinner -->
   <div class="spinner" id="spinner"></div>
 
-  <div class="success-message" id="successMessage" style="display:none;">
-    <div class="checkmark"></div>
+  <!-- Success Card -->
+  <div id="successCard" class="success-card" style="display:none;">
+    <div class="checkmark-circle">
+      <svg viewBox="0 0 52 52">
+        <circle cx="26" cy="26" r="25" fill="none"/>
+        <path fill="none" d="M14 27l7 7 17-17"/>
+      </svg>
+    </div>
+
+    <h3>Booking Received</h3>
     <p>
-      🎉 Thank you. We have received your booking.<br>
-      Our team will review the booking details and contact you shortly via phone or email regarding the status of your booking.
+      Thank you. We have received your booking.<br><br>
+      Our team will review the booking details and contact you shortly
+      via phone or email regarding the status of your booking.
     </p>
   </div>
+
 </div>
+
 
 
   
@@ -501,33 +514,30 @@ menuToggle.addEventListener("click", () => {
 </script>
 
   <script>
-const bookingForm = document.getElementById('bookingForm');
-const submissionOverlay = document.getElementById('submissionOverlay');
-const spinner = document.getElementById('spinner');
-const successMessage = document.getElementById('successMessage');
+const bookingForm = document.getElementById("bookingForm");
+const submissionOverlay = document.getElementById("submissionOverlay");
+const spinner = document.getElementById("spinner");
+const successCard = document.getElementById("successCard");
 
-bookingForm.addEventListener('submit', function(e) {
-  e.preventDefault(); // prevent page reload
+bookingForm.addEventListener("submit", function (e) {
+  e.preventDefault();
 
-  // Show overlay with spinner
-  spinner.style.display = 'block';
-  successMessage.style.display = 'none';
-  submissionOverlay.style.display = 'flex';
+  // Show overlay + spinner
+  submissionOverlay.style.display = "flex";
+  spinner.style.display = "block";
+  successCard.style.display = "none";
 
-  // Simulate submission delay (replace with actual backend call)
+  // Simulate submission (replace with real backend later)
   setTimeout(() => {
-    // Hide spinner, show success
-    spinner.style.display = 'none';
-    successMessage.style.display = 'flex';
-  }, 2500);
+    // Hide spinner
+    spinner.style.display = "none";
 
-  // Optionally auto-close overlay after some seconds
-  setTimeout(() => {
-    submissionOverlay.style.display = 'none';
+    // Show success card
+    successCard.style.display = "block";
+
+    // Reset form
     bookingForm.reset();
-    // If you want modal to close as well:
-    document.getElementById('bookingModal').style.display = 'none';
-  }, 7000); // 7 seconds total
+  }, 2000);
 });
 
 </script>
