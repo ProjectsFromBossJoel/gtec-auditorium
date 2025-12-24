@@ -576,7 +576,7 @@ bookingForm.addEventListener('submit', function(e) {
     loadingOverlay.classList.remove('active');
 
     // Show success message in the modal
-    successMessage.textContent = "🎉 Your booking has been submitted successfully!";
+    successMessage.textContent = "🎉 Thank you. We have received your booking, Our team will review the booking details and contact you shortly via phone or email regarding the status of your booking.";
     successMessage.style.color = 'green';
 
     // Reset form fields
@@ -588,7 +588,7 @@ bookingForm.addEventListener('submit', function(e) {
       successMessage.textContent = '';
     }, 3000);
 
-  }, 2500); // 2.5 seconds delay
+  }, 5500); // 255 seconds delay
 });
 </script>
 
