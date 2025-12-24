@@ -146,6 +146,20 @@ function hideLoader() {
     localStorage.setItem('gtec_bookings', JSON.stringify(all));
   }
 
+
+
+// Preview PDF Document
+function openDocumentPreview() {
+  document.getElementById("docModal").style.display = "block";
+}
+
+function closeDocumentPreview() {
+  document.getElementById("docModal").style.display = "none";
+}
+
+  
+
+  
   // ==================================================
   // SEND TO GOOGLE SHEETS
   // ==================================================
@@ -165,3 +179,6 @@ function hideLoader() {
   }
 
 });
+
+
+
