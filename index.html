@@ -110,7 +110,14 @@
   View Details
 </button>
 
-          <button class="btn btn-primary" onclick="openBookingModal('Grand Auditorium')">Book</button>
+          <button class="btn btn-primary"
+  onclick="openBookingModal(this)"
+  data-hall="Grand Auditorium"
+  data-capacity="600"
+  data-price="8000">
+  Book
+</button>
+
             </div>
           </div>
         </article>
