@@ -19,7 +19,7 @@
   <div class="success-message" id="successMessage" style="display:none;">
     <div class="checkmark"></div>
     <p>
-      Thank you. We have received your booking.<br>
+      🎉 Thank you. We have received your booking.<br>
       Our team will review the booking details and contact you shortly via phone or email regarding the status of your booking.
     </p>
   </div>
@@ -502,36 +502,34 @@ menuToggle.addEventListener("click", () => {
 
   <script>
 const bookingForm = document.getElementById('bookingForm');
-const loadingOverlay = document.getElementById('loadingOverlay');
-const loadingMessage = document.getElementById('loadingMessage');
+const submissionOverlay = document.getElementById('submissionOverlay');
+const spinner = document.getElementById('spinner');
 const successMessage = document.getElementById('successMessage');
 
 bookingForm.addEventListener('submit', function(e) {
-  e.preventDefault(); // prevent default page reload
+  e.preventDefault(); // prevent page reload
 
-  // Show loading overlay
-  loadingMessage.textContent = "Submitting your booking, please wait...";
-  loadingOverlay.classList.add('active');
+  // Show overlay with spinner
+  spinner.style.display = 'block';
+  successMessage.style.display = 'none';
+  submissionOverlay.style.display = 'flex';
 
-  // Simulate a server delay (replace this with actual backend submission later)
+  // Simulate submission delay (replace with actual backend call)
   setTimeout(() => {
-    loadingOverlay.classList.remove('active');
+    // Hide spinner, show success
+    spinner.style.display = 'none';
+    successMessage.style.display = 'flex';
+  }, 2500);
 
-    // Show success message in the modal
-    successMessage.textContent = "🎉 Thank you. We have received your booking, Our team will review the booking details and contact you shortly via phone or email regarding the status of your booking.";
-    successMessage.style.color = 'green';
-
-    // Reset form fields
+  // Optionally auto-close overlay after some seconds
+  setTimeout(() => {
+    submissionOverlay.style.display = 'none';
     bookingForm.reset();
-
-    // Optional: close modal after 2-3 seconds
-    setTimeout(() => {
-      document.getElementById('bookingModal').style.display = 'none';
-      successMessage.textContent = '';
-    }, 3000);
-
-  }, 5500); // 255 seconds delay
+    // If you want modal to close as well:
+    document.getElementById('bookingModal').style.display = 'none';
+  }, 7000); // 7 seconds total
 });
+
 </script>
 
 
