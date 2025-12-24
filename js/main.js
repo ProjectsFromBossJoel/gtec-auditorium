@@ -130,7 +130,7 @@ function hideLoader() {
       saveLocal(booking);
       await sendToSheet(booking);
 
-      alert("Booking successfully submitted!");
+      
       form.reset();
       if (daysInput) daysInput.value = "";
       closeBookingModal();
