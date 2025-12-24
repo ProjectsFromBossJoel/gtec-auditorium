@@ -21,6 +21,7 @@
   </div>
   <p id="loadingMessage">Submitting booking, please wait...</p>
 </div>
+  
 
 <style>
   #loadingOverlay {
@@ -422,9 +423,11 @@
       <input type="email" name="invoiceEmail" required>
 
       
-      
-
       <button type="submit" class="submit-btn">Submit Booking</button>
+      
+</form>
+
+    
     </form>
 
     <p id="successMessage" class="success"></p>
@@ -554,25 +557,42 @@ menuToggle.addEventListener("click", () => {
   menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
 });
 </script>
-  
-<script>
-function openBookingModal(button) {
-  const hall = button.dataset.hall;
-  const capacity = button.dataset.capacity;
-  const price = button.dataset.price;
 
-  document.getElementById("venueDisplay").value = hall;
-  document.getElementById("venueHidden").value = hall;
-  document.getElementById("hallCapacity").value = capacity + " pax";
-  document.getElementById("hallPrice").value = "GHS " + Number(price).toLocaleString();
+  <script>
+const bookingForm = document.getElementById('bookingForm');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const loadingMessage = document.getElementById('loadingMessage');
+const successMessage = document.getElementById('successMessage');
 
-  document.getElementById("bookingModal").style.display = "block";
-}
+bookingForm.addEventListener('submit', function(e) {
+  e.preventDefault(); // prevent default page reload
 
-document.getElementById("closeModal").addEventListener("click", () => {
-  document.getElementById("bookingModal").style.display = "none";
+  // Show loading overlay
+  loadingMessage.textContent = "Submitting your booking, please wait...";
+  loadingOverlay.classList.add('active');
+
+  // Simulate a server delay (replace this with actual backend submission later)
+  setTimeout(() => {
+    loadingOverlay.classList.remove('active');
+
+    // Show success message in the modal
+    successMessage.textContent = "🎉 Your booking has been submitted successfully!";
+    successMessage.style.color = 'green';
+
+    // Reset form fields
+    bookingForm.reset();
+
+    // Optional: close modal after 2-3 seconds
+    setTimeout(() => {
+      document.getElementById('bookingModal').style.display = 'none';
+      successMessage.textContent = '';
+    }, 3000);
+
+  }, 2500); // 2.5 seconds delay
 });
 </script>
+
+
 
   
 </body>
