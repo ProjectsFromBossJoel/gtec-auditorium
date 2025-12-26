@@ -603,3 +603,7 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
   display: none !important;
 }
 
+/* Hide booking modal by default */
+#bookingModal {
+  display: none;
+}
