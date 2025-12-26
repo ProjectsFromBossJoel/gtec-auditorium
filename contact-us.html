@@ -1,0 +1,45 @@
+<form id="contactForm">
+  <input type="text" name="name" placeholder="Your Name" required>
+  <input type="email" name="email" placeholder="Your Email" required>
+  <textarea name="message" placeholder="Your Message" required></textarea>
+  <button type="submit" id="submitBtn">Send Message</button>
+</form>
+
+<script>
+const contactForm = document.getElementById("contactForm");
+const submitBtn = document.getElementById("submitBtn");
+
+contactForm.addEventListener("submit", async (e) => {
+  e.preventDefault();
+
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending...";
+
+  const formData = new FormData(contactForm);
+
+  const data = {
+    name: formData.get("name"),
+    email: formData.get("email"),
+    message: formData.get("message"),
+    timestamp: new Date().toLocaleString()
+  };
+
+  try {
+    await fetch("https://script.google.com/macros/s/AKfycbzouKd3oaMMcQ5w5Fg_WgOFbInpbkjb8D1rvlB426wvEWNTvywmX8VVUxbChepgcC7Ctw/exec", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    alert("Message sent successfully!");
+    contactForm.reset();
+
+  } catch (error) {
+    console.error(error);
+    alert("Failed to send message. Please try again.");
+  } finally {
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Send Message";
+  }
+});
+</script>
