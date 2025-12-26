@@ -598,3 +598,8 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
   text-align: center;
 }
 
+/* Prevent Booking Guidelines modal from opening on page load */
+#docModal {
+  display: none !important;
+}
+
