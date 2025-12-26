@@ -101,40 +101,56 @@ function hideLoader() {
 
   if (form) {
     form.addEventListener("submit", async function (e) {
-      e.preventDefault();
+  e.preventDefault();
 
-      const formData = new FormData(form);
+  const formData = new FormData(form);
+  const services = formData.getAll("additionalServices[]");
 
-      const booking = {
-        id: Date.now(),
-        applicantName: formData.get('applicantName'),
-        telephone: formData.get('telephone'),
-        email: formData.get('email'),
-        bookingType: formData.get('bookingType'),
-        institutionName: formData.get('institutionName'),
-        participants: formData.get('participants'),
-        venue: formData.get('venue'),
-        additionalServices: formData.get('additionalServices'),
-        tables: formData.get('tables') || "0",
-        chairs: formData.get('chairs') || "0",
-        eventDescription: formData.get('eventDescription'),
-        startDate: formData.get('startDate'),
-        endDate: formData.get('endDate'),
-        days: formData.get('days'),
-        startTime: formData.get('startTime'),
-        endTime: formData.get('endTime'),
-        invoiceName: formData.get('invoiceName'),
-        invoiceEmail: formData.get('invoiceEmail')
-      };
+  const booking = {
+    id: Date.now(),
+    applicantName: formData.get('applicantName'),
+    telephone: formData.get('telephone'),
+    email: formData.get('email'),
+    bookingType: formData.get('bookingType'),
+    institutionName: formData.get('institutionName'),
+    participants: formData.get('participants'),
+    venue: formData.get('venue'),
 
-      saveLocal(booking);
-      await sendToSheet(booking);
+    additionalServices: services.length ? services.join(", ") : "None",
 
-      
-      form.reset();
-      if (daysInput) daysInput.value = "";
-      closeBookingModal();
-    });
+    rentals: {
+      chairType: formData.get('chairType') || "N/A",
+      chairQty: formData.get('chairQty') || "0",
+      tableQty: formData.get('tableQty') || "0",
+      tableClothQty: formData.get('tableClothQty') || "0"
+    },
+
+    eventDescription: formData.get('eventDescription'),
+    startDate: formData.get('startDate'),
+    endDate: formData.get('endDate'),
+    days: formData.get('days'),
+    startTime: formData.get('startTime'),
+    endTime: formData.get('endTime'),
+    invoiceName: formData.get('invoiceName'),
+    invoiceEmail: formData.get('invoiceEmail')
+  };
+
+  if (
+    booking.rentals.chairQty === "0" &&
+    booking.rentals.tableQty === "0" &&
+    booking.rentals.tableClothQty === "0"
+  ) {
+    booking.rentals = "None";
+  }
+
+  saveLocal(booking);
+  await sendToSheet(booking);
+
+  form.reset();
+  if (daysInput) daysInput.value = "";
+  closeBookingModal();
+});
+
   }
 
   // ==================================================
