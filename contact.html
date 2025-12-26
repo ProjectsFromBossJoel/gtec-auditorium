@@ -207,50 +207,58 @@
 </div>
 
 
-  <script>
-    // Initialize Year
-    document.getElementById('year5').textContent = new Date().getFullYear();
+<script>
+document.getElementById('year5').textContent = new Date().getFullYear();
 
-    const contactForm = document.getElementById('contactForm');
-    const loadingOverlay = document.getElementById('loadingOverlay');
+const contactForm = document.getElementById('contactForm');
+const loadingOverlay = document.getElementById('loadingOverlay');
 
-    contactForm.addEventListener('submit', async function(e){
-      e.preventDefault();
-      loadingOverlay.style.display = 'flex'; // show loader
+contactForm.addEventListener('submit', async function(e){
+  e.preventDefault();
+  loadingOverlay.style.display = 'flex';
 
-      const submitBtn = contactForm.querySelector("button");
-      submitBtn.disabled = true;
-      submitBtn.textContent = "Sending...";
+  const submitBtn = contactForm.querySelector("button");
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Sending...";
 
-      const formData = new FormData(contactForm);
-      const data = {
-        name: formData.get('name'),
-        email: formData.get('email'),
-        message: formData.get('message'),
-        timestamp: new Date().toLocaleString()
-      };
+  const formData = new FormData(contactForm);
+  const data = {
+    name: formData.get('name'),
+    email: formData.get('email'),
+    message: formData.get('message'),
+    timestamp: new Date().toLocaleString()
+  };
 
-      try {
-        // PUSH TO GOOGLE SHEET
-        const sheetURL = "https://script.google.com/macros/s/AKfycbz2FjNH_7VebHzkj3F2G9dWNlPS58KsiGYV0Yul-HicxNzBhYiqvFG8AyfN1h0LUdOp/exec"; //  replace with your sheet URL
-        await fetch(sheetURL, {
-          method: "POST",
-          headers: {"Content-Type":"application/json"},
-          body: JSON.stringify(data)
-        });
-
-        alert("Message sent successfully!");
-        contactForm.reset();
-      } catch(err) {
-        console.error(err);
-        alert("Failed to send message. Please try again.");
-      } finally {
-        loadingOverlay.style.display = 'none'; // hide loader
-        submitBtn.disabled = false;
-        submitBtn.textContent = "Send Message";
-      }
+  try {
+    const sheetURL = "https://script.google.com/macros/s/AKfycbzouKd3oaMMcQ5w5Fg_WgOFbInpbkjb8D1rvlB426wvEWNTvywmX8VVUxbChepgcC7Ctw/exec"; // Replace with your deployed Apps Script URL
+    const response = await fetch(sheetURL, {
+      method: "POST",
+      headers: {"Content-Type":"application/json"},
+      body: JSON.stringify(data)
     });
-  </script>
+
+    const result = await response.json();
+
+    if(result.status === "success") {
+      alert("Message sent successfully!");
+      contactForm.reset();
+    } else {
+      throw new Error(result.message || "Unknown error");
+    }
+
+  } catch(err) {
+    console.error(err);
+    alert("Failed to send message. Please try again.");
+  } finally {
+    loadingOverlay.style.display = 'none';
+    submitBtn.disabled = false;
+    submitBtn.textContent = "Send Message";
+  }
+});
+</script>
+
+
+  
   <script>
 const menuToggle = document.getElementById("menuToggle");
 const mobileNav = document.getElementById("mobileNav");
