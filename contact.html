@@ -235,7 +235,6 @@
         const sheetURL = "https://script.google.com/macros/s/AKfycbz2FjNH_7VebHzkj3F2G9dWNlPS58KsiGYV0Yul-HicxNzBhYiqvFG8AyfN1h0LUdOp/exec"; //  replace with your sheet URL
         await fetch(sheetURL, {
           method: "POST",
-          mode: "no-cors",
           headers: {"Content-Type":"application/json"},
           body: JSON.stringify(data)
         });
