@@ -1,4 +1,7 @@
+<!DOCTYPE html>
 <html>
+<body>
+
 <form id="contactForm">
   <input type="text" name="name" placeholder="Your Name" required>
   <input type="email" name="email" placeholder="Your Email" required>
@@ -17,26 +20,22 @@ contactForm.addEventListener("submit", async (e) => {
   submitBtn.textContent = "Sending...";
 
   const formData = new FormData(contactForm);
-
-  const data = {
-    name: formData.get("name"),
-    email: formData.get("email"),
-    message: formData.get("message"),
-    timestamp: new Date().toLocaleString()
-  };
+  formData.append("timestamp", new Date().toLocaleString());
 
   try {
-    await fetch("https://script.google.com/macros/s/AKfycbzouKd3oaMMcQ5w5Fg_WgOFbInpbkjb8D1rvlB426wvEWNTvywmX8VVUxbChepgcC7Ctw/exec", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(data)
-    });
+    await fetch(
+      "https://script.google.com/macros/s/AKfycbzouKd3oaMMcQ5w5Fg_WgOFbInpbkjb8D1rvlB426wvEWNTvywmX8VVUxbChepgcC7Ctw/exec",
+      {
+        method: "POST",
+        body: formData   // 🔥 NO headers
+      }
+    );
 
     alert("Message sent successfully!");
     contactForm.reset();
 
-  } catch (error) {
-    console.error(error);
+  } catch (err) {
+    console.error(err);
     alert("Failed to send message. Please try again.");
   } finally {
     submitBtn.disabled = false;
@@ -44,4 +43,6 @@ contactForm.addEventListener("submit", async (e) => {
   }
 });
 </script>
-  </html>
+
+</body>
+</html>
