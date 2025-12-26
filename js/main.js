@@ -118,8 +118,8 @@ const booking = {
 
   additionalServices: services.length ? services.join(", ") : "None",
 
-  chairType: formData.get('chairType') || "N/A",
-  chairQty: formData.get('chairQty') || "0",
+  standardChair: formData.get('standardChair') || "0",
+  executiveChair: formData.get('executiveChair') || "0",
   tableQty: formData.get('tableQty') || "0",
   tableClothQty: formData.get('tableClothQty') || "0",
 
