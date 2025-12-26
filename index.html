@@ -329,28 +329,63 @@
       </select>
 
       <label>Additional Services</label>
-<select name="additionalServices" required>
-  <option value="">-- Select Service --</option>
-  <option value="Changing Room">Changing Room</option>
-  <option value="Rehearsals">Rehearsals</option>
-  <option value="Dining Area">Dining Area</option>
-  <option value="None">None</option>
-</select>
+<div class="checkbox-group">
+
+  <label class="checkbox-item">
+    <input type="checkbox" name="additionalServices[]" value="Changing Room">
+    Changing Room
+  </label>
+
+  <label class="checkbox-item">
+    <input type="checkbox" name="additionalServices[]" value="Rehearsals">
+    Rehearsals
+  </label>
+
+  <label class="checkbox-item">
+    <input type="checkbox" name="additionalServices[]" value="Dining Area">
+    Dining Area
+  </label>
+
+</div>
+
 
 <!-- RENTALS SECTION -->
-<div class="rentals-section">
-  <h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
+<h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
 
-  <div class="input-row">
-    <label>Tables</label>
-    <input type="number" name="tables" min="0" placeholder="0">
+<div class="rentals-cards">
+
+  <!-- CHAIRS CARD -->
+  <div class="rental-card">
+    <img src="images/chairs.jpg" alt="Chairs">
+    <h4>Chairs</h4>
+
+    <select name="chairType">
+      <option value="">-- Select Type --</option>
+      <option value="Standard">Standard Chairs</option>
+      <option value="Executive">Executive Chairs</option>
+    </select>
+
+    <input type="number" name="chairQty" min="0" placeholder="Quantity">
   </div>
 
-  <div class="input-row">
-    <label>Chairs</label>
-    <input type="number" name="chairs" min="0" placeholder="0">
+  <!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/tables.jpg" alt="Tables">
+    <h4>Tables</h4>
+
+    <input type="number" name="tableQty" min="0" placeholder="Quantity">
   </div>
+
+  <!-- TABLE + CLOTH CARD -->
+  <div class="rental-card">
+    <img src="images/table-cloth.jpg" alt="Table with Cloth">
+    <h4>Table + Cloth</h4>
+
+    <input type="number" name="tableClothQty" min="0" placeholder="Quantity">
+  </div>
+
 </div>
+      <!-- RENTALS SECTION -->
 
 
 
