@@ -657,7 +657,7 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
   display: flex;
   width: 420px;          /* ⬅ increase width */
   max-width: 100%;
-  height: 100px;          /* ⬅ reduce overall height */
+  height: 80px;          /* ⬅ reduce overall height */
 }
 
 .subscribe-form input {
@@ -668,18 +668,18 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
   padding: 0 16px;       /* ⬅ reduce vertical padding */
   font-size: 0.95rem;
   height: 100%;
+  width: 220px; 
   outline: none;
 }
 
 .subscribe-form button {
-  width: 64px;           /* ⬅ wider yellow block */
+  width: 48px;           /* ⬅ wider yellow block */
   height: 100%;
   background: #d4af37;
   border: none;
   color: #ffffff;
   font-size: 1.2rem;
   cursor: pointer;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -695,6 +695,7 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
 .subscribe-form button:hover {
   opacity: 0.9;
 }
+
 
 /* Bottom bar */
 .footer-bottom {
