@@ -272,19 +272,91 @@
 </section>
 
 
-
-    
   </main>
 
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>© <span id="year"></span> GTEC. All rights reserved.</div>
-      <div class="socials">
-        <a href="#">Facebook</a>
-        <a href="#">LinkedIn</a>
-      </div>
+
+  <!-- Footer -->
+  <footer class="gtec-footer">
+  <div class="container footer-grid">
+
+    <!-- ABOUT US -->
+    <div class="footer-col">
+      <h4>About Us</h4>
+      <ul>
+        <li><a href="index.html">General Overview</a></li>
+        <li><a href="about.html">Vision / Mission / Core Values</a></li>
+        <li><a href="#">Gallery</a></li>
+        </ul>
     </div>
-  </footer>
+
+    <!-- WHAT WE DO -->
+    <div class="footer-col">
+      <h4>What We Do</h4>
+      <ul>
+        <li><a href="halls.html">Book Events</a></li>
+        <li><a href="#">Reserve a room</a></li>
+        </ul>
+    </div>
+
+    <!-- QA GUIDELINES -->
+    <div class="footer-col">
+      <h4>QA Guidelines</h4>
+      <ul>
+        <li><a href="policies.html">QA Guidelines</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+    <!-- SUBSCRIBE➤ -->
+
+     <!-- QA GUIDELINES -->
+    <div class="footer-col">
+      <h4>Subscribe</h4>
+      <p>
+        Stay informed about conference hall availability, bookings and official updates.
+      </p>
+    
+    <form class="subscribe-form">
+  <input type="email" placeholder="Your Email" required>
+  <button type="submit" aria-label="Subscribe">
+    ➤ 
+  </button>
+</form>
+</div>
+
+  <!-- BOTTOM BAR -->
+  <div class="footer-bottom">
+    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
+  </div>
+
+  <!-- SCROLL TO TOP -->
+  <button id="scrollTopBtn" title="Go to top">↑</button>
+</footer>
+
+<!-- SCROLL TO TOP -->
+  <script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const btn = document.getElementById("scrollTopBtn");
+
+  window.onscroll = () => {
+    btn.style.display = window.scrollY > 300 ? "block" : "none";
+  };
+
+  btn.onclick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+</script>
+
+
+ 
+
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+
+  
 
   <!-- Booking Modal -->
   <!-- ===================== BOOKING POPUP MODAL ===================== -->
