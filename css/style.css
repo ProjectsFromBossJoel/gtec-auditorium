@@ -657,7 +657,7 @@ body{font-family:Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica
   display: flex;
   width: 420px;          /* ⬅ increase width */
   max-width: 100%;
-  height: 70px;          /* ⬅ reduce overall height */
+  height: 100px;          /* ⬅ reduce overall height */
 }
 
 .subscribe-form input {
