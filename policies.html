@@ -119,14 +119,15 @@
   </p>
 
   <form class="subscribe-formm" id="subscribeForm">
-    <input
-      type="email"
-      name="email"
-      placeholder="Your Email"
-      required
-    >
-    <button type="submit" aria-label="Subscribe">➤</button>
-  </form>
+  <input
+    type="email"
+    name="email"
+    placeholder="Your Email"
+    required
+  >
+  <button type="submit">➤</button>
+</form>
+
 </div>
 
 
@@ -266,6 +267,55 @@ document.getElementById("subscribeForm").addEventListener("submit", function (e)
   this.reset();
 });
 </script>
+
+
+
+<!-- Your web app's Firebase configuration-->
+<!-- For Firebase JS SDK v7.20.0 and later, measurementId is optional-->
+  <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA80t2tr136ihN57YQWwD4nYcPhyutACX4",
+  authDomain: "userlogin-44d0a.firebaseapp.com",
+  projectId: "userlogin-44d0a",
+  storageBucket: "userlogin-44d0a.firebasestorage.app",
+  messagingSenderId: "47108256134",
+  appId: "1:47108256134:web:60888fa5f06dfb075d3c07",
+  measurementId: "G-ZCVWTTFT2H"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+
+
+<script>
+document.getElementById("subscribeForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const email = this.email.value.trim().toLowerCase();
+
+  if (!email) return;
+
+  try {
+    await db.collection("subscriptions").add({
+      email: email,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    alert("Subscribed successfully!");
+    this.reset();
+  } catch (error) {
+    console.error("Subscription error:", error);
+    alert("Failed to subscribe. Please try again.");
+  }
+});
+</script>
+
+  
+
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
 
   
 </body>
