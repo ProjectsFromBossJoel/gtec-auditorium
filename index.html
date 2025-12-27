@@ -316,13 +316,64 @@
         Stay informed about conference hall availability, bookings and official updates.
       </p>
     
-    <form class="subscribe-form">
+    <form class="subscribe-formm">
   <input type="email" placeholder="Your Email" required>
   <button type="submit" aria-label="Subscribe">
     ➤ 
   </button>
 </form>
 </div>
+
+    
+<style>
+  
+/* Subscribe */
+.subscribe-formm {
+  display: flex;
+  width: 420px;          /* ⬅ increase width */
+  max-width: 100%;
+  height: 100px;          /* ⬅ reduce overall height */
+  background: linear-gradient(180deg, #1d1b3a, #14122c);
+}
+
+.subscribe-formm input {
+  flex: 1;
+  background: #3b3a5c;
+  color: #ffffff;
+  border: none;
+  padding: 0 16px;       /* ⬅ reduce vertical padding */
+  font-size: 0.95rem;
+  height: 100%;
+  width: 150px; 
+  outline: none;
+}
+
+.subscribe-formm button {
+  width: 48px;           /* ⬅ wider yellow block */
+  height: 100%;
+  background: #d4af37;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.subscribe-formm input::placeholder {
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+
+.subscribe-formm button:hover {
+  opacity: 0.9;
+}
+</style>
+
+    
 
   <!-- BOTTOM BAR -->
   <div class="footer-bottom">
