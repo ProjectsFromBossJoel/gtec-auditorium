@@ -6,6 +6,11 @@
   <title>Policies & Documents | GTEC Conference Facility</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
 
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  
   <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
@@ -225,48 +230,6 @@ menuToggle.addEventListener("click", () => {
 });
 </script>
 
-  
-<!-- Email To Google Sheets-->
-<script>
-document.getElementById("subscribeForm").addEventListener("submit", function (e) {
-  e.preventDefault();
-
-  const email = this.email.value;
-
-  fetch("https://script.google.com/macros/s/AKfycbzVBrGw0dxB4pui383qGy_F16pi2Ezh3JgtwkukgXqJ2kjyGZCJ50yMFrXIO1u_jZ9u/exec", {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ email })
-  })
-  .then(() => {
-    alert("Subscription successful!");
-    this.reset();
-  })
-  .catch(() => {
-    alert("Failed to subscribe. Please try again.");
-  });
-});
-</script>
-
-
-
-
-  
-<!-- Email -->
-  <script>
-document.getElementById("subscribeForm").addEventListener("submit", function (e) {
-  e.preventDefault(); // stop page reload
-
-  const email = this.email.value;
-
-  console.log("Subscribed email:", email);
-
-  // OPTIONAL: success feedback
-  alert("Thank you! You’ll receive booking updates.");
-
-  this.reset();
-});
-</script>
 
 
 
@@ -313,9 +276,7 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
 
   
 
-  <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
 
   
 </body>
