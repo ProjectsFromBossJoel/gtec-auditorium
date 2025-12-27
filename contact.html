@@ -202,38 +202,27 @@
     <div class="footer-col">
       <h4>About Us</h4>
       <ul>
-        <li><a href="#">General Overview</a></li>
-        <li><a href="#">Vision / Mission / Core Values</a></li>
-        <li><a href="#">Strategic Plan</a></li>
-        <li><a href="#">Board</a></li>
-        <li><a href="#">Our Mandate</a></li>
-        <li><a href="#">GTEC LI</a></li>
-        <li><a href="#">Organogram</a></li>
-        <li><a href="#">Director General</a></li>
-        <li><a href="#">Directorates</a></li>
-      </ul>
+        <li><a href="index.html">General Overview</a></li>
+        <li><a href="about.html">Vision / Mission / Core Values</a></li>
+        <li><a href="#">Gallery</a></li>
+        </ul>
     </div>
 
     <!-- WHAT WE DO -->
     <div class="footer-col">
       <h4>What We Do</h4>
       <ul>
-        <li><a href="#">Accreditation</a></li>
-        <li><a href="#">Credentials Evaluation</a></li>
-        <li><a href="#">Quality Assurance</a></li>
-        <li><a href="#">Training</a></li>
-        <li><a href="#">CEMS</a></li>
-        <li><a href="#">Service Charge</a></li>
-      </ul>
+        <li><a href="halls.html">Book Events</a></li>
+        <li><a href="#">Reserve a room</a></li>
+        </ul>
     </div>
 
     <!-- QA GUIDELINES -->
     <div class="footer-col">
       <h4>QA Guidelines</h4>
       <ul>
-        <li><a href="#">QA Guidelines</a></li>
-        <li><a href="#">Partners</a></li>
-        <li><a href="#">Contact Us</a></li>
+        <li><a href="policies.html">QA Guidelines</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
       </ul>
     </div>
 
@@ -254,19 +243,30 @@
 
   <!-- BOTTOM BAR -->
   <div class="footer-bottom">
-    <p>Copyright © <span id="year"></span> GTEC. All Rights Reserved</p>
+    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
   </div>
 
   <!-- SCROLL TO TOP -->
   <button id="scrollTopBtn" title="Go to top">↑</button>
 </footer>
 
+<!-- SCROLL TO TOP -->
+  <script>
+  document.getElementById("year").textContent = new Date().getFullYear();
 
-  <!-- Bottom Bar -->
-  <div class="footer-bottom">
-    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
-  </div>
-</footer>
+  const btn = document.getElementById("scrollTopBtn");
+
+  window.onscroll = () => {
+    btn.style.display = window.scrollY > 300 ? "block" : "none";
+  };
+
+  btn.onclick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+</script>
+
+
+ 
 
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
@@ -275,12 +275,8 @@
 
 
 
+
   
-  <footer class="site-footer">
-    <div class="container footer-inner">
-      <div>© <span id="year5"></span> GTEC. All rights reserved.</div>
-    </div>
-  </footer>
 
   <!-- Loading Overlay -->
   <!-- Loading Overlay -->
