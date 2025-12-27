@@ -111,22 +111,24 @@
       </ul>
     </div>
 
-    <!-- SUBSCRIBE➤ -->
+   <!-- SUBSCRIBE -->
+<div class="footer-col">
+  <h4>Subscribe</h4>
+  <p>
+    Stay informed about conference hall availability, bookings and official updates.
+  </p>
 
-     <!-- QA GUIDELINES -->
-    <div class="footer-col">
-      <h4>Subscribe</h4>
-      <p>
-        Stay informed about conference hall availability, bookings and official updates.
-      </p>
-    
-    <form class="subscribe-formm">
-  <input type="email" placeholder="Your Email" required>
-  <button type="submit" aria-label="Subscribe">
-    ➤ 
-  </button>
-</form>
+  <form class="subscribe-formm" id="subscribeForm">
+    <input
+      type="email"
+      name="email"
+      placeholder="Your Email"
+      required
+    >
+    <button type="submit" aria-label="Subscribe">➤</button>
+  </form>
 </div>
+
 
     
 <style>
@@ -219,6 +221,49 @@ const mobileNav = document.getElementById("mobileNav");
 menuToggle.addEventListener("click", () => {
   mobileNav.classList.toggle("show");
   menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
+});
+</script>
+
+  
+<!-- Email To Google Sheets-->
+<script>
+document.getElementById("subscribeForm").addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  const email = this.email.value;
+
+  fetch("https://script.google.com/macros/s/AKfycbzVBrGw0dxB4pui383qGy_F16pi2Ezh3JgtwkukgXqJ2kjyGZCJ50yMFrXIO1u_jZ9u/exec", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ email })
+  })
+  .then(() => {
+    alert("Subscription successful!");
+    this.reset();
+  })
+  .catch(() => {
+    alert("Failed to subscribe. Please try again.");
+  });
+});
+</script>
+
+
+
+
+  
+<!-- Email -->
+  <script>
+document.getElementById("subscribeForm").addEventListener("submit", function (e) {
+  e.preventDefault(); // stop page reload
+
+  const email = this.email.value;
+
+  console.log("Subscribed email:", email);
+
+  // OPTIONAL: success feedback
+  alert("Thank you! You’ll receive booking updates.");
+
+  this.reset();
 });
 </script>
 
