@@ -9,6 +9,17 @@
   <link rel="stylesheet" href="css/style.css">
 
   <style>
+<!-- Firebase App (the core Firebase SDK) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<!-- Firebase Firestore -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+<!-- Firebase Auth (if you want to restrict access to logged-in users) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+
+
+    
+
+    
     /* ===== General ===== */
     body {
       font-family: 'Poppins', sans-serif;
@@ -294,12 +305,10 @@
 
 
 <script>
-document.getElementById('year5').textContent = new Date().getFullYear();
-
 const contactForm = document.getElementById('contactForm');
 const loadingOverlay = document.getElementById('loadingOverlay');
 
-contactForm.addEventListener('submit', async function(e){
+contactForm.addEventListener('submit', async (e) => {
   e.preventDefault();
   loadingOverlay.style.display = 'flex';
 
@@ -307,34 +316,20 @@ contactForm.addEventListener('submit', async function(e){
   submitBtn.disabled = true;
   submitBtn.textContent = "Sending...";
 
-  const formData = new FormData(contactForm);
   const data = {
-    name: formData.get('name'),
-    email: formData.get('email'),
-    message: formData.get('message'),
-    timestamp: new Date().toLocaleString()
+    name: contactForm.name.value,
+    email: contactForm.email.value,
+    message: contactForm.message.value,
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
   try {
-    const sheetURL = "https://script.google.com/macros/s/AKfycbzouKd3oaMMcQ5w5Fg_WgOFbInpbkjb8D1rvlB426wvEWNTvywmX8VVUxbChepgcC7Ctw/exec"; // Replace with your deployed Apps Script URL
-    const response = await fetch(sheetURL, {
-      method: "POST",
-      headers: {"Content-Type":"application/json"},
-      body: JSON.stringify(data)
-    });
-
-    const result = await response.json();
-
-    if(result.status === "success") {
-      alert("Message sent successfully!");
-      contactForm.reset();
-    } else {
-      throw new Error(result.message || "Unknown error");
-    }
-
-  } catch(err) {
-    console.error(err);
-    alert("Failed to send message. Please try again.");
+    await db.collection('contactMessages').add(data);
+    alert("Message sent successfully!");
+    contactForm.reset();
+  } catch (err) {
+    console.error("Error saving message:", err);
+    alert("Failed to send message. Try again.");
   } finally {
     loadingOverlay.style.display = 'none';
     submitBtn.disabled = false;
@@ -343,6 +338,28 @@ contactForm.addEventListener('submit', async function(e){
 });
 </script>
 
+
+
+
+<!-- Your web app's Firebase configuration -->
+  <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA80t2tr136ihN57YQWwD4nYcPhyutACX4",
+  authDomain: "userlogin-44d0a.firebaseapp.com",
+  projectId: "userlogin-44d0a",
+  storageBucket: "userlogin-44d0a.firebasestorage.app",
+  messagingSenderId: "47108256134",
+  appId: "1:47108256134:web:60888fa5f06dfb075d3c07",
+  measurementId: "G-ZCVWTTFT2H"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+</script>
+
+
+  
 
   
   <script>
