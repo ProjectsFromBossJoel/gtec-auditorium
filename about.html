@@ -58,7 +58,7 @@
   <br>
 
   
-   <!-- Footer -->
+  <!-- Footer -->
   <footer class="gtec-footer">
   <div class="container footer-grid">
 
@@ -90,22 +90,25 @@
       </ul>
     </div>
 
-    <!-- SUBSCRIBE➤ -->
+   <!-- SUBSCRIBE -->
+<div class="footer-col">
+  <h4>Subscribe</h4>
+  <p>
+    Stay informed about conference hall availability, bookings and official updates.
+  </p>
 
-     <!-- QA GUIDELINES -->
-    <div class="footer-col">
-      <h4>Subscribe</h4>
-      <p>
-        Stay informed about conference hall availability, bookings and official updates.
-      </p>
-    
-    <form class="subscribe-formm">
-  <input type="email" placeholder="Your Email" required>
-  <button type="submit" aria-label="Subscribe">
-    ➤ 
-  </button>
+  <form class="subscribe-formm" id="subscribeForm">
+  <input
+    type="email"
+    name="email"
+    placeholder="Your Email"
+    required
+  >
+  <button type="submit">➤</button>
 </form>
+<p id="subscribeMessage" style="color:green; display:none;"></p>
 </div>
+
 
     
 <style>
@@ -202,6 +205,58 @@ menuToggle.addEventListener("click", () => {
   menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
 });
 </script>
+
+  <!-- Your web app's Firebase configuration-->
+<!-- For Firebase JS SDK v7.20.0 and later, measurementId is optional-->
+  <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA80t2tr136ihN57YQWwD4nYcPhyutACX4",
+  authDomain: "userlogin-44d0a.firebaseapp.com",
+  projectId: "userlogin-44d0a",
+  storageBucket: "userlogin-44d0a.firebasestorage.app",
+  messagingSenderId: "47108256134",
+  appId: "1:47108256134:web:60888fa5f06dfb075d3c07",
+  measurementId: "G-ZCVWTTFT2H"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+
+
+<script>
+document.getElementById("subscribeForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const email = this.email.value.trim().toLowerCase();
+  const msg = document.getElementById("subscribeMessage");
+
+  if (!email) return;
+
+  try {
+    await db.collection("subscriptions").add({
+      email: email,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    msg.style.display = "block";
+    msg.textContent = "Subscribed successfully!";
+
+    this.reset();
+
+    // Hide message after 3 seconds
+    setTimeout(() => {
+      msg.style.display = "none";
+    }, 3000);
+
+  } catch (error) {
+    console.error("Subscription error:", error);
+    alert("Failed to subscribe. Please try again.");
+  }
+});
+
+</script>
+
 
   
 </body>
