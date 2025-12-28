@@ -8,7 +8,7 @@
 
   <link rel="stylesheet" href="css/style.css">
 
-  <style>
+  
 <!-- Firebase App (the core Firebase SDK) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
 <!-- Firebase Firestore -->
@@ -17,10 +17,68 @@
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
 
 
-    
+  <!-- Your web app's Firebase configuration -->
+  <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA80t2tr136ihN57YQWwD4nYcPhyutACX4",
+  authDomain: "userlogin-44d0a.firebaseapp.com",
+  projectId: "userlogin-44d0a",
+  storageBucket: "userlogin-44d0a.firebasestorage.app",
+  messagingSenderId: "47108256134",
+  appId: "1:47108256134:web:60888fa5f06dfb075d3c07",
+  measurementId: "G-ZCVWTTFT2H"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const auth = firebase.auth();
+</script>
+
+
+  
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  const contactForm = document.getElementById('contactForm');
+  const loadingOverlay = document.getElementById('loadingOverlay');
+
+  contactForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    loadingOverlay.style.display = 'flex';
+
+    const submitBtn = contactForm.querySelector("button");
+    submitBtn.disabled = true;
+    submitBtn.textContent = "Sending...";
+
+    const data = {
+      name: contactForm.name.value,
+      email: contactForm.email.value,
+      message: contactForm.message.value,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    };
+
+    try {
+      await db.collection('contactMessages').add(data);
+      alert("Message sent successfully!");
+      contactForm.reset();
+    } catch (err) {
+      console.error("Error saving message:", err);
+      alert("Failed to send message. Try again.");
+    } finally {
+      loadingOverlay.style.display = 'none';
+      submitBtn.disabled = false;
+      submitBtn.textContent = "Send Message";
+    }
+  });
+});
+</script>
+
+  
 
     
+
+     <style>
     /* ===== General ===== */
+   
     body {
       font-family: 'Poppins', sans-serif;
       margin: 0;
@@ -282,8 +340,6 @@
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 </script>
-
-
  
 
 <script>
@@ -291,73 +347,12 @@
 </script>
 
 
-
-
-
-  
-
   <!-- Loading Overlay -->
   <!-- Loading Overlay -->
 <div id="loadingOverlay">
   <div class="spinner"></div>
   <p style="color:white; margin-top:10px;">Sending your message...</p>
 </div>
-
-
-<script>
-const contactForm = document.getElementById('contactForm');
-const loadingOverlay = document.getElementById('loadingOverlay');
-
-contactForm.addEventListener('submit', async (e) => {
-  e.preventDefault();
-  loadingOverlay.style.display = 'flex';
-
-  const submitBtn = contactForm.querySelector("button");
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Sending...";
-
-  const data = {
-    name: contactForm.name.value,
-    email: contactForm.email.value,
-    message: contactForm.message.value,
-    createdAt: firebase.firestore.FieldValue.serverTimestamp()
-  };
-
-  try {
-    await db.collection('contactMessages').add(data);
-    alert("Message sent successfully!");
-    contactForm.reset();
-  } catch (err) {
-    console.error("Error saving message:", err);
-    alert("Failed to send message. Try again.");
-  } finally {
-    loadingOverlay.style.display = 'none';
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Send Message";
-  }
-});
-</script>
-
-
-
-
-<!-- Your web app's Firebase configuration -->
-  <script>
-const firebaseConfig = {
-  apiKey: "AIzaSyA80t2tr136ihN57YQWwD4nYcPhyutACX4",
-  authDomain: "userlogin-44d0a.firebaseapp.com",
-  projectId: "userlogin-44d0a",
-  storageBucket: "userlogin-44d0a.firebasestorage.app",
-  messagingSenderId: "47108256134",
-  appId: "1:47108256134:web:60888fa5f06dfb075d3c07",
-  measurementId: "G-ZCVWTTFT2H"
-};
-
-firebase.initializeApp(firebaseConfig);
-const db = firebase.firestore();
-const auth = firebase.auth();
-</script>
-
 
   
 
