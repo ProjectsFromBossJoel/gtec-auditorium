@@ -1,23 +1,23 @@
 document.addEventListener("DOMContentLoaded", function () {
 
-function showLoader() {
-  if (loadingOverlay) loadingOverlay.style.display = "flex";
-}
-
-function hideLoader() {
-  if (loadingOverlay) loadingOverlay.style.display = "none";
-}
+  // ==================================================
+  // LOADER FUNCTIONS
+  // ==================================================
+  const loadingOverlay = document.getElementById('loadingOverlay');
+  function showLoader() { if (loadingOverlay) loadingOverlay.style.display = "flex"; }
+  function hideLoader() { if (loadingOverlay) loadingOverlay.style.display = "none"; }
 
   // ==================================================
   // HELPER FUNCTIONS (DATE & TIME FORMAT)
   // ==================================================
   function formatDateWithOrdinal(dateStr) {
     if (!dateStr) return "";
-    const date = new Date(dateStr);
+    const parts = dateStr.split("-"); // "YYYY-MM-DD"
+    if (parts.length !== 3) return "";
+    const [year, month, day] = parts.map(Number);
 
-    const day = date.getDate();
-    const month = date.toLocaleString("en-GB", { month: "long" });
-    const year = date.getFullYear();
+    const date = new Date(year, month - 1, day);
+    const monthName = date.toLocaleString("en-GB", { month: "long" });
 
     function ordinal(n) {
       if (n > 3 && n < 21) return n + "th";
@@ -29,16 +29,18 @@ function hideLoader() {
       }
     }
 
-    return `${ordinal(day)} ${month}, ${year}`;
+    return `${ordinal(day)} ${monthName}, ${year}`;
   }
 
   function formatTime12H(timeStr) {
     if (!timeStr) return "";
-    const [hour, minute] = timeStr.split(":");
-    const h = parseInt(hour, 10);
-    const suffix = h >= 12 ? "PM" : "AM";
-    const hour12 = ((h + 11) % 12) + 1;
-    return `${hour12}:${minute} ${suffix}`;
+    const [hourStr, minuteStr] = timeStr.split(":");
+    if (!hourStr || !minuteStr) return "";
+    const hour = parseInt(hourStr, 10);
+    const minute = parseInt(minuteStr, 10);
+    const suffix = hour >= 12 ? "PM" : "AM";
+    const hour12 = ((hour + 11) % 12) + 1;
+    return `${hour12}:${minute.toString().padStart(2, "0")} ${suffix}`;
   }
 
   // ==================================================
@@ -60,9 +62,7 @@ function hideLoader() {
     bookingModal.style.display = "block";
 
     const venueSelect = bookingModal.querySelector('select[name="venue"]');
-    if (venueSelect && defaultHall) {
-      venueSelect.value = defaultHall;
-    }
+    if (venueSelect && defaultHall) venueSelect.value = defaultHall;
   }
 
   function closeBookingModal() {
@@ -72,14 +72,10 @@ function hideLoader() {
 
   window.openBookingModal = openBookingModal;
 
-  if (closeBtn) {
-    closeBtn.addEventListener('click', closeBookingModal);
-  }
+  if (closeBtn) closeBtn.addEventListener('click', closeBookingModal);
 
   window.addEventListener('click', function (e) {
-    if (e.target === bookingModal) {
-      closeBookingModal();
-    }
+    if (e.target === bookingModal) closeBookingModal();
   });
 
   // ==================================================
@@ -96,11 +92,11 @@ function hideLoader() {
 
       if (end >= start) {
         const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
-        daysInput.value = days;
+        if (daysInput) daysInput.value = days;
       } else {
         alert("End date cannot be earlier than start date.");
-        endDateInput.value = "";
-        daysInput.value = "";
+        if (endDateInput) endDateInput.value = "";
+        if (daysInput) daysInput.value = "";
       }
     }
   }
@@ -131,23 +127,18 @@ function hideLoader() {
         institutionName: formData.get('institutionName'),
         participants: formData.get('participants'),
         venue: formData.get('venue'),
-
         additionalServices: services.length ? services.join(", ") : "None",
-
         standardChair: formData.get('standardChair') || "0",
         executiveChair: formData.get('executiveChair') || "0",
         tableQty: formData.get('tableQty') || "0",
         tableClothQty: formData.get('tableClothQty') || "0",
-
         eventDescription: formData.get('eventDescription'),
-
         // ✅ FORMATTED DATE & TIME
         startDate: formatDateWithOrdinal(formData.get('startDate')),
         endDate: formatDateWithOrdinal(formData.get('endDate')),
-        days: formData.get('days'),
+        days: daysInput ? daysInput.value : "",
         startTime: formatTime12H(formData.get('startTime')),
         endTime: formatTime12H(formData.get('endTime')),
-
         invoiceName: formData.get('invoiceName'),
         invoiceEmail: formData.get('invoiceEmail')
       };
