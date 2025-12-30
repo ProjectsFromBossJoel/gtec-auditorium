@@ -8,7 +8,39 @@ function hideLoader() {
   if (loadingOverlay) loadingOverlay.style.display = "none";
 }
 
-  
+  // ==================================================
+  // HELPER FUNCTIONS (DATE & TIME FORMAT)
+  // ==================================================
+  function formatDateWithOrdinal(dateStr) {
+    if (!dateStr) return "";
+    const date = new Date(dateStr);
+
+    const day = date.getDate();
+    const month = date.toLocaleString("en-GB", { month: "long" });
+    const year = date.getFullYear();
+
+    function ordinal(n) {
+      if (n > 3 && n < 21) return n + "th";
+      switch (n % 10) {
+        case 1: return n + "st";
+        case 2: return n + "nd";
+        case 3: return n + "rd";
+        default: return n + "th";
+      }
+    }
+
+    return `${ordinal(day)} ${month}, ${year}`;
+  }
+
+  function formatTime12H(timeStr) {
+    if (!timeStr) return "";
+    const [hour, minute] = timeStr.split(":");
+    const h = parseInt(hour, 10);
+    const suffix = h >= 12 ? "PM" : "AM";
+    const hour12 = ((h + 11) % 12) + 1;
+    return `${hour12}:${minute} ${suffix}`;
+  }
+
   // ==================================================
   // INITIALIZE YEAR IN FOOTER
   // ==================================================
@@ -25,7 +57,6 @@ function hideLoader() {
 
   function openBookingModal(defaultHall = "") {
     if (!bookingModal) return;
-
     bookingModal.style.display = "block";
 
     const venueSelect = bookingModal.querySelector('select[name="venue"]');
@@ -39,7 +70,6 @@ function hideLoader() {
     bookingModal.style.display = "none";
   }
 
-  // expose globally for inline onclick
   window.openBookingModal = openBookingModal;
 
   if (closeBtn) {
@@ -51,20 +81,6 @@ function hideLoader() {
       closeBookingModal();
     }
   });
-
-  // ==================================================
-  // HEADER & HERO "BOOK NOW" BUTTONS
-  // ==================================================
-  const openBooking = document.getElementById("openBooking");
-  const openBookingHero = document.getElementById("openBookingHero");
-
-  if (openBooking) {
-    openBooking.addEventListener("click", () => openBookingModal());
-  }
-
-  if (openBookingHero) {
-    openBookingHero.addEventListener("click", () => openBookingModal());
-  }
 
   // ==================================================
   // CALCULATE EVENT DAYS
@@ -101,49 +117,48 @@ function hideLoader() {
 
   if (form) {
     form.addEventListener("submit", async function (e) {
-  e.preventDefault();
+      e.preventDefault();
 
-  const formData = new FormData(form);
-  const services = formData.getAll("additionalServices[]");
+      const formData = new FormData(form);
+      const services = formData.getAll("additionalServices[]");
 
-const booking = {
-  id: Date.now(),
-  applicantName: formData.get('applicantName'),
-  telephone: formData.get('telephone'),
-  email: formData.get('email'),
-  bookingType: formData.get('bookingType'),
-  institutionName: formData.get('institutionName'),
-  participants: formData.get('participants'),
-  venue: formData.get('venue'),
+      const booking = {
+        id: Date.now(),
+        applicantName: formData.get('applicantName'),
+        telephone: formData.get('telephone'),
+        email: formData.get('email'),
+        bookingType: formData.get('bookingType'),
+        institutionName: formData.get('institutionName'),
+        participants: formData.get('participants'),
+        venue: formData.get('venue'),
 
-  additionalServices: services.length ? services.join(", ") : "None",
+        additionalServices: services.length ? services.join(", ") : "None",
 
-  standardChair: formData.get('standardChair') || "0",
-  executiveChair: formData.get('executiveChair') || "0",
-  tableQty: formData.get('tableQty') || "0",
-  tableClothQty: formData.get('tableClothQty') || "0",
+        standardChair: formData.get('standardChair') || "0",
+        executiveChair: formData.get('executiveChair') || "0",
+        tableQty: formData.get('tableQty') || "0",
+        tableClothQty: formData.get('tableClothQty') || "0",
 
-  eventDescription: formData.get('eventDescription'),
-  startDate: formData.get('startDate'),
-  endDate: formData.get('endDate'),
-  days: formData.get('days'),
-  startTime: formData.get('startTime'),
-  endTime: formData.get('endTime'),
-  invoiceName: formData.get('invoiceName'),
-  invoiceEmail: formData.get('invoiceEmail')
-};
+        eventDescription: formData.get('eventDescription'),
 
+        // ✅ FORMATTED DATE & TIME
+        startDate: formatDateWithOrdinal(formData.get('startDate')),
+        endDate: formatDateWithOrdinal(formData.get('endDate')),
+        days: formData.get('days'),
+        startTime: formatTime12H(formData.get('startTime')),
+        endTime: formatTime12H(formData.get('endTime')),
 
-  
+        invoiceName: formData.get('invoiceName'),
+        invoiceEmail: formData.get('invoiceEmail')
+      };
 
-  saveLocal(booking);
-  await sendToSheet(booking);
+      saveLocal(booking);
+      await sendToSheet(booking);
 
-  form.reset();
-  if (daysInput) daysInput.value = "";
-  closeBookingModal();
-});
-
+      form.reset();
+      if (daysInput) daysInput.value = "";
+      closeBookingModal();
+    });
   }
 
   // ==================================================
@@ -155,20 +170,6 @@ const booking = {
     localStorage.setItem('gtec_bookings', JSON.stringify(all));
   }
 
-
-
-// Preview PDF Document
-function openDocumentPreview() {
-  document.getElementById("docModal").style.display = "block";
-}
-
-function closeDocumentPreview() {
-  document.getElementById("docModal").style.display = "none";
-}
-
-  
-
-  
   // ==================================================
   // SEND TO GOOGLE SHEETS
   // ==================================================
@@ -188,6 +189,3 @@ function closeDocumentPreview() {
   }
 
 });
-
-
-
