@@ -8,18 +8,24 @@ document.addEventListener("DOMContentLoaded", function () {
   function hideLoader() { if (loadingOverlay) loadingOverlay.style.display = "none"; }
 
   // ==================================================
-  // HELPER FUNCTIONS (DATE & TIME FORMAT)
+  // HELPER FUNCTIONS (SAFE DATE & TIME FORMAT)
   // ==================================================
   function formatDateWithOrdinal(dateStr) {
     if (!dateStr) return "";
-    const parts = dateStr.split("-"); // "YYYY-MM-DD"
-    if (parts.length !== 3) return "";
-    const [year, month, day] = parts.map(Number);
 
-    const date = new Date(year, month - 1, day);
+    // Ensure dateStr is in YYYY-MM-DD format
+    const regex = /^(\d{4})-(\d{2})-(\d{2})$/;
+    const match = dateStr.match(regex);
+    if (!match) return dateStr; // fallback if format is wrong
+
+    const year = parseInt(match[1], 10);
+    const month = parseInt(match[2], 10) - 1; // JS months are 0-indexed
+    const day = parseInt(match[3], 10);
+
+    const date = new Date(year, month, day);
     const monthName = date.toLocaleString("en-GB", { month: "long" });
 
-    function ordinal(n) {
+    const ordinal = (n) => {
       if (n > 3 && n < 21) return n + "th";
       switch (n % 10) {
         case 1: return n + "st";
@@ -27,20 +33,22 @@ document.addEventListener("DOMContentLoaded", function () {
         case 3: return n + "rd";
         default: return n + "th";
       }
-    }
+    };
 
     return `${ordinal(day)} ${monthName}, ${year}`;
   }
 
   function formatTime12H(timeStr) {
     if (!timeStr) return "";
-    const [hourStr, minuteStr] = timeStr.split(":");
-    if (!hourStr || !minuteStr) return "";
-    const hour = parseInt(hourStr, 10);
-    const minute = parseInt(minuteStr, 10);
+    const parts = timeStr.split(":");
+    if (parts.length !== 2) return timeStr;
+
+    let hour = parseInt(parts[0], 10);
+    const minute = parseInt(parts[1], 10);
     const suffix = hour >= 12 ? "PM" : "AM";
-    const hour12 = ((hour + 11) % 12) + 1;
-    return `${hour12}:${minute.toString().padStart(2, "0")} ${suffix}`;
+    hour = ((hour + 11) % 12) + 1;
+
+    return `${hour}:${minute.toString().padStart(2, "0")} ${suffix}`;
   }
 
   // ==================================================
@@ -71,9 +79,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   window.openBookingModal = openBookingModal;
-
   if (closeBtn) closeBtn.addEventListener('click', closeBookingModal);
-
   window.addEventListener('click', function (e) {
     if (e.target === bookingModal) closeBookingModal();
   });
@@ -87,8 +93,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   function calculateDays() {
     if (startDateInput.value && endDateInput.value) {
-      const start = new Date(startDateInput.value);
-      const end = new Date(endDateInput.value);
+      const startParts = startDateInput.value.split("-");
+      const endParts = endDateInput.value.split("-");
+
+      const start = new Date(parseInt(startParts[0]), parseInt(startParts[1]) - 1, parseInt(startParts[2]));
+      const end = new Date(parseInt(endParts[0]), parseInt(endParts[1]) - 1, parseInt(endParts[2]));
 
       if (end >= start) {
         const days = Math.ceil((end - start) / (1000 * 60 * 60 * 24)) + 1;
@@ -114,7 +123,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (form) {
     form.addEventListener("submit", async function (e) {
       e.preventDefault();
-
       const formData = new FormData(form);
       const services = formData.getAll("additionalServices[]");
 
@@ -133,7 +141,6 @@ document.addEventListener("DOMContentLoaded", function () {
         tableQty: formData.get('tableQty') || "0",
         tableClothQty: formData.get('tableClothQty') || "0",
         eventDescription: formData.get('eventDescription'),
-        // ✅ FORMATTED DATE & TIME
         startDate: formatDateWithOrdinal(formData.get('startDate')),
         endDate: formatDateWithOrdinal(formData.get('endDate')),
         days: daysInput ? daysInput.value : "",
@@ -166,7 +173,6 @@ document.addEventListener("DOMContentLoaded", function () {
   // ==================================================
   async function sendToSheet(booking) {
     const sheetURL = "https://script.google.com/macros/s/AKfycbwsV3UX76hZaQaacIXFkr_7dDiso8dgXP3bNC2Jchql_51SdWtsLKjJXFkYv83zsUbJmw/exec";
-
     try {
       await fetch(sheetURL, {
         method: "POST",
