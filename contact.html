@@ -415,8 +415,14 @@ document.addEventListener('DOMContentLoaded', () => {
 </div>
 
   
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
 
   
+  <script src="js/main.js"></script>
+
   <script>
 const menuToggle = document.getElementById("menuToggle");
 const mobileNav = document.getElementById("mobileNav");
@@ -426,7 +432,7 @@ menuToggle.addEventListener("click", () => {
   menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
 });
 </script>
-
+  
 
     <!-- Booking Modal -->
   <!-- ===================== BOOKING POPUP MODAL ===================== -->
