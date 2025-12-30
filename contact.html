@@ -166,6 +166,8 @@ document.addEventListener('DOMContentLoaded', () => {
   z-index: 9999;
   display: none;
 }
+   /* ===== Header  =====*/
+   .book-now-btn:hover { background: #e65c00; }    
 
 .spinner {
   border: 6px solid #f3f3f3;
@@ -424,6 +426,153 @@ menuToggle.addEventListener("click", () => {
   menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
 });
 </script>
+
+
+    <!-- Booking Modal -->
+  <!-- ===================== BOOKING POPUP MODAL ===================== -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+
+    <h2>Conference Hall Booking Form</h2>
+
+    <form id="bookingForm">
+
+      <label>Name of Applicant (Full Name)</label>
+      <input type="text" name="applicantName" required>
+
+      <label>Telephone</label>
+      <input type="tel" name="telephone" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Booking Type</label>
+      <select name="bookingType" required>
+        <option value="">Select Type</option>
+        <option value="Institution/Organization">Institution/Organization</option>
+        <option value="Personal">Personal</option>
+      </select>
+
+      <label>Name of Institution / Organization / Person</label>
+      <input type="text" name="institutionName" required>
+
+      <label>Number of Participants</label>
+      <input type="number" name="participants" required>
+
+      <label>Venue (Hall)</label>
+      <select name="venue" required>
+        <option value="">Select Hall</option>
+        <option value="Paul Effah Hall- Full Capacity">Paul Effah Hall- Full Capacity</option>
+        <option value="Paul Effah Hall- Ground Floor">Paul Effah Hall- Ground Floor</option>
+        <option value="Jinapor Hall">Jinapor Hall</option>
+        <option value="Nikoi Kottey Hall">Nikoi Kottey Hall</option>
+        <option value="Kwame Darttey Hall">Kwame Darttey Hall</option>
+        <option value="VIP">VIP</option>
+      </select>
+
+      <label>Additional Services</label>
+      <div class="checkbox-group">
+
+  <label class="checkbox-item">
+    <input type="checkbox" name="additionalServices[]" value="Changing Room">
+    Changing Room
+  </label>
+
+  <label class="checkbox-item">
+    <input type="checkbox" name="additionalServices[]" value="Rehearsals">
+    Rehearsals
+  </label>
+
+  <label class="checkbox-item">
+    <input type="checkbox" name="additionalServices[]" value="Dining Area">
+    Dining Area
+  </label>
+
+</div>
+
+
+<!-- RENTALS SECTION -->
+      <div class="rentals-section">
+<h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
+
+<div class="rentals-cards">
+
+  
+  <!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/standard_chair.jpg" alt="Tables">
+    <h4>Standard Chair</h4>
+
+    <input type="number" name="standardChair" min="0" placeholder="Quantity">
+  </div>
+
+  <!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/standard_chair.jpg" alt="Tables">
+    <h4>Executive Chair</h4>
+
+    <input type="number" name="executiveChair" min="0" placeholder="Quantity">
+  </div>
+
+
+<!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/standard_chair.jpg" alt="Tables">
+    <h4>Table</h4>
+
+    <input type="number" name="tableQty" min="0" placeholder="Quantity">
+  </div>
+  
+
+  <!-- TABLE + CLOTH CARD -->
+  <div class="rental-card">
+    <img src="images/standard_chair.jpg" alt="Table with Cloth">
+    <h4>Table + Cloth</h4>
+
+    <input type="number" name="tableClothQty" min="0" placeholder="Quantity">
+  </div>
+
+</div>
+      </div>
+        
+      <!-- //RENTALS SECTION -->
+
+
+
+      <label>Event Description</label>
+      <textarea name="eventDescription" rows="3" required></textarea>
+
+      <label>Event Start Date</label>
+      <input type="date" name="startDate" id="startDate" required>
+
+      <label>Event End Date</label>
+      <input type="date" name="endDate" id="endDate" required>
+
+      <label>Number of Days of Event</label>
+      <input type="number" name="days" id="eventDays" readonly>
+
+      <label>Time Event Starts</label>
+      <input type="time" name="startTime" required>
+
+      <label>Time Event Ends</label>
+      <input type="time" name="endTime" required>
+
+      <label>Recipient Name for Invoice</label>
+      <input type="text" name="invoiceName" required>
+
+      <label>Recipient Email for Invoice</label>
+      <input type="email" name="invoiceEmail" required>
+
+      
+      <button type="submit" class="submit-btn">Submit Booking</button>
+      
+</form>
+
+    </div>
+</div>
+
+  
 
   <script>
 document.getElementById("subscribeForm").addEventListener("submit", async function (e) {
