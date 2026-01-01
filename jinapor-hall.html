@@ -319,25 +319,39 @@ menuToggle.addEventListener("click", () => {
         <option value="VIP">VIP</option>
       </select>
 
-      <label>Additional Services</label>
-      <div class="checkbox-group">
-
-  <label class="checkbox-item">
-    <input type="checkbox" name="additionalServices[]" value="Changing Room">
-    Changing Room
+  <!-- ADDITIONAL SERVICES SECTION -->
+<div class="additional-services-container" style="border:1px solid #ccc; border-radius:8px; padding:15px; max-width:400px;">
+  <label style="font-weight:bold; display:block; margin-bottom:10px;">
+    Additional Services (Optional)
   </label>
 
-  <label class="checkbox-item">
-    <input type="checkbox" name="additionalServices[]" value="Rehearsals">
-    Rehearsals
-  </label>
+  <div style="max-width:260px;">
+    <div class="checkbox-item">
+      <span>Changing Room</span>
+      <input type="checkbox" name="additionalServices[]" value="Changing Room">
+    </div>
 
-  <label class="checkbox-item">
-    <input type="checkbox" name="additionalServices[]" value="Dining Area">
-    Dining Area
-  </label>
+    <div class="checkbox-item">
+      <span>Rehearsals</span>
+      <input type="checkbox" name="additionalServices[]" value="Rehearsals">
+    </div>
 
+    <div class="checkbox-item">
+      <span>Dining Area</span>
+      <input type="checkbox" name="additionalServices[]" value="Dining Area">
+    </div>
+  </div>
 </div>
+
+      <style>
+        .checkbox-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+      </style>
 
 
 <!-- RENTALS SECTION -->
