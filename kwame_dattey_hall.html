@@ -15,6 +15,34 @@
 </head>
 <body>
 
+
+  <!-- Submission Overlay -->
+<div id="submissionOverlay" class="overlay" style="display:none;">
+
+  <!-- Spinner -->
+  <div class="spinner" id="spinner"></div>
+
+  <!-- Success Card -->
+  <div id="successCard" class="success-card" style="display:none;">
+    <div class="checkmark-circle">
+      <svg viewBox="0 0 52 52">
+        <circle cx="26" cy="26" r="25" fill="none"/>
+        <path fill="none" d="M14 27l7 7 17-17"/>
+      </svg>
+    </div>
+
+    <h3>Booking Received</h3>
+    <p>
+      Thank you. We have received your booking.<br><br>
+      Our team will review the booking details and contact you shortly
+      via phone or email regarding the status of your booking.
+    </p>
+  </div>
+
+</div>
+
+  
+
 <header class="site-header">
   <div class="container header-inner">
 
@@ -31,8 +59,8 @@
     <nav class="nav" id="mobileNav">
       <a href="index.html">Home</a>
       <a href="halls.html">Halls</a>
-      <a href="about.html">About</a>
-      <a href="contact.html">Contact</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Us</a>
       <a href="policies.html">Policies</a>
     </nav>
 
@@ -82,9 +110,10 @@
     </ul>
   </section>
 
+  
   <!-- CTA -->
   <button class="book-now-btn"
-          onclick="openBookingModal('Ahmed Jinapor Hall')">
+          onclick="openBookingModal('Kwame Dattey Hall')">
     Book this hall
   </button>
 
@@ -92,7 +121,6 @@
 
   <br>
     <br>
-      <br>
       <br>
 
     <!-- Footer -->
@@ -237,6 +265,8 @@ menuToggle.addEventListener("click", () => {
 
 
 
+  
+  
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
@@ -407,7 +437,7 @@ menuToggle.addEventListener("click", () => {
       <input type="email" name="invoiceEmail" required>
 
       
-     <!-- GUIDELINES SECTION (MANDATORY) -->
+            <!-- GUIDELINES SECTION (MANDATORY) -->
 <div class="guidelines-box" style="border:1px solid #e74c3c; padding:15px; border-radius:8px; margin-top:20px;">
   <h3 style="margin-top:0; color:#e74c3c;">📄 Booking Guidelines (Mandatory)</h3>
 
@@ -425,18 +455,25 @@ menuToggle.addEventListener("click", () => {
     ⬇ Download Guidelines
   </a>
 
-<div style="margin-top:10px; display:flex; align-items:center; gap:8px;">
+<div style="margin-top:10px; display:flex; align-items:center; gap:10px; font-size:14px;">
   <input type="checkbox" id="guidelinesConfirm" disabled>
-  <label for="guidelinesConfirm" style="font-size:14px; cursor:pointer;">
-    I have downloaded and read the bookings guidelines
-  </label>
-</div>
-      
-    </label>
-  </div>
-</div>
 
-      
+  <label for="guidelinesConfirm" style="cursor:pointer; margin:0;">
+   <span style="font-weight:600;"> I have downloaded and read the booking guidelines</span>
+  </label>
+
+</div>
+</div>
+      <style>
+        #guidelinesConfirm {
+  width: auto !important;
+}
+
+label[for="guidelinesConfirm"] {
+  display: inline !important;
+}
+
+      </style>
       
       
       <button type="submit" class="submit-btn" id="submitBooking" disabled>
@@ -511,7 +548,8 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
 
 </script>
 
-    <script>
+
+<script>
   const downloadBtn = document.getElementById("downloadGuidelines");
   const confirmCheckbox = document.getElementById("guidelinesConfirm");
   const submitBtn = document.getElementById("submitBooking");
@@ -541,6 +579,7 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
     }
   });
 </script>
+
   
   
 <script src="js/main.js"></script>
