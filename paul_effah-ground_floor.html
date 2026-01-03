@@ -86,57 +86,7 @@
 
 
 
-    <!-- Footer -->
-  <footer class="gtec-footer">
-  <div class="container footer-grid">
-
-    <!-- ABOUT US -->
-    <div class="footer-col">
-      <h4>About Us</h4>
-      <ul>
-        <li><a href="index.html">General Overview</a></li>
-        <li><a href="about.html">Vision / Mission / Core Values</a></li>
-        <li><a href="#">Gallery</a></li>
-        </ul>
-    </div>
-
-    <!-- WHAT WE DO -->
-    <div class="footer-col">
-      <h4>What We Do</h4>
-      <ul>
-        <li><a href="halls.html">Book Events</a></li>
-        <li><a href="#">Reserve a room</a></li>
-        </ul>
-    </div>
-
-    <!-- QA GUIDELINES -->
-    <div class="footer-col">
-      <h4>QA Guidelines</h4>
-      <ul>
-        <li><a href="policies.html">QA Guidelines</a></li>
-        <li><a href="contact.html">Contact Us</a></li>
-      </ul>
-    </div>
-
-   <!-- SUBSCRIBE -->
-<div class="footer-col">
-  <h4>Subscribe</h4>
-  <p>
-    Stay informed about conference hall availability, bookings and official updates.
-  </p>
-
-  <form class="subscribe-formm" id="subscribeForm">
-  <input
-    type="email"
-    name="email"
-    placeholder="Your Email"
-    required
-  >
-  <button type="submit">➤</button>
-</form>
-<p id="subscribeMessage" style="color:green; display:none;"></p>
-</div>
-
+   
 
     
 <style>
@@ -189,10 +139,7 @@
 
     
 
-  <!-- BOTTOM BAR -->
-  <div class="footer-bottom">
-    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
-  </div>
+
 
   <!-- SCROLL TO TOP -->
   <button id="scrollTopBtn" title="Go to top">↑</button>
@@ -217,6 +164,205 @@
 
 </main>
 
+
+
+  <!-- Booking Modal -->
+  <!-- ===================== BOOKING POPUP MODAL ===================== -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+
+    <h2>Conference Hall Booking Form</h2>
+
+    <form id="bookingForm">
+
+      <label>Name of Applicant (Full Name)</label>
+      <input type="text" name="applicantName" required>
+
+      <label>Telephone</label>
+      <input type="tel" name="telephone" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Booking Type</label>
+      <select name="bookingType" required>
+        <option value="">Select Type</option>
+        <option value="Institution/Organization">Institution/Organization</option>
+        <option value="Personal">Personal</option>
+      </select>
+
+      <label>Name of Institution / Organization / Person</label>
+      <input type="text" name="institutionName" required>
+
+      <label>Number of Participants</label>
+      <input type="number" name="participants" required>
+
+      <label>Venue (Hall)</label>
+      <select name="venue" required>
+        <option value="">Select Hall</option>
+        <option value="Paul Effah Hall- Full Capacity">Paul Effah Hall- Full Capacity</option>
+        <option value="Paul Effah Hall- Ground Floor">Paul Effah Hall- Ground Floor</option>
+        <option value="Ahmed Jinapor Hall">Ahmed Jinapor Hall</option>
+        <option value="Nikoi Kotey Hall">Nikoi Kotey Hall</option>
+        <option value="Kwame Dattey Hall">Kwame Dattey Hall</option>
+        <option value="VIP">VIP</option>
+      </select>
+
+  <!-- ADDITIONAL SERVICES SECTION -->
+<div class="additional-services-container" style="border:1px solid #ccc; border-radius:8px; padding:15px; max-width:400px;">
+  <label style="font-weight:bold; display:block; margin-bottom:10px;">
+    Additional Services (Optional)
+  </label>
+
+  <div style="max-width:260px;">
+    <div class="checkbox-item">
+      <span>Changing Room</span>
+      <input type="checkbox" name="additionalServices[]" value="Changing Room">
+    </div>
+
+    <div class="checkbox-item">
+      <span>Rehearsals</span>
+      <input type="checkbox" name="additionalServices[]" value="Rehearsals">
+    </div>
+
+    <div class="checkbox-item">
+      <span>Dining Area</span>
+      <input type="checkbox" name="additionalServices[]" value="Dining Area">
+    </div>
+  </div>
+</div>
+
+      <style>
+        .checkbox-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+      </style>
+
+
+<!-- RENTALS SECTION -->
+      <div class="rentals-section">
+<h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
+
+<div class="rentals-cards">
+
+  
+  <!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/standard_chair.jpg" alt="Tables">
+    <h4>Standard Chair</h4>
+
+    <input type="number" name="standardChair" min="0" placeholder="Quantity">
+  </div>
+
+  <!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/standard_chair.jpg" alt="Tables">
+    <h4>Executive Chair</h4>
+
+    <input type="number" name="executiveChair" min="0" placeholder="Quantity">
+  </div>
+
+
+<!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/standard_chair.jpg" alt="Tables">
+    <h4>Table</h4>
+
+    <input type="number" name="tableQty" min="0" placeholder="Quantity">
+  </div>
+  
+
+  <!-- TABLE + CLOTH CARD -->
+  <div class="rental-card">
+    <img src="images/standard_chair.jpg" alt="Table with Cloth">
+    <h4>Table + Cloth</h4>
+
+    <input type="number" name="tableClothQty" min="0" placeholder="Quantity">
+  </div>
+
+</div>
+      </div>
+        
+      <!-- //RENTALS SECTION -->
+
+
+
+      <label>Event Description</label>
+      <textarea name="eventDescription" rows="3" required></textarea>
+
+      <label>Event Start Date</label>
+      <input type="date" name="startDate" id="startDate" required>
+
+      <label>Event End Date</label>
+      <input type="date" name="endDate" id="endDate" required>
+
+      <label>Number of Days of Event</label>
+      <input type="number" name="days" id="eventDays" readonly>
+
+      <label>Time Event Starts</label>
+      <input type="time" name="startTime" required>
+
+      <label>Time Event Ends</label>
+      <input type="time" name="endTime" required>
+
+      <label>Recipient Name for Invoice</label>
+      <input type="text" name="invoiceName" required>
+
+      <label>Recipient Email for Invoice</label>
+      <input type="email" name="invoiceEmail" required>
+
+
+      <!-- GUIDELINES SECTION (MANDATORY) -->
+<div class="guidelines-box" style="border:1px solid #e74c3c; padding:15px; border-radius:8px; margin-top:20px;">
+  <h3 style="margin-top:0; color:#e74c3c;">📄 Booking Guidelines (Mandatory)</h3>
+
+  <p style="font-size:14px;">
+    Please download and read the booking guidelines before submitting your request.
+  </p>
+
+  <a
+    href="2026 Guidelines/Guidelines 2026.pdf"
+    download
+    id="downloadGuidelines"
+    class="guidelines-download"
+    style="display:inline-block; padding:10px 15px; background:#2c3e50; color:#fff; text-decoration:none; border-radius:5px; margin-bottom:10px;"
+  >
+    ⬇ Download Guidelines
+  </a>
+
+  <div style="margin-top:10px;">
+    <label style="font-size:14px;">
+      <input type="checkbox" id="guidelinesConfirm" disabled>
+      I have downloaded and read the booking guidelines
+    </label>
+  </div>
+</div>
+      
+      <button type="submit" class="submit-btn" id="submitBooking" disabled>
+  Submit Booking
+</button>
+
+      
+</form>
+
+    </div>
+</div>
+  
+
+<script>
+  loadingOverlay.classList.add('active'); // show
+loadingOverlay.classList.remove('active'); // hide
+
+</script>
+  
+
+  
+
 <script>
 const menuToggle = document.getElementById("menuToggle");
 const mobileNav = document.getElementById("mobileNav");
@@ -227,6 +373,66 @@ menuToggle.addEventListener("click", () => {
 });
 </script>
 
+
+
+    <!-- Footer -->
+  <footer class="gtec-footer">
+  <div class="container footer-grid">
+
+    <!-- ABOUT US -->
+    <div class="footer-col">
+      <h4>About Us</h4>
+      <ul>
+        <li><a href="index.html">General Overview</a></li>
+        <li><a href="about.html">Vision / Mission / Core Values</a></li>
+        <li><a href="#">Gallery</a></li>
+        </ul>
+    </div>
+
+    <!-- WHAT WE DO -->
+    <div class="footer-col">
+      <h4>What We Do</h4>
+      <ul>
+        <li><a href="halls.html">Book Events</a></li>
+        <li><a href="halls.html">Reserve a room</a></li>
+        </ul>
+    </div>
+
+    <!-- QA GUIDELINES -->
+    <div class="footer-col">
+      <h4>QA Guidelines</h4>
+      <ul>
+        <li><a href="policies.html">QA Guidelines</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+   <!-- SUBSCRIBE -->
+<div class="footer-col">
+  <h4>Subscribe</h4>
+  <p>
+    Stay informed about conference hall availability, bookings and official updates.
+  </p>
+
+  <form class="subscribe-formm" id="subscribeForm">
+  <input
+    type="email"
+    name="email"
+    placeholder="Your Email"
+    required
+  >
+  <button type="submit">➤</button>
+</form>
+<p id="subscribeMessage" style="color:green; display:none;"></p>
+</div>
+      <!-- BOTTOM BAR -->
+  <div class="footer-bottom">
+    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
+  </div>
+
+  <!-- SCROLL TO TOP -->
+  <button id="scrollTopBtn" title="Go to top">↑</button>
+</footer>
 
   
 <!-- Your web app's Firebase configuration-->
@@ -280,6 +486,36 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
 
 </script>
   
+<script>
+  const downloadBtn = document.getElementById("downloadGuidelines");
+  const confirmCheckbox = document.getElementById("guidelinesConfirm");
+  const submitBtn = document.getElementById("submitBooking");
+
+  let hasDownloaded = false;
+
+  // Detect guideline download click
+  downloadBtn.addEventListener("click", () => {
+    hasDownloaded = true;
+
+    // Enable confirmation checkbox after download
+    setTimeout(() => {
+      confirmCheckbox.disabled = false;
+    }, 500);
+  });
+
+  // Enable submit button only after confirmation
+  confirmCheckbox.addEventListener("change", () => {
+    submitBtn.disabled = !confirmCheckbox.checked;
+  });
+
+  // Extra safety: prevent submit if somehow bypassed
+  document.getElementById("bookingForm").addEventListener("submit", function (e) {
+    if (!hasDownloaded || !confirmCheckbox.checked) {
+      e.preventDefault();
+      alert("Please download and confirm the booking guidelines before submitting.");
+    }
+  });
+</script>
 
   
 <script src="js/main.js"></script>
