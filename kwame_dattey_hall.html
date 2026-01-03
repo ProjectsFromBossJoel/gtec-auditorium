@@ -407,7 +407,41 @@ menuToggle.addEventListener("click", () => {
       <input type="email" name="invoiceEmail" required>
 
       
-      <button type="submit" class="submit-btn">Submit Booking</button>
+     <!-- GUIDELINES SECTION (MANDATORY) -->
+<div class="guidelines-box" style="border:1px solid #e74c3c; padding:15px; border-radius:8px; margin-top:20px;">
+  <h3 style="margin-top:0; color:#e74c3c;">📄 Booking Guidelines (Mandatory)</h3>
+
+  <p style="font-size:14px;">
+    Please download and read the booking guidelines before submitting your request.
+  </p>
+
+  <a
+    href="2026 Guidelines/Guidelines 2026.pdf"
+    download
+    id="downloadGuidelines"
+    class="guidelines-download"
+    style="display:inline-block; padding:10px 15px; background:#2c3e50; color:#fff; text-decoration:none; border-radius:5px; margin-bottom:10px;"
+  >
+    ⬇ Download Guidelines
+  </a>
+
+<div style="margin-top:10px; display:flex; align-items:center; gap:8px;">
+  <input type="checkbox" id="guidelinesConfirm" disabled>
+  <label for="guidelinesConfirm" style="font-size:14px; cursor:pointer;">
+    I have downloaded and read the bookings guidelines
+  </label>
+</div>
+      
+    </label>
+  </div>
+</div>
+
+      
+      
+      
+      <button type="submit" class="submit-btn" id="submitBooking" disabled>
+  Submit Booking
+</button>
       
 </form>
 
@@ -475,6 +509,37 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
   }
 });
 
+</script>
+
+    <script>
+  const downloadBtn = document.getElementById("downloadGuidelines");
+  const confirmCheckbox = document.getElementById("guidelinesConfirm");
+  const submitBtn = document.getElementById("submitBooking");
+
+  let hasDownloaded = false;
+
+  // Detect guideline download click
+  downloadBtn.addEventListener("click", () => {
+    hasDownloaded = true;
+
+    // Enable confirmation checkbox after download
+    setTimeout(() => {
+      confirmCheckbox.disabled = false;
+    }, 500);
+  });
+
+  // Enable submit button only after confirmation
+  confirmCheckbox.addEventListener("change", () => {
+    submitBtn.disabled = !confirmCheckbox.checked;
+  });
+
+  // Extra safety: prevent submit if somehow bypassed
+  document.getElementById("bookingForm").addEventListener("submit", function (e) {
+    if (!hasDownloaded || !confirmCheckbox.checked) {
+      e.preventDefault();
+      alert("Please download and confirm the booking guidelines before submitting.");
+    }
+  });
 </script>
   
   
