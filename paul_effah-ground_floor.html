@@ -524,13 +524,6 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
     submitBtn.disabled = !confirmCheckbox.checked;
   });
 
-  // Extra safety: prevent submit if somehow bypassed
-  document.getElementById("bookingForm").addEventListener("submit", function (e) {
-    if (!hasDownloaded || !confirmCheckbox.checked) {
-      e.preventDefault();
-      alert("Please download and confirm the booking guidelines before submitting.");
-    }
-  });
 </script>
 
       <script>
