@@ -569,7 +569,7 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
 
 </script>
 
-
+<!-- Funcion for Download Guidelines Before Submission -->
 <script>
   const downloadBtn = document.getElementById("downloadGuidelines");
   const confirmCheckbox = document.getElementById("guidelinesConfirm");
@@ -591,15 +591,8 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
   confirmCheckbox.addEventListener("change", () => {
     submitBtn.disabled = !confirmCheckbox.checked;
   });
-
-  // Extra safety: prevent submit if somehow bypassed
-  document.getElementById("bookingForm").addEventListener("submit", function (e) {
-    if (!hasDownloaded || !confirmCheckbox.checked) {
-      e.preventDefault();
-      alert("Please download and confirm the booking guidelines before submitting.");
-    }
-  });
 </script>
+  
 
       <script>
 const bookingForm = document.getElementById("bookingForm");
