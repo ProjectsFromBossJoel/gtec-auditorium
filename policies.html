@@ -391,14 +391,25 @@
   >
     ⬇ Download Guidelines
   </a>
+<div style="margin-top:10px; display:flex; align-items:center; gap:10px; font-size:14px;">
+  <input type="checkbox" id="guidelinesConfirm" disabled>
 
-  <div style="margin-top:10px;">
-    <label style="font-size:14px;">
-      <input type="checkbox" id="guidelinesConfirm" disabled>
-      I have downloaded and read the booking guidelines
-    </label>
-  </div>
+  <label for="guidelinesConfirm" style="cursor:pointer; margin:0;">
+   <span style="font-weight:600;"> I have downloaded and read the booking guidelines</span>
+  </label>
+
 </div>
+</div>
+      <style>
+        #guidelinesConfirm {
+  width: auto !important;
+}
+
+label[for="guidelinesConfirm"] {
+  display: inline !important;
+}
+
+      </style>
       
       <button type="submit" class="submit-btn" id="submitBooking" disabled>
   Submit Booking
