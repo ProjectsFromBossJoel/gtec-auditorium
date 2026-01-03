@@ -15,6 +15,34 @@
 </head>
 <body>
 
+
+  <!-- Submission Overlay -->
+<div id="submissionOverlay" class="overlay" style="display:none;">
+
+  <!-- Spinner -->
+  <div class="spinner" id="spinner"></div>
+
+  <!-- Success Card -->
+  <div id="successCard" class="success-card" style="display:none;">
+    <div class="checkmark-circle">
+      <svg viewBox="0 0 52 52">
+        <circle cx="26" cy="26" r="25" fill="none"/>
+        <path fill="none" d="M14 27l7 7 17-17"/>
+      </svg>
+    </div>
+
+    <h3>Booking Received</h3>
+    <p>
+      Thank you. We have received your booking.<br><br>
+      Our team will review the booking details and contact you shortly
+      via phone or email regarding the status of your booking.
+    </p>
+  </div>
+
+</div>
+
+  
+
 <header class="site-header">
   <div class="container header-inner">
 
@@ -46,7 +74,7 @@
 
 <main class="container hall-details-page">
 
-  <!-- TITLE -->
+<!-- TITLE -->
   <h1>Ahmed Jinapor Hall</h1>
   <p class="hall-meta">150 pax · Executive Seating · PA System</p>
 
@@ -102,6 +130,7 @@
       <li>✔ Fully Air Conditioned</li>
     </ul>
   </section>
+  
 
   <!-- CTA -->
   <button class="book-now-btn"
@@ -257,6 +286,8 @@ menuToggle.addEventListener("click", () => {
 
 
 
+  
+  
 <script>
   document.getElementById("year").textContent = new Date().getFullYear();
 </script>
@@ -427,7 +458,48 @@ menuToggle.addEventListener("click", () => {
       <input type="email" name="invoiceEmail" required>
 
       
-      <button type="submit" class="submit-btn">Submit Booking</button>
+            <!-- GUIDELINES SECTION (MANDATORY) -->
+<div class="guidelines-box" style="border:1px solid #e74c3c; padding:15px; border-radius:8px; margin-top:20px;">
+  <h3 style="margin-top:0; color:#e74c3c;">📄 Booking Guidelines (Mandatory)</h3>
+
+  <p style="font-size:14px;">
+    Please download and read the booking guidelines before submitting your request.
+  </p>
+
+  <a
+    href="2026 Guidelines/Guidelines 2026.pdf"
+    download
+    id="downloadGuidelines"
+    class="guidelines-download"
+    style="display:inline-block; padding:10px 15px; background:#2c3e50; color:#fff; text-decoration:none; border-radius:5px; margin-bottom:10px;"
+  >
+    ⬇ Download Guidelines
+  </a>
+
+<div style="margin-top:10px; display:flex; align-items:center; gap:10px; font-size:14px;">
+  <input type="checkbox" id="guidelinesConfirm" disabled>
+
+  <label for="guidelinesConfirm" style="cursor:pointer; margin:0;">
+   <span style="font-weight:600;"> I have downloaded and read the booking guidelines</span>
+  </label>
+
+</div>
+</div>
+      <style>
+        #guidelinesConfirm {
+  width: auto !important;
+}
+
+label[for="guidelinesConfirm"] {
+  display: inline !important;
+}
+
+      </style>
+      
+      
+      <button type="submit" class="submit-btn" id="submitBooking" disabled>
+  Submit Booking
+</button>
       
 </form>
 
@@ -496,6 +568,39 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
 });
 
 </script>
+
+
+<script>
+  const downloadBtn = document.getElementById("downloadGuidelines");
+  const confirmCheckbox = document.getElementById("guidelinesConfirm");
+  const submitBtn = document.getElementById("submitBooking");
+
+  let hasDownloaded = false;
+
+  // Detect guideline download click
+  downloadBtn.addEventListener("click", () => {
+    hasDownloaded = true;
+
+    // Enable confirmation checkbox after download
+    setTimeout(() => {
+      confirmCheckbox.disabled = false;
+    }, 500);
+  });
+
+  // Enable submit button only after confirmation
+  confirmCheckbox.addEventListener("change", () => {
+    submitBtn.disabled = !confirmCheckbox.checked;
+  });
+
+  // Extra safety: prevent submit if somehow bypassed
+  document.getElementById("bookingForm").addEventListener("submit", function (e) {
+    if (!hasDownloaded || !confirmCheckbox.checked) {
+      e.preventDefault();
+      alert("Please download and confirm the booking guidelines before submitting.");
+    }
+  });
+</script>
+
   
   
 <script src="js/main.js"></script>
