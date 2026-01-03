@@ -601,7 +601,40 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
   });
 </script>
 
-  
+      <script>
+const bookingForm = document.getElementById("bookingForm");
+const bookingModal = document.getElementById("bookingModal");
+const submissionOverlay = document.getElementById("submissionOverlay");
+const spinner = document.getElementById("spinner");
+const successCard = document.getElementById("successCard");
+
+bookingForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  /* 1. Close booking modal immediately */
+  bookingModal.style.display = "none";
+
+  /* 2. Show overlay + spinner */
+  submissionOverlay.style.display = "flex";
+  spinner.style.display = "block";
+  successCard.style.display = "none";
+
+  /* 3. Simulate submission delay */
+  setTimeout(() => {
+    spinner.style.display = "none";
+    successCard.style.display = "block";
+  }, 2000);
+
+  /* 4. Auto-hide success card + overlay */
+  setTimeout(() => {
+    submissionOverlay.style.display = "none";
+    successCard.style.display = "none";
+    bookingForm.reset();
+  }, 10000);
+});
+
+
+</script>
   
 <script src="js/main.js"></script>
 </body>
