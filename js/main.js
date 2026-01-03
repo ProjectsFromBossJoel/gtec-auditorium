@@ -121,10 +121,23 @@ document.addEventListener("DOMContentLoaded", function () {
   const form = document.getElementById("bookingForm");
 
   if (form) {
-    form.addEventListener("submit", async function (e) {
-      e.preventDefault();
-      const formData = new FormData(form);
-      const services = formData.getAll("additionalServices[]");
+  form.addEventListener("submit", async function (e) {
+    e.preventDefault();
+    e.stopImmediatePropagation(); // 🔥 CRITICAL
+
+    const submitBtn = document.getElementById("submitBooking");
+    if (submitBtn) submitBtn.disabled = true;
+
+    // ---- Guidelines validation ----
+    const confirmCheckbox = document.getElementById("guidelinesConfirm");
+    if (!confirmCheckbox || !confirmCheckbox.checked) {
+      alert("Please download and confirm the booking guidelines before submitting.");
+      if (submitBtn) submitBtn.disabled = false;
+      return;
+    }
+
+    const formData = new FormData(form);
+    const services = formData.getAll("additionalServices[]");
 
       const booking = {
         id: Date.now(),
