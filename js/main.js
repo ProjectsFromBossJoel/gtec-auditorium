@@ -153,6 +153,8 @@ document.addEventListener("DOMContentLoaded", function () {
         executiveChair: formData.get('executiveChair') || "0",
         tableQty: formData.get('tableQty') || "0",
         tableClothQty: formData.get('tableClothQty') || "0",
+        tableClothQty: formData.get('foldableChairQty') || "0",
+        tableClothQty: formData.get('marqueeCanopyQty') || "0",
         eventDescription: formData.get('eventDescription'),
         startDate: formatDateWithOrdinal(formData.get('startDate')),
         endDate: formatDateWithOrdinal(formData.get('endDate')),
