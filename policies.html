@@ -1,0 +1,569 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Policies & Documents | GTEC Conference Facility</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+
+  
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<header class="site-header">
+  <div class="container header-inner">
+
+    <div class="brand">
+      <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
+      <span class="brand-name">GTEC Conference Facility</span>
+    </div>
+
+    <!-- Hamburger Icon (Mobile only) -->
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+
+    <nav class="nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="halls.html">Halls</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="policies.html">Policies</a>
+    </nav>
+
+      <button class="book-now-btn"
+          onclick="openBookingModal(' ')">
+    Book Now</button>
+
+  </div>
+</header>
+
+
+<main class="container">
+  <h1 class="section-title">Policies & Guidelines</h1>
+  <p class="lead">
+    Download official documents, policies and booking guidelines for using
+    GTEC Conference Facilities.
+  </p>
+
+  <div class="documents-grid">
+
+    <div class="doc-card">
+      <h3>Conference Hall Usage Policy</h3>
+      <p>Rules and regulations governing the use of conference halls.</p>
+      <a href="2026 Guidelines/Guidelines -2026.pdf" download class="btn btn-primary">
+        📂Download PDF
+      </a>
+    </div>
+
+
+    <div class="doc-card">
+      <h3>Health & Safety Guidelines</h3>
+      <p>Safety measures and compliance requirements.</p>
+      <a href="2026 Guidelines/Guidelines -2026.pdf" download class="btn btn-primary">
+        📂Download PDF
+      </a>
+    </div>
+
+  </div>
+</main>
+
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  <br>
+  
+
+  
+
+  <!-- Footer -->
+  <footer class="gtec-footer">
+  <div class="container footer-grid">
+
+    <!-- ABOUT US -->
+    <div class="footer-col">
+      <h4>About Us</h4>
+      <ul>
+        <li><a href="index.html">General Overview</a></li>
+        <li><a href="about.html">Vision / Mission / Core Values</a></li>
+        <li><a href="#">Gallery</a></li>
+        </ul>
+    </div>
+
+    <!-- WHAT WE DO -->
+    <div class="footer-col">
+      <h4>What We Do</h4>
+      <ul>
+        <li><a href="halls.html">Book Events</a></li>
+        <li><a href="halls.html">Reserve a room</a></li>
+        </ul>
+    </div>
+
+    <!-- QA GUIDELINES -->
+    <div class="footer-col">
+      <h4>QA Guidelines</h4>
+      <ul>
+        <li><a href="policies.html">QA Guidelines</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+
+   <!-- SUBSCRIBE -->
+<div class="footer-col">
+  <h4>Subscribe</h4>
+  <p>
+    Stay informed about conference hall availability, bookings and official updates.
+  </p>
+
+  <form class="subscribe-formm" id="subscribeForm">
+  <input
+    type="email"
+    name="email"
+    placeholder="Your Email"
+    required
+  >
+  <button type="submit">➤</button>
+</form>
+<p id="subscribeMessage" style="color:green; display:none;"></p>
+</div>
+
+
+    
+<style>
+/* ===== Header  =====*/
+  .nav a:hover { background: #e6b802; color: #000; border-radius: 6px; padding: 8px 15px;}
+  
+/* Subscribe */
+.subscribe-formm {
+  display: flex;
+  width: 420px;          /* ⬅ increase width */
+  max-width: 100%;
+  height: 55px;          /* ⬅ reduce overall height */
+  background: linear-gradient(180deg, #1d1b3a, #14122c);
+}
+
+.subscribe-formm input {
+  flex: 1;
+  background: #3b3a5c;
+  color: #ffffff;
+  border: none;
+  padding: 0 16px;       /* ⬅ reduce vertical padding */
+  font-size: 0.95rem;
+  height: 100%;
+  width: 150px; 
+  outline: none;
+}
+
+.subscribe-formm button {
+  width: 48px;           /* ⬅ wider yellow block */
+  height: 100%;
+  background: #d4af37;
+  border: none;
+  color: #ffffff;
+  font-size: 1.2rem;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.subscribe-formm input::placeholder {
+  color: #ffffff;
+  opacity: 0.9;
+}
+
+
+.subscribe-formm button:hover {
+  opacity: 0.9;
+}
+</style>
+
+    
+
+  <!-- BOTTOM BAR -->
+  <div class="footer-bottom">
+    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
+  </div>
+
+  <!-- SCROLL TO TOP -->
+  <button id="scrollTopBtn" title="Go to top">↑</button>
+</footer>
+
+<!-- SCROLL TO TOP -->
+  <script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+
+  const btn = document.getElementById("scrollTopBtn");
+
+  window.onscroll = () => {
+    btn.style.display = window.scrollY > 300 ? "block" : "none";
+  };
+
+  btn.onclick = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+</script>
+
+
+ 
+<script>
+  document.getElementById("year").textContent = new Date().getFullYear();
+</script>
+
+
+  
+  <script src="js/main.js"></script>
+
+
+  <!-- Booking Modal -->
+  <!-- ===================== BOOKING POPUP MODAL ===================== -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+
+    <h2>Conference Hall Booking Form</h2>
+
+    <form id="bookingForm">
+
+      <label>Name of Applicant (Full Name)</label>
+      <input type="text" name="applicantName" required>
+
+      <label>Telephone</label>
+      <input type="tel" name="telephone" required>
+
+      <label>Email</label>
+      <input type="email" name="email" required>
+
+      <label>Booking Type</label>
+      <select name="bookingType" required>
+        <option value="">Select Type</option>
+        <option value="Institution/Organization">Institution/Organization</option>
+        <option value="Personal">Personal</option>
+      </select>
+
+      <label>Name of Institution / Organization / Person</label>
+      <input type="text" name="institutionName" required>
+
+      <label>Number of Participants</label>
+      <input type="number" name="participants" required>
+
+      <label>Venue (Hall)</label>
+      <select name="venue" required>
+        <option value="">Select Hall</option>
+        <option value="Paul Effah Hall- Full Capacity">Paul Effah Hall- Full Capacity</option>
+        <option value="Paul Effah Hall- Ground Floor">Paul Effah Hall- Ground Floor</option>
+        <option value="Ahmed Jinapor Hall">Ahmed Jinapor Hall</option>
+        <option value="Nikoi Kotey Hall">Nikoi Kotey Hall</option>
+        <option value="Kwame Dattey Hall">Kwame Dattey Hall</option>
+        <option value="VIP">VIP</option>
+      </select>
+
+  <!-- ADDITIONAL SERVICES SECTION -->
+<div class="additional-services-container" style="border:1px solid #ccc; border-radius:8px; padding:15px; max-width:400px;">
+  <label style="font-weight:bold; display:block; margin-bottom:10px;">
+    Additional Services (Optional)
+  </label>
+
+  <div style="max-width:260px;">
+    <div class="checkbox-item">
+      <span>Changing Room</span>
+      <input type="checkbox" name="additionalServices[]" value="Changing Room">
+    </div>
+
+    <div class="checkbox-item">
+      <span>Rehearsals</span>
+      <input type="checkbox" name="additionalServices[]" value="Rehearsals">
+    </div>
+
+    <div class="checkbox-item">
+      <span>Dining Area</span>
+      <input type="checkbox" name="additionalServices[]" value="Dining Area">
+    </div>
+  </div>
+</div>
+
+      <style>
+        .checkbox-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+}
+
+      </style>
+
+
+<!-- RENTALS SECTION -->
+      <div class="rentals-section">
+<h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
+
+<div class="rentals-cards">
+
+  
+  <!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/standard_chair.jpg" alt="Tables">
+    <h4>Standard Chair</h4>
+
+    <input type="number" name="standardChair" min="0" placeholder="Quantity">
+  </div>
+
+  <!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/executive_chair.jpeg" alt="Tables">
+    <h4>Executive Chair</h4>
+
+    <input type="number" name="executiveChair" min="0" placeholder="Quantity">
+  </div>
+
+
+<!-- TABLES CARD -->
+  <div class="rental-card">
+    <img src="images/table.jpeg" alt="Tables">
+    <h4>Table</h4>
+
+    <input type="number" name="tableQty" min="0" placeholder="Quantity">
+  </div>
+  
+
+  <!-- TABLE + CLOTH CARD -->
+  <div class="rental-card">
+    <img src="images/table_with_cloth.jpeg" alt="Table with Cloth">
+    <h4>Table + Cloth</h4>
+
+    <input type="number" name="tableClothQty" min="0" placeholder="Quantity">
+  </div>
+
+<p>
+
+   <!-- Marquee Canopy -->
+  <div class="rental-card">
+    <img src="images/marquee-tent.webp" alt="Marquee Canopy">
+    <h4>Marquee Canopy (Available: 16/16 and 20/20)</h4>
+
+    <input type="number" name="marqueeCanopyQty" min="0" placeholder="Quantity">
+  </div>
+
+</div>
+      </div>
+      
+</p>
+        
+      <!-- //RENTALS SECTION -->
+
+
+
+      <label>Event Description</label>
+      <textarea name="eventDescription" rows="3" required></textarea>
+
+      <label>Event Start Date</label>
+      <input type="date" name="startDate" id="startDate" required>
+
+      <label>Event End Date</label>
+      <input type="date" name="endDate" id="endDate" required>
+
+      <label>Number of Days of Event</label>
+      <input type="number" name="days" id="eventDays" readonly>
+
+      <label>Time Event Starts</label>
+      <input type="time" name="startTime" required>
+
+      <label>Time Event Ends</label>
+      <input type="time" name="endTime" required>
+
+      <label>Recipient Name for Invoice</label>
+      <input type="text" name="invoiceName" required>
+
+      <label>Recipient Email for Invoice</label>
+      <input type="email" name="invoiceEmail" required>
+
+
+      <!-- GUIDELINES SECTION (MANDATORY) -->
+<div class="guidelines-box" style="border:1px solid #e74c3c; padding:15px; border-radius:8px; margin-top:20px;">
+  <h3 style="margin-top:0; color:#e74c3c;">📄 Booking Guidelines (Mandatory)</h3>
+
+  <p style="font-size:14px;">
+    Please download and read the booking guidelines before submitting your request.
+  </p>
+
+  <a
+    href="2026 Guidelines/Guidelines -2026.pdf"
+    download
+    id="downloadGuidelines"
+    class="guidelines-download"
+    style="display:inline-block; padding:10px 15px; background:#2c3e50; color:#fff; text-decoration:none; border-radius:5px; margin-bottom:10px;"
+  >
+    ⬇ Download Guidelines
+  </a>
+<div style="margin-top:10px; display:flex; align-items:center; gap:10px; font-size:14px;">
+  <input type="checkbox" id="guidelinesConfirm" disabled>
+
+  <label for="guidelinesConfirm" style="cursor:pointer; margin:0;">
+   <span style="font-weight:600;"> I have downloaded and read the booking guidelines</span>
+  </label>
+
+</div>
+</div>
+      <style>
+        #guidelinesConfirm {
+  width: auto !important;
+}
+
+label[for="guidelinesConfirm"] {
+  display: inline !important;
+}
+
+      </style>
+      
+      <button type="submit" class="submit-btn" id="submitBooking" disabled>
+  Submit Booking
+</button>
+
+      
+</form>
+
+    </div>
+</div>
+  
+
+<script>
+  loadingOverlay.classList.add('active'); // show
+loadingOverlay.classList.remove('active'); // hide
+
+</script>
+
+
+
+  <script>
+const menuToggle = document.getElementById("menuToggle");
+const mobileNav = document.getElementById("mobileNav");
+
+menuToggle.addEventListener("click", () => {
+  mobileNav.classList.toggle("show");
+  menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
+});
+</script>
+
+
+
+
+<!-- Your web app's Firebase configuration-->
+<!-- For Firebase JS SDK v7.20.0 and later, measurementId is optional-->
+  <script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA80t2tr136ihN57YQWwD4nYcPhyutACX4",
+  authDomain: "userlogin-44d0a.firebaseapp.com",
+  projectId: "userlogin-44d0a",
+  storageBucket: "userlogin-44d0a.firebasestorage.app",
+  messagingSenderId: "47108256134",
+  appId: "1:47108256134:web:60888fa5f06dfb075d3c07",
+  measurementId: "G-ZCVWTTFT2H"
+};
+
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+
+
+<script>
+document.getElementById("subscribeForm").addEventListener("submit", async function (e) {
+  e.preventDefault();
+
+  const email = this.email.value.trim().toLowerCase();
+  const msg = document.getElementById("subscribeMessage");
+
+  if (!email) return;
+
+  try {
+    await db.collection("subscriptions").add({
+      email: email,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+
+    msg.style.display = "block";
+    msg.textContent = "Subscribed successfully!";
+
+    this.reset();
+
+    // Hide message after 3 seconds
+    setTimeout(() => {
+      msg.style.display = "none";
+    }, 3000);
+
+  } catch (error) {
+    console.error("Subscription error:", error);
+    alert("Failed to subscribe. Please try again.");
+  }
+});
+
+</script>
+
+  <script>
+  const downloadBtn = document.getElementById("downloadGuidelines");
+  const confirmCheckbox = document.getElementById("guidelinesConfirm");
+  const submitBtn = document.getElementById("submitBooking");
+
+  let hasDownloaded = false;
+
+  // Detect guideline download click
+  downloadBtn.addEventListener("click", () => {
+    hasDownloaded = true;
+
+    // Enable confirmation checkbox after download
+    setTimeout(() => {
+      confirmCheckbox.disabled = false;
+    }, 500);
+  });
+
+  // Enable submit button only after confirmation
+  confirmCheckbox.addEventListener("change", () => {
+    submitBtn.disabled = !confirmCheckbox.checked;
+  });
+
+</script>
+
+    <script>
+const bookingForm = document.getElementById("bookingForm");
+const bookingModal = document.getElementById("bookingModal");
+const submissionOverlay = document.getElementById("submissionOverlay");
+const spinner = document.getElementById("spinner");
+const successCard = document.getElementById("successCard");
+
+bookingForm.addEventListener("submit", function (e) {
+  e.preventDefault();
+
+  /* 1. Close booking modal immediately */
+  bookingModal.style.display = "none";
+
+  /* 2. Show overlay + spinner */
+  submissionOverlay.style.display = "flex";
+  spinner.style.display = "block";
+  successCard.style.display = "none";
+
+  /* 3. Simulate submission delay */
+  setTimeout(() => {
+    spinner.style.display = "none";
+    successCard.style.display = "block";
+  }, 2000);
+
+  /* 4. Auto-hide success card + overlay */
+  setTimeout(() => {
+    submissionOverlay.style.display = "none";
+    successCard.style.display = "none";
+    bookingForm.reset();
+  }, 10000);
+});
+
+
+</script>
+  
+</body>
+</html>

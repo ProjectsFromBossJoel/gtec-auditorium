@@ -1,0 +1,822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Invoice Generator</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f5f7fa;
+    }
+    .container {
+      display: flex;
+      height: 100vh;
+    }
+    .form-section, .preview-section {
+      flex: 1;
+      padding: 20px;
+      overflow-y: auto;
+    }
+    .form-section {
+      background: #fff;
+      border-right: 2px solid #ddd;
+    }
+    .form-section h2, .preview-section h2 {
+      text-align: center;
+      margin-bottom: 15px;
+      color: #333;
+    }
+    label {
+      display: block;
+      margin-top: 10px;
+      font-weight: bold;
+      color: #444;
+    }
+    select, input, textarea {
+      width: 100%;
+      padding: 8px;
+      margin-top: 5px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+    }
+    .buttons-row {
+      display: flex;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    button {
+      padding: 10px 20px;
+      border: none;
+      border-radius: 6px;
+      background: #007bff;
+      color: #fff;
+      cursor: pointer;
+      font-weight: bold;
+      transition: transform .08s ease, background .12s ease;
+    }
+    button:hover {
+      transform: translateY(-2px);
+      background: #0056b3;
+    }
+    .view-btn {
+      background: #17a2b8;
+    }
+    .view-btn:hover {
+      background: #117a8b;
+    }
+    .invoice {
+      background: #fff;
+      border: 1px solid #ccc;
+      padding: 20px;
+      border-radius: 8px;
+      display: none;
+    }
+    .invoice-content {
+      position: relative;
+      z-index: 1;
+    }
+    #downloadBtn {
+      display: none;
+      margin-top: 10px;
+      background: #28a745;
+    }
+    #downloadBtn:hover {
+      background: #1e7e34;
+    }
+
+    /* Table defaults used inside modal */
+    .modal table {
+      width: 100%;
+      border-collapse: collapse;
+      table-layout: fixed; /* keep columns fixed so it doesn't expand beyond container */
+    }
+    .modal th, .modal td {
+      text-align: left;
+      padding: 8px;
+      word-wrap: break-word;
+      overflow-wrap: break-word;
+      border-bottom: 1px solid #e6e6e6;
+    }
+    .modal th {
+      background-color: #f7f7f7;
+      font-weight: 700;
+    }
+    /* Column widths */
+    .modal th:nth-child(1), .modal td:nth-child(1) { width: 18%; }  /* Invoice No. */
+    .modal th:nth-child(2), .modal td:nth-child(2) { width: 22%; }  /* Institution */
+    .modal th:nth-child(3), .modal td:nth-child(3) { width: 20%; }  /* Venue */
+    .modal th:nth-child(4), .modal td:nth-child(4) { width: 12%; }  /* Recipient */
+    .modal th:nth-child(5), .modal td:nth-child(5) { width: 12%; }  /* Total */
+    .modal th:nth-child(6), .modal td:nth-child(6) { width: 16%; }  /* Date */
+
+    /* Modal styles */
+    .modal {
+      display: none; /* hidden by default */
+      position: fixed;
+      z-index: 2000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      overflow: auto;
+      background-color: rgba(0,0,0,0.45);
+      padding: 40px 20px;
+      box-sizing: border-box;
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: auto;
+      padding: 18px;
+      border-radius: 8px;
+      max-width: 1000px;
+      width: 100%;
+      max-height: 80vh;
+      overflow: auto;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+    }
+    .modal-header {
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .modal h3 { margin: 0; }
+    .close {
+      background: transparent;
+      border: none;
+      font-size: 20px;
+      cursor: pointer;
+      padding: 6px 10px;
+      border-radius: 6px;
+    }
+    .close:hover { background: #f2f2f2; }
+
+    /* Responsive: stack table on smaller screens */
+    @media (max-width: 700px) {
+      .modal th, .modal td {
+        font-size: 13px;
+        padding: 6px;
+      }
+      .modal-content { padding: 12px; }
+    }
+
+    .modal td button {
+      padding: 6px 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 13px;
+      font-weight: 600;
+    }
+    .modal .view-btn-sm { background:#17a2b8; color:#fff; margin-right:4px; }
+    .modal .view-btn-sm:hover { background:#117a8b; }
+    .modal .download-btn-sm { background:#28a745; color:#fff; }
+    .modal .download-btn-sm:hover { background:#1e7e34; }
+
+    .invoice-header-info {
+      font-size: 13px;        /* smaller than default (usually 16px) */
+      line-height: 1.4;       /* keeps it readable */
+      margin-bottom: 10px;    /* small spacing before next section */
+    }
+    .invoice-header-info p {
+      margin: 2px 0;          /* reduce spacing between lines */
+    }
+
+    /* Style for the preview invoice number input */
+    #invoiceNo {
+      border: none;
+      background: transparent;
+      outline: none;
+      font-size: 14px;
+      font-weight: bold;
+      width: 160px;
+    }
+
+    /* Make invoiceId (form field) visually similar but editable */
+    #invoiceId {
+      font-weight: bold;
+    }
+
+    .signature-line {
+      width: 160px;
+      border-bottom: 1px solid #000;
+      height: 24px;
+      margin-top: 6px;
+    }
+
+  </style>
+</head>
+<body>
+  <div class="container">
+    <!-- LEFT: FORM -->
+    <div class="form-section">
+      <h2>Invoice Form</h2>
+
+      <!-- Institution -->
+      <label for="institutionSelect">Institution</label>
+      <select id="institutionSelect">
+        <option value="">-- Select Institution --</option>
+      </select>
+
+      <!-- Venue from Google Sheet -->
+      <label for="venueSelect">Venue Booked (From Institution)</label>
+      <select id="venueSelect">
+        <option value="">-- Select Venue --</option>
+      </select>
+
+      <!-- NEW: Venue for Cost -->
+      <label for="venueCostSelect">Venue Booked (For Cost)</label>
+      <select id="venueCostSelect">
+        <option value="">-- Select Venue --</option>
+        <option value="Effah Hall (Full Auditorium) - With Additional Services">Effah Hall (Full Auditorium) - With Additional Services</option>
+        <option value="Effah Hall (Full Auditorium) - No Additional Services">Effah Hall (Full Auditorium) - No Additional Services</option>
+        <option value="Effah Hall (Ground Floor) - With Additional Services">Effah Hall (Ground Floor) - With Additional Services</option>
+        <option value="Effah Hall (Ground Floor) - No Additional Services">Effah Hall (Ground Floor) - No Additional Services</option>
+        <option value="Ahmed Jinapor Hall">Ahmed Jinapor Hall</option>
+        <option value="Kwame Dattey Hall">Kwame Dattey Hall</option>
+        <option value="Nikoi Kotey Hall">Nikoi Kotey Hall</option>
+      </select>
+
+      <!-- Venue Cost -->
+      <label for="venueCostInput">Venue Cost</label>
+      <input type="number" id="venueCostInput" placeholder="Auto-filled Venue Cost" readonly>
+
+      <label for="serviceInput">Additional Services</label>
+      <select id="serviceInput">
+        <option value="">-- None --</option>
+        <option value="Additional Services">Additional Services</option>
+      </select>
+
+      <label for="recipientName">Invoice Recipient Name</label>
+      <input list="recipientNameList" id="recipientName" placeholder="Recipient Name">
+      <datalist id="recipientNameList"></datalist>
+
+      <div class="form-group">
+        <label for="invoiceLocation">Location:</label>
+        <textarea id="invoiceLocation" rows="1" placeholder="Enter location"></textarea>
+      </div>
+
+      <label for="recipientEmail">Invoice Recipient Email</label>
+      <input list="recipientEmailList" id="recipientEmail" placeholder="Recipient Email">
+      <datalist id="recipientEmailList"></datalist>
+
+      <label for="invoiceId">Invoice No.</label>
+      <!-- editable invoice id in form so user can overwrite before generation -->
+      <input type="text" id="invoiceId">
+
+      <label for="dated">Date</label>
+      <input type="date" id="dated">
+
+      <div class="form-group">
+        <label for="signatureName">Signature Name:</label>
+        <textarea id="signatureName" rows="1" placeholder="Name of signatory"></textarea>
+      </div>
+
+      <label for="totalInput">Total</label>
+      <input type="number" id="totalInput" placeholder="Total" readonly>
+
+      <!-- Buttons: Generate + View All Invoices -->
+      <div class="buttons-row">
+        <button id="generateBtn" onclick="generateInvoice()">Generate Invoice</button>
+        <button id="viewAllBtn" class="view-btn" title="View all invoices" onclick="openHistoryModal()">View All Invoices</button>
+      </div>
+
+    </div>
+
+    <!-- RIGHT: PREVIEW -->
+    <div class="preview-section">
+      <div id="invoice" class="invoice">
+        <div class="invoice-content">
+          <style>
+            /* small local style kept for invoice preview area */
+            #invoice { position: relative; }
+            #watermark { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.08; width: 120px; text-align: center; pointer-events: none; z-index: 0; }
+            #watermark img { width: 100%; }
+            .invoice-content { position: relative; z-index: 1; }
+          </style>
+
+          <!-- Header -->
+          <div class="invoice-header" style="text-align:center; margin:6px 0 12px 0;"></div>
+
+          <!-- Invoice -->
+          <table style="width:100%; border-collapse: collapse;">
+            <tr>
+              <td style="width:70%; vertical-align: top;">
+                <p><b>GTEC HOSPITALITY MANAGEMENT SERVICES</b></p>
+                <div class="invoice-header-info">
+                  <p><b>Contact:</b> 0244202959, 0244660848</p>
+                  <p><b>Email:</b> hospitality@gtec.edu.gh</p>
+                  <br>
+
+                  <p><strong>Invoice No.:</strong>
+                    <input type="text" id="invoiceNo" style="width:150px; border:none; background:transparent; outline:none; font-weight:bold;" />
+                  </p>
+
+                  <p><b>Date:</b> <span id="invDate"></span></p>
+                </div>
+              </td>
+            </tr>
+          </table>
+
+          <!-- Recipient details -->
+          <div style="margin: 20px 0;">
+            <p><strong></strong> <span id="billToName"></span></p>
+            <p><b></b> <span id="billToLocation"></span></p>
+            <p><strong></strong> <span id="billToEmail"></span></p>
+          </div>
+
+          <!-- Invoice Title -->
+          <h2 style="text-align:center; margin:10px 0;">INVOICE</h2>
+
+          <!-- Invoice items table -->
+          <table style="width:100%; border-collapse: collapse;" border="1" id="itemsTable">
+            <tr>
+              <th style="width:10%;">SI No.</th>
+              <th style="width:70%;">DESCRIPTION</th>
+              <th style="width:20%;">AMOUNT(GH₵)</th>
+            </tr>
+          </table>
+
+          <br><br><br>
+
+          <!-- Footer -->
+          <div style="font-size:16px;">
+            <p>Bank Name : <b>AGRICULTURAL DEVELOPMENT BANK</b></p>
+            <p>A/c Holder’s Name : <b>GTEC CONFERENCE</b></p>
+            <p>A/c No. : <b>0701010009158801</b></p>
+            <p>Branch : <b>Gulf House</b></p>
+          </div>
+
+          <br>
+          <p><i><b>KINDLY NOTE:</b></i></p>
+          <ol style="margin:0; padding-left:15px; font-size:15px; font-weight:bold;">
+            <li>A refundable Deposit of 10% of the total cost is required to be paid by cash</li>
+            <li>50% payment is required to secure the venue</li>
+            <li>Full payment should be made before the actual date of the programme</li>
+          </ol>
+
+          <br><br><br>
+
+          <div class="signature-section">
+            <div class="signature-line"></div>
+            <p id="signatureDisplay" style="margin-top:5px; font-weight:bold;"></p>
+          </div>
+          <p style="margin-top:3px; font-size:15px; font-weight:bold;">
+            AG. HEAD, HOSPITALITY MANAGEMENT SERVICES
+          </p>
+
+        </div>
+      </div>
+
+      <button id="downloadBtn">Download PDF</button>
+    </div>
+  </div>
+
+  <!-- Modal: Invoice History -->
+  <div id="historyModal" class="modal" aria-hidden="true">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h3>Generated Invoices</h3>
+        <div>
+          <button id="clearHistoryBtn" title="Clear history"
+                  style="margin-right:10px;padding:8px 12px;background:#dc3545;
+                         color:#fff;border:none;border-radius:6px;cursor:pointer;">Clear</button>
+          <button class="close" id="closeModalBtn" aria-label="Close">&times;</button>
+        </div>
+      </div>
+
+      <div class="modal-body" style="overflow-x:auto;">
+        <table id="modalInvoiceTable">
+          <thead>
+            <tr>
+              <th>Invoice No.</th>
+              <th>Date</th>
+              <th>Total (GHS)</th>
+              <th>Client</th>
+              <th>Status</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+
+      <div style="margin-top:12px; text-align:right;">
+        <button onclick="closeHistoryModal()"
+                style="background:#6c757d;padding:8px 14px;border-radius:6px;
+                       color:#fff;border:none;cursor:pointer;">Close</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const sheetCSV = "https://docs.google.com/spreadsheets/d/e/2PACX-1vR9htPtAQjzUItZtpzGxl71AVEqki52Kj6hqbxcenA1wEwQt0wuH5yB6gkv0Mx_UQki_MLnS5ZBRuey/pub?gid=201909864&single=true&output=csv";
+    let entries = [];
+
+    // Peek next invoice number WITHOUT incrementing stored counter
+    function peekNextInvoiceNo() {
+      const prefix = "GTEC-HMS";
+      const year = new Date().getFullYear().toString().slice(-2);
+      let lastNumber = parseInt(localStorage.getItem("lastInvoiceNumber") || "0", 10);
+      let nextNumber = lastNumber + 1;
+      const invoiceNumber = String(nextNumber).padStart(3, "0");
+      return `${prefix}-${year}-${invoiceNumber}`;
+    }
+
+    // Generate (and reserve) next invoice number (increments stored counter)
+    function generateInvoiceNo() {
+      const prefix = "GTEC-HMS";
+      const year = new Date().getFullYear().toString().slice(-2);
+      let lastNumber = parseInt(localStorage.getItem("lastInvoiceNumber") || "0", 10);
+      lastNumber = lastNumber + 1;
+      localStorage.setItem("lastInvoiceNumber", String(lastNumber));
+      const invoiceNumber = String(lastNumber).padStart(3, "0");
+      return `${prefix}-${year}-${invoiceNumber}`;
+    }
+
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        const res = await fetch(sheetCSV);
+        if (!res.ok) throw new Error("Failed to fetch CSV");
+        const csvText = await res.text();
+
+        const rows = csvText.trim().split("\n").map(r => r.split(","));
+        const headers = rows[0].map(h => h.trim().toLowerCase());
+
+        entries = rows.slice(1).map(r => {
+          const obj = {};
+          headers.forEach((h, i) => {
+            obj[h] = r[i] ? r[i].trim() : "";
+          });
+          return obj;
+        });
+
+        populateInstitutions();
+        populateRecipients();
+      } catch (err) {
+        console.error("Error:", err);
+        // Graceful fallback: still call populate functions
+        populateInstitutions();
+        populateRecipients();
+      }
+
+      // Set suggested invoice number in the form (editable) but don't reserve it yet.
+      const suggested = peekNextInvoiceNo();
+      document.getElementById("invoiceId").value = suggested;
+      // Show suggestion also in preview input so user sees it — still editable
+      document.getElementById("invoiceNo").value = suggested;
+    });
+
+    function populateRecipients() {
+      // defensive: ensure datalists exist
+      const nameList = document.getElementById("recipientNameList");
+      const emailList = document.getElementById("recipientEmailList");
+      if (!nameList || !emailList) return;
+
+      const nameSet = new Set(entries.map(e => e["recipient name"]).filter(Boolean));
+      const emailSet = new Set(entries.map(e => e["recipient email"]).filter(Boolean));
+      nameList.innerHTML = "";
+      emailList.innerHTML = "";
+      nameSet.forEach(name => {
+        const opt = document.createElement("option");
+        opt.value = name;
+        nameList.appendChild(opt);
+      });
+      emailSet.forEach(email => {
+        const opt = document.createElement("option");
+        opt.value = email;
+        emailList.appendChild(opt);
+      });
+    }
+
+    // keep recipient name/email auto-linking
+    document.getElementById("recipientName").addEventListener("input", function () {
+      const name = this.value;
+      const match = entries.find(e => e["recipient name"] === name);
+      if (match) {
+        document.getElementById("recipientEmail").value = match["recipient email"] || "";
+      }
+    });
+
+    document.getElementById("recipientEmail").addEventListener("input", function () {
+      const email = this.value;
+      const match = entries.find(e => e["recipient email"] === email);
+      if (match) {
+        document.getElementById("recipientName").value = match["recipient name"] || "";
+      }
+    });
+
+    // Fixed venueCosts - numbers must be numeric (no commas)
+    const venueCosts = {
+      "Effah Hall (Full Auditorium) - With Additional Services": 14000,
+      "Effah Hall (Full Auditorium) - No Additional Services": 12000,
+      "Effah Hall (Ground Floor) - With Additional Services": 12000,
+      "Effah Hall (Ground Floor) - No Additional Services": 10000,
+      "Ahmed Jinapor Hall": 5000,
+      "Kwame Dattey Hall": 3500,
+      "Nikoi Kotey Hall": 2500
+    };
+
+    document.getElementById("venueCostSelect").addEventListener("change", function () {
+      const selectedVenue = this.value;
+      const costInput = document.getElementById("venueCostInput");
+      if (venueCosts[selectedVenue] !== undefined) {
+        costInput.value = Number(venueCosts[selectedVenue]).toFixed(2);
+      } else {
+        costInput.value = "";
+      }
+    });
+
+    function populateInstitutions() {
+      const instSet = new Set(entries.map(e => e["name of institution"]).filter(Boolean));
+      const instSelect = document.getElementById("institutionSelect");
+      if (!instSelect) return;
+      instSelect.innerHTML = '<option value="">-- Select Institution --</option>';
+      instSet.forEach(inst => {
+        const opt = document.createElement("option");
+        opt.value = inst;
+        opt.textContent = inst;
+        instSelect.appendChild(opt);
+      });
+      instSelect.onchange = onInstitutionChange;
+    }
+
+    function onInstitutionChange() {
+      const inst = document.getElementById("institutionSelect").value;
+      const venueSelect = document.getElementById("venueSelect");
+      venueSelect.innerHTML = '<option value="">-- Select Venue --</option>';
+      if (!inst) {
+        venueSelect.disabled = true;
+        return;
+      }
+      const filtered = entries.filter(e => e["name of institution"] === inst);
+      if (filtered.length > 0) {
+        document.getElementById("recipientName").value = filtered[0]["recipient name"] || "";
+        document.getElementById("recipientEmail").value = filtered[0]["recipient email"] || "";
+      }
+      filtered.forEach(e => {
+        const vOpt = document.createElement("option");
+        vOpt.value = e["venue booked"];
+        vOpt.textContent = e["venue booked"];
+        venueSelect.appendChild(vOpt);
+      });
+      venueSelect.disabled = false;
+    }
+
+    function generateInvoice() {
+      const venue = document.getElementById("venueSelect").value;
+      const service = document.getElementById("serviceInput").value.trim();
+      const recipientName = document.getElementById("recipientName").value.trim();
+      const invoiceLocation = document.getElementById("invoiceLocation").value;
+      const recipientEmail = document.getElementById("recipientEmail").value.trim();
+      let chosenInvoiceNo = document.getElementById("invoiceId").value.trim();
+      const dateVal = document.getElementById("dated").value || new Date().toLocaleDateString();
+      const venueCost = parseFloat(document.getElementById("venueCostInput").value) || 0;
+
+      // If user left invoiceId empty, or it equals the peek suggestion, reserve the next numbered invoice.
+      const suggested = peekNextInvoiceNo();
+      if (!chosenInvoiceNo || chosenInvoiceNo === suggested) {
+        // This will increment and reserve the next number
+        chosenInvoiceNo = generateInvoiceNo();
+        document.getElementById("invoiceId").value = chosenInvoiceNo;
+      }
+      // Otherwise we assume user provided a custom invoice id — do not increment stored counter
+
+      // show chosen invoice number in preview input
+      document.getElementById("invoiceNo").value = chosenInvoiceNo;
+      document.getElementById("invoiceId").value = chosenInvoiceNo;
+      document.getElementById("invDate").textContent = dateVal;
+
+      // Recipient
+      document.getElementById("billToName").textContent = recipientName;
+      document.getElementById("billToLocation").textContent = invoiceLocation || "";
+      document.getElementById("billToEmail").textContent = recipientEmail;
+
+      // Build items
+      let items = [];
+      if (venue) items.push({ desc: venue, amount: venueCost });
+      if (service === "Additional Services") {
+        items.push({ desc: service, amount: "" }); // empty instead of 0.00
+      }
+
+      // Calculate total only from numeric amounts
+      let totalCost = items.reduce((sum, item) => sum + (typeof item.amount === "number" ? item.amount : 0), 0);
+
+      // Build rows
+      let rowsHTML = "";
+      if (venue) {
+        rowsHTML += `
+          <tr>
+            <td>1</td>
+            <td>
+              ${venue}
+              ${service === "Additional Services" ? "<br><span style='font-style:italic;'>Additional Services</span>" : ""}
+            </td>
+            <td>${venueCost.toFixed(2)}</td>
+          </tr>
+        `;
+      }
+
+      rowsHTML += `
+        <tr>
+          <td colspan="2" style="text-align:right;"><b>TOTAL</b></td>
+          <td>${totalCost.toFixed(2)}</td>
+        </tr>
+      `;
+
+      document.getElementById("itemsTable").innerHTML = `
+        <tr>
+          <th style="width:10%;">SI No.</th>
+          <th style="width:70%;">DESCRIPTION</th>
+          <th style="width:20%;">AMOUNT</th>
+        </tr>
+        ${rowsHTML}
+      `;
+
+      // Show total in left form too 
+      document.getElementById("totalInput").value = totalCost.toFixed(2);
+
+      document.getElementById("invoice").style.display = "block";
+      document.getElementById("downloadBtn").style.display = "inline-block";
+
+      const signatureText = document.getElementById("signatureName").value.trim();
+      document.getElementById("signatureDisplay").textContent = signatureText;
+
+      // Save invoice to history (use chosenInvoiceNo)
+      saveInvoiceToHistory({
+        number: chosenInvoiceNo,
+        institution: document.getElementById("institutionSelect").value || "N/A",
+        venue: venue,
+        recipient: recipientName,
+        location: invoiceLocation,
+        total: totalCost.toFixed(2),
+        date: dateVal,
+        signature: signatureText
+      });
+    }
+
+    
+    // attach download handler (button exists in DOM)
+document.getElementById("downloadBtn").addEventListener("click", () => {
+  const institution = document.getElementById("institutionSelect").value || "Institution";
+  const invoiceNo = document.getElementById("invoiceNo").value || "INV";
+  const today = new Date();
+  const dateStr = today.getFullYear() + "-" +
+                  String(today.getMonth() + 1).padStart(2, "0") + "-" +
+                  String(today.getDate()).padStart(2, "0");
+
+  const fileName = `GTEC_Invoice_${invoiceNo}_${institution}_${dateStr}.pdf`
+                    .replace(/\s+/g, "_");
+
+  const invoiceElem = document.getElementById("invoice");
+
+  // 1️⃣ Generate PDF as base64
+  html2pdf()
+    .from(invoiceElem)
+    .outputPdf("datauristring")
+    .then(pdfDataUri => {
+      const base64 = pdfDataUri.split(",")[1];
+
+      // 2️⃣ Download to user's device (same as before)
+      html2pdf().from(invoiceElem).save(fileName);
+
+      // 3️⃣ Upload to Google Drive (background)
+      fetch("https://script.google.com/macros/s/AKfycbxcJLWeemy7PRYliGDHeSYa7BCIlOUsVzuAHFCvQIKQ8U_R2QkxneVQqNV6b_EgFj5k/exec", {
+  method: "POST",
+  mode: "no-cors",
+  body: JSON.stringify({
+    pdf: base64,
+    fileName: fileName,
+    invoiceNo: invoiceNo,
+    institution: institution
+  })
+})
+.then(() => {
+  console.log("Drive upload sent ✔");
+})
+.catch(err => {
+  console.error("Drive upload failed ❌", err);
+});
+
+    });
+});
+
+    
+
+    // Save invoice record to localStorage
+    function saveInvoiceToHistory(invoice) {
+      const history = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+      history.push(invoice);
+      localStorage.setItem("invoiceHistory", JSON.stringify(history));
+    }
+
+    // --- Open / Close modal ---
+    function openHistoryModal() {
+      populateModalInvoiceHistory();
+      const modal = document.getElementById("historyModal");
+      modal.style.display = "block";
+      modal.setAttribute("aria-hidden", "false");
+    }
+    function closeHistoryModal() {
+      const modal = document.getElementById("historyModal");
+      modal.style.display = "none";
+      modal.setAttribute("aria-hidden", "true");
+    }
+    document.getElementById("closeModalBtn").addEventListener("click", closeHistoryModal);
+    document.getElementById("historyModal").addEventListener("click", e => {
+      if (e.target === e.currentTarget) closeHistoryModal();
+    });
+
+    // --- Populate table with localStorage invoices ---
+    function populateModalInvoiceHistory() {
+      const history = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+      const tbody = document.querySelector("#modalInvoiceTable tbody");
+      tbody.innerHTML = "";
+
+      if (history.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="6" style="text-align:center;padding:18px;">No invoices found</td></tr>`;
+        return;
+      }
+
+      history.slice().reverse().forEach((inv, idx) => {
+        const row = document.createElement("tr");
+        const status = "Completed"; // static, can extend later
+        row.innerHTML = `
+          <td>${inv.number}</td>
+          <td>${inv.date}</td>
+          <td>${inv.total}</td>
+          <td>${inv.recipient}</td>
+          <td>${status}</td>
+          <td>
+            <button class="view-btn-sm" onclick="viewInvoiceFromHistory('${inv.number}')">View</button>
+            <button class="download-btn-sm" onclick="downloadInvoiceFromHistory('${inv.number}')">Download</button>
+          </td>`;
+        tbody.appendChild(row);
+      });
+    }
+
+    // --- Clear history ---
+    document.getElementById("clearHistoryBtn").addEventListener("click", () => {
+      if (!confirm("Clear all saved invoice history? This cannot be undone.")) return;
+      localStorage.removeItem("invoiceHistory");
+      populateModalInvoiceHistory();
+    });
+
+    // --- Reopen a saved invoice preview ---
+    function viewInvoiceFromHistory(invNumber) {
+      const history = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+      const invoice = history.find(h => h.number === invNumber);
+      if (!invoice) return alert("Invoice not found.");
+      closeHistoryModal();
+
+      // Restore basic data to preview area and to form so user can edit if needed
+      document.getElementById("invoice").style.display = "block";
+      document.getElementById("downloadBtn").style.display = "inline-block";
+
+      // Put invoice number into both preview input and form input
+      document.getElementById("invoiceNo").value = invoice.number;
+      document.getElementById("invoiceId").value = invoice.number;
+
+      document.getElementById("invDate").textContent = invoice.date;
+      document.getElementById("billToName").textContent = invoice.recipient;
+      document.getElementById("billToLocation").textContent = invoice.location || "";
+      document.getElementById("billToEmail").textContent = ""; // optional if stored later
+      document.getElementById("signatureDisplay").textContent = invoice.signature || "";
+
+      document.getElementById("itemsTable").innerHTML = `
+        <tr><th>SI No.</th><th>DESCRIPTION</th><th>AMOUNT</th></tr>
+        <tr><td>1</td><td>${invoice.venue}</td><td>${invoice.total}</td></tr>
+        <tr><td colspan="2" style="text-align:right;"><b>TOTAL</b></td>
+            <td><b>${invoice.total}</b></td></tr>`;
+    }
+
+    // --- Direct download from modal ---
+    function downloadInvoiceFromHistory(invNumber) {
+      const history = JSON.parse(localStorage.getItem("invoiceHistory")) || [];
+      const invoice = history.find(h => h.number === invNumber);
+      if (!invoice) return alert("Invoice not found.");
+
+      // Reopen preview (so invoice DOM is filled) then export
+      viewInvoiceFromHistory(invNumber);
+      const invoiceElem = document.getElementById("invoice");
+      const fileName = `GTEC_Invoice_${invoice.number}.pdf`;
+      html2pdf().from(invoiceElem).save(fileName);
+    }
+
+    // --- Signature sync (live update) ---
+    document.getElementById("signatureName").addEventListener("input", function() {
+      document.getElementById("signatureDisplay").textContent = this.value;
+    });
+
+  </script>
+</body>
+</html>
+
+
+
+

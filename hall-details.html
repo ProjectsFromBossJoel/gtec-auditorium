@@ -1,0 +1,66 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Hall Details — GTEC</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <header class="site-header">
+  <div class="container header-inner">
+
+    <div class="brand">
+      <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
+      <span class="brand-name">GTEC Conference Facility</span>
+    </div>
+
+    <!-- Hamburger Icon (Mobile only) -->
+    <div class="menu-toggle" id="menuToggle">
+      ☰
+    </div>
+
+    <nav class="nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="halls.html">Halls</a>
+      <a href="about.html">About</a>
+      <a href="contact.html">Contact</a>
+      <a href="policies.html">Policies</a>
+      <a href="https://gtecconferencefacility.netlify.app/" class="hide-mobile">Admin</a>
+    </nav>
+
+    <div class="actions">
+      <button class="book-now-btn" id="openBooking">Book Now</button>
+    </div>
+
+  </div>
+</header>
+
+
+  <main class="container">
+    <div id="hallContent"></div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div>© <span id="year3"></span> GTEC. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <script src="js/main.js"></script>
+
+  <script>
+const menuToggle = document.getElementById("menuToggle");
+const mobileNav = document.getElementById("mobileNav");
+
+menuToggle.addEventListener("click", () => {
+  mobileNav.classList.toggle("show");
+  menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
+});
+</script>
+
+  
+</body>
+</html>
