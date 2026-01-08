@@ -1,5 +1,7 @@
 {
   "projects": {
-    "default": "mood-list-c0c4f"
-  }
+    "default": "gtec-auditorium"
+  },
+  "targets": {},
+  "etags": {}
 }
