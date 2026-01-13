@@ -207,81 +207,149 @@
       
     </section>
 
-    
 
-<section class="container programs-section">
-  <h2 class="section-title">Our Latest News</h2>
 
-  <div class="programs-grid">
+    <!-- Gallery Section -->
 
-    <!-- Program Card 1 -->
-    <article class="program-card">
-      <img src="programs/news/news2.jpeg" alt="Leadership Seminar">
+<section class="gallery-section">
+  <h2>View Our <span>Gallery</span></h2>
 
-      <div class="program-content">
-        <div class="program-meta">
-          <span class="date">May 17, 2025</span>
-          <span class="tag">GTEC</span>
-          <span class="tag">MOE</span>
-        </div>
+  <!-- Filter Buttons -->
+  <div class="gallery-filters">
+    <button class="active" data-filter="all">All</button>
+    <button data-filter="photos">Photos</button>
+    <button data-filter="campus">Campus</button>
+    <button data-filter="students">Students</button>
+    <button data-filter="teachers">Teachers</button>
+  </div>
 
-        <h3>GTEC Launches National Distance Learning Policy to Enhance Standards</h3>
+  <!-- Gallery Grid -->
+  <div class="gallery-grid">
+    <div class="gallery-item campus">
+      <img src="gallery/jinapor-112.jpeg" alt="Library">
+    </div>
 
-        <p>
-          GTEC Launches National Distance Learning Policy to Enhance Standards.
-        </p>
+    <div class="gallery-item students">
+      <img src="gallery/dattey_101.jpeg" alt="Graduation">
+    </div>
 
-        
-      </div>
-    </article>
+    <div class="gallery-item teachers">
+      <img src="gallery/nikoi_hall-1.jpeg" alt="Lecture Hall">
+    </div>
 
-    <!-- Program Card 2 -->
-    <article class="program-card">
-      <img src="programs/news/news1.jpeg" alt="ICT Workshop">
+    <div class="gallery-item students">
+      <img src="gallery/paul-effah_full_auditorium.jpeg" alt="Students Studying">
+    </div>
 
-      <div class="program-content">
-        <div class="program-meta">
-          <span class="date">April 15, 2025</span>
-          <span class="tag">GTEC</span>
-          <span class="tag">VCG</span>
-        </div>
+    <div class="gallery-item photos">
+      <img src="gallery/dattey_103.jpeg" alt="Discussion">
+    </div>
 
-        <h3>Vice Chancellors Ghana (VCG) Engage GTEC on Perfecting Tertiary Educational Delivery in Ghana</h3>
-
-        <p>
-          Vice Chancellors Ghana (VCG) Engage GTEC on Perfecting Tertiary Education.
-        </p>
-
-       
-      </div>
-    </article>
-
-    <!-- Program Card 3 -->
-    <article class="program-card">
-      <img src="programs/news/news3.jpeg" alt="Academic Conference">
-
-      <div class="program-content">
-        <div class="program-meta">
-          <span class="date">March 10, 2025</span>
-          <span class="tag">GTEC</span>
-          <span class="tag">Conference Facility</span>
-        </div>
-
-        <h3>GTEC CONFERENCE FACILITY, BOOK NOW</h3>
-
-        <p>
-          GTEC CONFERENCE FACILITY, BOOK NOW.
-        </p>
-
-        
-      </div>
-    </article>
-
+    <div class="gallery-item campus">
+      <img src="gallery/paul-effah_ground-floor_14.jpeg" alt="Bookshelf">
+    </div>
   </div>
 </section>
 
 
+
   </main>
+
+
+  <style>
+    .gallery-section {
+  padding: 60px 20px;
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+}
+
+.gallery-section h2 {
+  font-size: 32px;
+  margin-bottom: 20px;
+}
+
+.gallery-section h2 span {
+  color: #2ecc71;
+}
+
+/* Filters */
+.gallery-filters {
+  margin-bottom: 30px;
+}
+
+.gallery-filters button {
+  background: none;
+  border: none;
+  padding: 8px 16px;
+  margin: 0 5px;
+  cursor: pointer;
+  font-weight: 500;
+  border-radius: 20px;
+}
+
+.gallery-filters button.active,
+.gallery-filters button:hover {
+  background: #2ecc71;
+  color: #fff;
+}
+
+/* Grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 20px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.gallery-item {
+  border-radius: 12px;
+  overflow: hidden;
+  transition: transform 0.3s ease;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.gallery-item:hover {
+  transform: scale(1.03);
+}
+
+/* Hide items */
+.gallery-item.hide {
+  display: none;
+}
+
+  </style>
+
+  <script>
+  const buttons = document.querySelectorAll(".gallery-filters button");
+  const items = document.querySelectorAll(".gallery-item");
+
+  buttons.forEach(button => {
+    button.addEventListener("click", () => {
+      buttons.forEach(btn => btn.classList.remove("active"));
+      button.classList.add("active");
+
+      const filter = button.dataset.filter;
+
+      items.forEach(item => {
+        if (filter === "all" || item.classList.contains(filter)) {
+          item.classList.remove("hide");
+        } else {
+          item.classList.add("hide");
+        }
+      });
+    });
+  });
+</script>
+
+
+
 
 
  <!-- Footer -->
