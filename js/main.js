@@ -7,26 +7,6 @@ document.addEventListener("DOMContentLoaded", function () {
   function showLoader() { if (loadingOverlay) loadingOverlay.style.display = "flex"; }
   function hideLoader() { if (loadingOverlay) loadingOverlay.style.display = "none"; }
 
-  // ==================================================
-// STREAMING TOGGLE LOGIC
-// ==================================================
-const streamingSelect = document.getElementById("streamingSelect");
-const streamingPlatformWrapper = document.getElementById("streamingPlatformWrapper");
-const streamingPlatform = document.getElementById("streamingPlatform");
-
-if (streamingSelect) {
-  streamingSelect.addEventListener("change", function () {
-    if (this.value === "Yes") {
-      streamingPlatformWrapper.style.display = "block";
-      streamingPlatform.required = true;
-    } else {
-      streamingPlatformWrapper.style.display = "none";
-      streamingPlatform.required = false;
-      streamingPlatform.value = "";
-    }
-  });
-}
-
 
   // ==================================================
   // HELPER FUNCTIONS (SAFE DATE & TIME FORMAT)
@@ -169,6 +149,7 @@ if (streamingSelect) {
         institutionName: formData.get('institutionName'),
         participants: formData.get('participants'),
         venue: formData.get('venue'),
+        streaming: formData.get('streaming'),
         additionalServices: services.length ? services.join(", ") : "None",
         standardChair: formData.get('standardChair') || "0",
         executiveChair: formData.get('executiveChair') || "0",
@@ -183,13 +164,7 @@ if (streamingSelect) {
         startTime: formatTime12H(formData.get('startTime')),
         endTime: formatTime12H(formData.get('endTime')),
         invoiceName: formData.get('invoiceName'),
-        invoiceEmail: formData.get('invoiceEmail'),
-
-        streaming: formData.get('streaming'),
-streamingPlatform: formData.get('streaming') === "Yes"
-  ? formData.get('streamingPlatform')
-  : "N/A",
-
+        invoiceEmail: formData.get('invoiceEmail')
       };
 
       saveLocal(booking);
