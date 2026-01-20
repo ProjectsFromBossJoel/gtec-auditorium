@@ -149,7 +149,6 @@ document.addEventListener("DOMContentLoaded", function () {
         institutionName: formData.get('institutionName'),
         participants: formData.get('participants'),
         venue: formData.get('venue'),
-        streaming: formData.get('streaming'),
         additionalServices: services.length ? services.join(", ") : "None",
         standardChair: formData.get('standardChair') || "0",
         executiveChair: formData.get('executiveChair') || "0",
@@ -164,7 +163,8 @@ document.addEventListener("DOMContentLoaded", function () {
         startTime: formatTime12H(formData.get('startTime')),
         endTime: formatTime12H(formData.get('endTime')),
         invoiceName: formData.get('invoiceName'),
-        invoiceEmail: formData.get('invoiceEmail')
+        invoiceEmail: formData.get('invoiceEmail'),
+        streaming: formData.get('streaming')
       };
 
       saveLocal(booking);
