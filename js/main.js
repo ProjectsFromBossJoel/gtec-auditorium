@@ -164,7 +164,8 @@ document.addEventListener("DOMContentLoaded", function () {
         endTime: formatTime12H(formData.get('endTime')),
         invoiceName: formData.get('invoiceName'),
         invoiceEmail: formData.get('invoiceEmail'),
-        streaming: formData.get('streaming')
+        streaming: formData.get('streaming'),
+        useOurWiFi: formData.get('useOurWiFi') === "on" ? "Yes" : "No"
       };
 
       saveLocal(booking);
