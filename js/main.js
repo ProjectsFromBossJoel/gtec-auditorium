@@ -65,14 +65,15 @@ document.addEventListener("DOMContentLoaded", function () {
   // ==================================================
   const bookingModal = document.getElementById('bookingModal');
   const closeBtn = document.getElementById('closeModal');
+function openBookingModal(defaultHall = "") {
+  if (!bookingModal) return;
 
-  function openBookingModal(defaultHall = "") {
-    if (!bookingModal) return;
-    bookingModal.style.display = "block";
+  bookingModal.style.display = "flex"; // ✅ MUST be flex
 
-    const venueSelect = bookingModal.querySelector('select[name="venue"]');
-    if (venueSelect && defaultHall) venueSelect.value = defaultHall;
-  }
+  const venueSelect = bookingModal.querySelector('select[name="venue"]');
+  if (venueSelect && defaultHall) venueSelect.value = defaultHall;
+}
+
 
   function closeBookingModal() {
     if (!bookingModal) return;
