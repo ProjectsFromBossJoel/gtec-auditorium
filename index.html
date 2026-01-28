@@ -209,9 +209,7 @@
 
 
     <!-- Reviews Section -->
-     <!Doctype html>
-<body>
-
+  
 <section class="reviews-section">
   <h2>Reviews</h2>
 
@@ -317,49 +315,59 @@
   </div>
 </section>
 
+<!-- Reviews Section -->
 <style>
+
 .reviews-section {
   padding: 60px 20px;
   text-align: center;
   background: #fff;
 }
 
-.rating-summary {
+.reviews-section h2 {
   margin-bottom: 30px;
-  font-size: 18px;
-  color: #f4b400;
+  font-size: 28px;
 }
 
-.rating-summary span {
-  display: block;
-  font-size: 14px;
-  color: #555;
-}
-
+/* ===== Wrapper ===== */
 .reviews-wrapper {
   position: relative;
   max-width: 1100px;
   margin: auto;
 }
 
+/* ===== Scroll Container ===== */
 .reviews-container {
   display: flex;
   gap: 20px;
-  overflow-x: hidden;
+  overflow-x: auto;
   scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  padding: 10px 0;
+
+  /* Hide scrollbar */
+  scrollbar-width: none;       /* Firefox */
 }
 
+.reviews-container::-webkit-scrollbar {
+  display: none;               /* Chrome, Safari */
+}
+
+/* ===== Review Card ===== */
 .review-card {
+  flex: 0 0 auto;
   min-width: 320px;
   background: #fafafa;
   padding: 25px;
   border-radius: 12px;
   box-shadow: 0 6px 20px rgba(0,0,0,0.08);
   text-align: left;
+  scroll-snap-align: start;
 }
 
 .review-card h4 {
   margin-bottom: 5px;
+  font-size: 16px;
 }
 
 .stars {
@@ -380,7 +388,7 @@
   color: #777;
 }
 
-/* Navigation Buttons */
+/* ===== Navigation Buttons ===== */
 .nav-btn {
   position: absolute;
   top: 50%;
@@ -392,28 +400,32 @@
   cursor: pointer;
   box-shadow: 0 4px 10px rgba(0,0,0,0.15);
   border-radius: 50%;
+  z-index: 5;
 }
 
 .nav-btn.left {
-  left: -15px;
+  left: -20px;
 }
 
 .nav-btn.right {
-  right: -15px;
+  right: -20px;
 }
 
-
-
-#scrollTopBtn:hover {
-  background: #f0f0f0;
-}
-
-/* Mobile */
+/* ===== Mobile Fixes ===== */
 @media (max-width: 600px) {
-  .footer-grid {
-    text-align: left;
+  .review-card {
+    min-width: 85%;
+  }
+
+  .nav-btn.left {
+    left: 5px;
+  }
+
+  .nav-btn.right {
+    right: 5px;
   }
 }
+
 </style>
 
 
