@@ -208,6 +208,243 @@
     </section>
 
 
+    <!-- Reviews Section -->
+     <!Doctype html>
+<body>
+
+<section class="reviews-section">
+  <h2>Reviews</h2>
+
+  <div class="reviews-wrapper">
+    <button class="nav-btn left" onclick="scrollReviews(-1)">&#10094;</button>
+
+    <div class="reviews-container" id="reviewsContainer">
+      <div class="review-card">
+        <h4>Antwi Prince</h4>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>
+          “Paul Effah Hall at GTEC Conference Facility provided an excellent experience.
+	 The sound, lighting and seating arrangement were all top class. Highly recommended☺️.”
+        </p>
+        <span class="source">4/08/2025</span>
+      </div>
+<div class="review-card">
+        <h4>Jessica Armah</h4>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>
+         “The Jinapor Hall is a well-organized and comfortable venue. 
+	The acoustics were clear, the environment was welcoming
+	 and the seating layout worked perfectly for our event.”
+        </p>
+        <span class="source">10/08/2025</span>
+      </div>
+
+<div class="review-card">
+        <h4>Isaac Smith</h4>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>
+          “Thanks👏👏 to its dedicated technical support team, GTEC Conference Facility handles even the most complex conferences effortlessly.”
+        </p>
+        <span class="source">14/08/2025</span>
+      </div>
+
+
+<div class="review-card">
+        <h4>Kwame Asare</h4>
+        <div class="stars">⭐⭐⭐⭐</div>
+        <p>
+          “Kwame Dattey Hall was an excellent choice for our seminar. 
+	The hall was spacious, well-arranged, and created a focused environment
+	 that supported smooth presentations and discussions.”
+        </p>
+        <span class="source">23/09/2025</span>
+      </div>
+
+<div class="review-card">
+        <h4>Richard D. Anim</h4>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>
+          “Paul Effah Hall is the perfect venue for large academic conferences — spacious, modern
+	 and fully equipped to host unforgettable events.🙌☺️”
+        </p>
+        <span class="source">18/12/2025</span>
+      </div>
+
+
+      <div class="review-card">
+        <h4>Nana Akua</h4>
+        <div class="stars">⭐⭐⭐⭐</div>
+        <p>
+          “Very spacious and professional environment. Booking process
+          was smooth and staff were helpful🌟.”
+        </p>
+        <span class="source">25/12/2025</span>
+      </div>
+
+      <div class="review-card">
+        <h4>Samuel Owusu</h4>
+        <div class="stars">⭐⭐⭐⭐</div>
+        <p>
+          “With ample parking, top-notch security, and a well-organized layout, GTEC Conference Facility
+	 makes hosting large institutional conferences smooth and hassle-free.”
+        </p>
+        <span class="source">9/01/2026</span>
+      </div>
+
+
+<div class="review-card">
+        <h4>Edmund Seyram</h4>
+        <div class="stars">⭐⭐⭐⭐⭐</div>
+        <p>
+          “A premier venue for big conferences, professional, accessible and designed to impress every attendee.”
+        </p>
+        <span class="source">15/01/2026</span>
+      </div>
+
+
+<div class="review-card">
+        <h4>Jennifer Appiah</h4>
+        <div class="stars">⭐⭐⭐⭐</div>
+        <p>
+          “With top-notch security, easy access and comfortable seating, GTEC Conference Facility is the perfect venue for prestigious conferences.”
+        </p>
+        <span class="source">21/01/2026</span>
+      </div>
+
+    </div>
+
+    <button class="nav-btn right" onclick="scrollReviews(1)">&#10095;</button>
+  </div>
+</section>
+
+<style>
+.reviews-section {
+  padding: 60px 20px;
+  text-align: center;
+  background: #fff;
+}
+
+.rating-summary {
+  margin-bottom: 30px;
+  font-size: 18px;
+  color: #f4b400;
+}
+
+.rating-summary span {
+  display: block;
+  font-size: 14px;
+  color: #555;
+}
+
+.reviews-wrapper {
+  position: relative;
+  max-width: 1100px;
+  margin: auto;
+}
+
+.reviews-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
+
+.review-card {
+  min-width: 320px;
+  background: #fafafa;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.08);
+  text-align: left;
+}
+
+.review-card h4 {
+  margin-bottom: 5px;
+}
+
+.stars {
+  color: #f4b400;
+  margin-bottom: 10px;
+}
+
+.review-card p {
+  font-size: 14px;
+  line-height: 1.6;
+  color: #333;
+}
+
+.source {
+  display: block;
+  margin-top: 12px;
+  font-size: 13px;
+  color: #777;
+}
+
+/* Navigation Buttons */
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: #fff;
+  border: none;
+  font-size: 22px;
+  padding: 10px 15px;
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+  border-radius: 50%;
+}
+
+.nav-btn.left {
+  left: -15px;
+}
+
+.nav-btn.right {
+  right: -15px;
+}
+
+</style>
+
+
+<script>
+  const container = document.getElementById("reviewsContainer");
+  const scrollAmount = 350;
+  let autoScroll;
+
+  function scrollReviews(direction) {
+    container.scrollLeft += direction * scrollAmount;
+  }
+
+  function startAutoScroll() {
+    autoScroll = setInterval(() => {
+      // If at the end, go back to start
+      if (
+        container.scrollLeft + container.clientWidth >=
+        container.scrollWidth
+      ) {
+        container.scrollLeft = 0;
+      } else {
+        container.scrollLeft += scrollAmount;
+      }
+    }, 5000); // 5 seconds
+  }
+
+  function stopAutoScroll() {
+    clearInterval(autoScroll);
+  }
+
+  // Start auto sliding
+  startAutoScroll();
+
+  // Pause when user hovers
+  container.addEventListener("mouseenter", stopAutoScroll);
+  container.addEventListener("mouseleave", startAutoScroll);
+</script>
+
+
+
+</body>
+</html>
+
 
     <!-- Gallery Section -->
 
