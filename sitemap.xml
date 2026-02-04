@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/</loc>
+    <priority>1.0</priority>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/about.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/contact.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/contact-us.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/halls.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/hall-details.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/jinapor-hall.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/kwame-dattey-hall.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/nikoi-kottey-hall.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/paul-effah-ground-floor.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/paul-effah-full-capacity.html</loc>
+  </url>
+
+  <url>
+    <loc>https://gtec-auditorium.web.app/policies.html</loc>
+  </url>
+
+</urlset>
