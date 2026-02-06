@@ -92,21 +92,25 @@
             <p class="lead">Modern, fully-equipped venues with configurable seating and optional services. Book with ease for corporate events, seminars, exams and special occasions.</p>
 
            
-             <a href="https://drive.google.com/file/d/1dcAUQvnBytkOHEyEQsSDld8idSxn84cy/preview" target="_blank">
-           <button class="btn btn-primary" onclick="openDocumentPreview()">
-  View Guidelines
-</button></a>
-            
-            <button class="btn btn-secondary" id="openBookingHero" onclick="openBookingModal(' ')">Book Now</button>
-            <div class="video-action">
-  <!-- Play Button -->
-  <div class="play-btn" onclick="openVideo()">
-    <span class="pulse"></span>
-    <span class="icon">&#9658;</span>
+<div class="hero-actions">
+
+  <a href="https://drive.google.com/file/d/1dcAUQvnBytkOHEyEQsSDld8idSxn84cy/preview" target="_blank">
+    <button class="btn btn-primary">View Guidelines</button>
+  </a>
+
+  <button class="btn btn-secondary" id="openBookingHero"
+    onclick="openBookingModal(' ')">Book Now</button>
+
+  <div class="video-action" onclick="openVideo()">
+    <div class="play-btn">
+      <span class="pulse"></span>
+      <span class="icon">&#9658;</span>
+    </div>
+    <span class="play-text">Play Video</span>
   </div>
 
-  <span class="play-text">Play Video</span>
 </div>
+
 
 <!-- Video Modal -->
 <div class="video-modal" id="videoModal">
@@ -131,53 +135,68 @@ body {
   gap: 15px;
 }
 
-/* Play button */
+/* MAIN LINE LAYOUT */
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap; /* mobile friendly */
+}
+
+/* VIDEO ACTION */
+.video-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* SMALL PLAY BUTTON */
 .play-btn {
-  width: 45px;
-  height: 45px;
+  width: 34px;
+  height: 34px;
   position: relative;
   border-radius: 50%;
   background: #fff;
-  border: 4px solid #6a4cd6;
-  cursor: pointer;
+  border: 3px solid #6a4cd6;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-/* Triangle icon */
+/* PLAY ICON */
 .play-btn .icon {
-  font-size: 28px;
+  font-size: 16px;
   color: #6a4cd6;
-  margin-left: 4px;
+  margin-left: 2px;
 }
 
-/* Pulse ring */
+/* STRONGER PULSE */
 .play-btn .pulse {
   position: absolute;
-  width: 100%;
-  height: 100%;
-  background: rgba(106, 76, 214, 0.25);
-  border-radius: 80%;
-  animation: pulse 1.8s infinite;
+  inset: -6px;
+  border-radius: 50%;
+  background: rgba(106, 76, 214, 0.35);
+  animation: pulse 1.6s ease-out infinite;
   z-index: -1;
 }
 
-/* Pulse animation */
 @keyframes pulse {
   0% {
-    transform: scale(1);
+    transform: scale(0.8);
     opacity: 1;
   }
   100% {
-    transform: scale(1.4);
+    transform: scale(1.6);
     opacity: 0;
   }
 }
 
+/* TEXT */
 .play-text {
-  font-size: 20px;
-  font-weight: 500;
+  font-size: 14px;
+  font-weight: 600;
+  color: #333;
 }
 
 /* Video modal */
