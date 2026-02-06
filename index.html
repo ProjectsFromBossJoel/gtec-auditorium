@@ -38,6 +38,7 @@
       </svg>
     </div>
 
+    <!-- Booking Popup Message -->
     <h3>Booking Received</h3>
     <p>
       Thank you. We have received your booking.<br><br>
@@ -97,6 +98,147 @@
 </button></a>
             
             <button class="btn btn-secondary" id="openBookingHero" onclick="openBookingModal(' ')">Book Now</button>
+            <div class="video-action">
+  <!-- Play Button -->
+  <div class="play-btn" onclick="openVideo()">
+    <span class="pulse"></span>
+    <span class="icon">&#9658;</span>
+  </div>
+
+  <span class="play-text">Play Video</span>
+</div>
+
+<!-- Video Modal -->
+<div class="video-modal" id="videoModal">
+  <div class="video-box">
+    <span class="close" onclick="closeVideo()">&times;</span>
+    <video controls autoplay>
+      <source src="video/Conference Hall Video.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<style>
+body {
+  font-family: Arial, sans-serif;
+}
+
+/* Button layout */
+.video-action {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+
+/* Play button */
+.play-btn {
+  width: 45px;
+  height: 45px;
+  position: relative;
+  border-radius: 50%;
+  background: #fff;
+  border: 4px solid #6a4cd6;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Triangle icon */
+.play-btn .icon {
+  font-size: 28px;
+  color: #6a4cd6;
+  margin-left: 4px;
+}
+
+/* Pulse ring */
+.play-btn .pulse {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: rgba(106, 76, 214, 0.25);
+  border-radius: 50%;
+  animation: pulse 1.8s infinite;
+  z-index: -1;
+}
+
+/* Pulse animation */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.4);
+    opacity: 0;
+  }
+}
+
+.play-text {
+  font-size: 20px;
+  font-weight: 500;
+}
+
+/* Video modal */
+.video-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.6);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+
+.video-box {
+  background: #000;
+  padding: 10px;
+  position: relative;
+  width: 80%;
+  max-width: 700px;
+}
+
+.video-box video {
+  width: 100%;
+}
+
+.close {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background: #fff;
+  color: #000;
+  font-size: 26px;
+  width: 35px;
+  height: 35px;
+  text-align: center;
+  line-height: 35px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+</style>
+
+<script>
+function openVideo() {
+  document.getElementById("videoModal").style.display = "flex";
+}
+
+function closeVideo() {
+  const modal = document.getElementById("videoModal");
+  const video = modal.querySelector("video");
+  video.pause();
+  video.currentTime = 0;
+  modal.style.display = "none";
+}
+
+</script>
+
+
+
           </div>
           
           <div class="hero-image">
