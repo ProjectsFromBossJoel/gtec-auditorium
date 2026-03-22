@@ -6,23 +6,625 @@
   <title>Contact — GTEC Conference Facility</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
 
-    <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-auth-compat.js"></script>
 
-  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  
-<!-- Firebase App (the core Firebase SDK) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-<!-- Firebase Firestore -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
-<!-- Firebase Auth (if you want to restrict access to logged-in users) -->
-<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
+<style>
+:root {
+  --navy:       #0b1f3a;
+  --navy-mid:   #122952;
+  --navy-light: #1a3a6b;
+  --gold:       #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim:   #8a6b28;
+  --pearl:      #faf8f4;
+  --cream:      #f3ede2;
+  --white:      #ffffff;
+  --muted:      #6b7a8d;
+  --text:       #1c2b3d;
 
+  --shadow-sm: 0 2px 12px rgba(11,31,58,0.08);
+  --shadow-md: 0 8px 32px rgba(11,31,58,0.12);
+  --shadow-lg: 0 20px 60px rgba(11,31,58,0.18);
 
-  <!-- Your web app's Firebase configuration -->
-  <script>
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--pearl);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9998; opacity: 0.4;
+}
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+/* ── HEADER ─────────────────────────────── */
+.site-header {
+  background: var(--navy);
+  position: sticky; top: 0; z-index: 500;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+
+.site-header::after {
+  content: ''; display: block; height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.6;
+}
+
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 28px; height: 72px;
+  max-width: 1160px; margin: 0 auto;
+}
+
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+
+.logo {
+  width: 46px; height: 46px; object-fit: contain;
+  border-radius: 8px; border: 1.5px solid rgba(201,168,76,0.4);
+}
+
+.brand-name {
+  font-family: var(--font-display); font-weight: 700;
+  font-size: 1.05rem; color: #fff; letter-spacing: 0.02em; line-height: 1.2;
+}
+
+.brand-name span {
+  display: block; font-family: var(--font-body); font-weight: 400;
+  font-size: 0.7rem; color: var(--gold-light);
+  letter-spacing: 0.15em; text-transform: uppercase;
+}
+
+.nav { display: flex; align-items: center; gap: 4px; }
+
+.nav a {
+  font-size: 0.875rem; font-weight: 500;
+  color: rgba(255,255,255,0.78); text-decoration: none;
+  padding: 8px 14px; border-radius: 8px;
+  letter-spacing: 0.02em; transition: var(--transition); position: relative;
+}
+
+.nav a::after {
+  content: ''; position: absolute; bottom: 4px; left: 14px; right: 14px;
+  height: 1px; background: var(--gold);
+  transform: scaleX(0); transition: transform 0.25s ease; transform-origin: right;
+}
+
+.nav a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+.nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav a.active { color: var(--gold-light); }
+
+.book-now-btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy); font-family: var(--font-body);
+  font-weight: 600; font-size: 0.875rem; letter-spacing: 0.04em;
+  border: none; border-radius: 10px; padding: 10px 22px;
+  cursor: pointer; transition: var(--transition);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  text-decoration: none; display: inline-block;
+}
+
+.book-now-btn:hover {
+  transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+}
+
+.menu-toggle {
+  display: none; font-size: 22px; cursor: pointer;
+  color: #fff; padding: 6px; border-radius: 6px; transition: background 0.2s;
+}
+.menu-toggle:hover { background: rgba(255,255,255,0.1); }
+
+/* ── PAGE HERO ──────────────────────────── */
+.page-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 55%, #0f3060 100%);
+  padding: 72px 0 64px; position: relative; overflow: hidden;
+}
+
+.page-hero::before {
+  content: ''; position: absolute; top: -40%; right: -10%;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.page-hero::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.4;
+}
+
+.hero-accent {
+  position: absolute; top: 0; left: 0; width: 180px; height: 180px;
+  border-left: 1px solid rgba(201,168,76,0.2);
+  border-top: 1px solid rgba(201,168,76,0.2); pointer-events: none;
+}
+
+.hero-accent::after {
+  content: ''; display: block; width: 50px; height: 50px; margin: 16px;
+  border-left: 1px solid rgba(201,168,76,0.35); border-top: 1px solid rgba(201,168,76,0.35);
+}
+
+.page-hero-inner { text-align: center; position: relative; }
+
+.page-eyebrow {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 0.72rem; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--gold); margin-bottom: 18px;
+}
+
+.page-eyebrow::before, .page-eyebrow::after {
+  content: ''; height: 1px; width: 28px; background: var(--gold); opacity: 0.6;
+}
+
+.page-hero h1 {
+  font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 700; color: #fff; letter-spacing: -0.02em;
+  line-height: 1.18; margin-bottom: 16px;
+}
+
+.page-hero h1 em { font-style: italic; color: var(--gold-light); }
+
+.page-hero .lead {
+  font-size: 1rem; color: rgba(255,255,255,0.65);
+  max-width: 520px; margin: 0 auto; line-height: 1.75;
+}
+
+/* ── CONTACT MAIN ───────────────────────── */
+.contact-main { padding: 80px 0 100px; }
+
+.contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 40px;
+  align-items: start;
+}
+
+/* ── CONTACT FORM ───────────────────────── */
+.contact-form-card {
+  background: var(--white);
+  border: 1px solid rgba(11,31,58,0.07);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-md);
+  overflow: hidden;
+}
+
+.contact-form-header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+  padding: 24px 30px;
+}
+
+.contact-form-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.2rem; font-weight: 700;
+  color: var(--white); margin-bottom: 4px;
+}
+
+.contact-form-header p {
+  font-size: 0.82rem; color: rgba(255,255,255,0.55);
+}
+
+.contact-form-body { padding: 30px; }
+
+.contact-form-body label {
+  display: block; font-size: 0.78rem; font-weight: 600;
+  color: var(--navy); letter-spacing: 0.06em; text-transform: uppercase;
+  margin-bottom: 6px; margin-top: 18px;
+}
+
+.contact-form-body label:first-child { margin-top: 0; }
+
+.contact-form-body input,
+.contact-form-body textarea {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid rgba(11,31,58,0.12);
+  border-radius: var(--radius-sm);
+  font-family: var(--font-body); font-size: 0.9rem;
+  color: var(--text); background: var(--pearl);
+  transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+}
+
+.contact-form-body input:focus,
+.contact-form-body textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  background: #fff;
+}
+
+.contact-form-body textarea { resize: vertical; min-height: 130px; }
+
+.contact-submit-btn {
+  width: 100%; margin-top: 22px; padding: 13px;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: #fff; border: none; border-radius: var(--radius-sm);
+  font-family: var(--font-body); font-size: 0.9rem; font-weight: 600;
+  letter-spacing: 0.04em; cursor: pointer; transition: var(--transition);
+  box-shadow: 0 4px 18px rgba(11,31,58,0.2);
+}
+
+.contact-submit-btn:hover:not(:disabled) {
+  transform: translateY(-1px); box-shadow: 0 8px 24px rgba(11,31,58,0.3);
+}
+
+.contact-submit-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+
+/* ── INFO PANEL ─────────────────────────── */
+.info-panel { display: flex; flex-direction: column; gap: 20px; }
+
+.info-card {
+  background: var(--white);
+  border: 1px solid rgba(11,31,58,0.07);
+  border-radius: var(--radius-md);
+  padding: 26px 24px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  display: flex; gap: 18px; align-items: flex-start;
+}
+
+.info-card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(201,168,76,0.18);
+}
+
+.info-icon {
+  width: 46px; height: 46px; flex-shrink: 0;
+  background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04));
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 20px;
+}
+
+.info-card-text h4 {
+  font-family: var(--font-display);
+  font-size: 0.95rem; font-weight: 600;
+  color: var(--navy); margin-bottom: 6px;
+}
+
+.info-card-text p, .info-card-text a {
+  font-size: 0.88rem; color: var(--muted);
+  line-height: 1.65; text-decoration: none;
+}
+
+.info-card-text a:hover { color: var(--gold-dim); }
+
+/* Map embed */
+.map-card {
+  background: var(--white);
+  border: 1px solid rgba(11,31,58,0.07);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.map-card-header {
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(11,31,58,0.06);
+  display: flex; align-items: center; gap: 8px;
+}
+
+.map-card-header span {
+  font-size: 0.78rem; font-weight: 600;
+  color: var(--navy); letter-spacing: 0.06em; text-transform: uppercase;
+}
+
+.map-card iframe {
+  display: block; width: 100%; height: 220px; border: none;
+}
+
+/* ── NOTIFICATION ────────────────────────── */
+#notification {
+  position: fixed; top: 24px; right: 24px;
+  padding: 14px 22px; border-radius: 10px;
+  color: #fff; font-weight: 600; font-size: 0.88rem;
+  display: none; z-index: 10000;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  animation: slideIn 0.3s ease;
+}
+
+@keyframes slideIn {
+  from { transform: translateX(20px); opacity: 0; }
+  to   { transform: translateX(0); opacity: 1; }
+}
+
+/* ── LOADING OVERLAY ─────────────────────── */
+#loadingOverlay {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,0.65);
+  backdrop-filter: blur(4px);
+  display: none; justify-content: center;
+  align-items: center; flex-direction: column;
+  z-index: 9999; gap: 16px;
+}
+
+.spinner {
+  width: 52px; height: 52px;
+  border: 4px solid rgba(255,255,255,0.2);
+  border-top-color: var(--gold);
+  border-radius: 50%; animation: spin 0.85s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+#loadingOverlay p {
+  color: rgba(255,255,255,0.8); font-size: 0.9rem; font-weight: 500;
+}
+
+/* ── BOOKING MODAL ──────────────────────── */
+.modal {
+  position: fixed; inset: 0; display: none;
+  align-items: center; justify-content: center;
+  background: rgba(8,15,30,0.75);
+  backdrop-filter: blur(8px); z-index: 3000; padding: 20px;
+}
+
+.modal-content {
+  background: var(--white); width: 100%; max-width: 620px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 32px 80px rgba(8,15,30,0.3);
+  max-height: 90vh; overflow-y: auto;
+  animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.85) translateY(20px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+  padding: 24px 28px 20px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  position: sticky; top: 0; z-index: 1;
+}
+
+.modal-header h2 {
+  font-family: var(--font-display); font-size: 1.25rem; font-weight: 700;
+  color: var(--white); margin: 0;
+}
+
+.modal-header p { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 4px; }
+
+.close-btn {
+  position: absolute; top: 18px; right: 22px;
+  font-size: 24px; cursor: pointer; color: rgba(255,255,255,0.6);
+  line-height: 1; transition: color 0.2s; background: none; border: none; font-family: inherit;
+}
+
+.close-btn:hover { color: #fff; }
+
+.modal-body { padding: 28px; }
+
+#bookingForm { display: flex; flex-direction: column; gap: 0; }
+
+.modal-body label {
+  display: block; font-size: 0.8rem; font-weight: 600; color: var(--navy);
+  letter-spacing: 0.04em; text-transform: uppercase; margin-top: 18px; margin-bottom: 6px;
+}
+
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+  width: 100%; padding: 11px 14px;
+  border: 1.5px solid rgba(11,31,58,0.12);
+  border-radius: 8px; font-family: var(--font-body);
+  font-size: 0.9rem; color: var(--text); background: var(--pearl);
+  transition: border-color 0.2s, box-shadow 0.2s; outline: none;
+}
+
+.modal-body input:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+  border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); background: #fff;
+}
+
+.modal-body textarea { resize: vertical; min-height: 80px; }
+
+.additional-services-container {
+  border: 1.5px solid rgba(11,31,58,0.1); border-radius: 10px;
+  padding: 18px; background: var(--pearl); margin-top: 18px;
+}
+
+.checkbox-item {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 8px 0; border-bottom: 1px solid rgba(11,31,58,0.05);
+  font-size: 0.88rem; color: var(--text);
+}
+
+.checkbox-item:last-child { border-bottom: none; }
+
+.checkbox-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--navy); }
+
+.rentals-section {
+  border: 1.5px solid rgba(11,31,58,0.1); border-radius: 10px;
+  padding: 18px; background: var(--pearl); margin-top: 18px;
+}
+
+.booking-subtitle {
+  font-family: var(--font-display); font-size: 0.95rem; font-weight: 600;
+  color: var(--navy); margin-bottom: 14px;
+}
+
+.rentals-cards {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px;
+}
+
+.rental-card {
+  background: var(--white); border: 1px solid rgba(11,31,58,0.08);
+  border-radius: 10px; padding: 12px; text-align: center;
+}
+
+.rental-card img {
+  width: 100%; height: 90px; object-fit: contain;
+  border-radius: 6px; margin-bottom: 8px; background: var(--cream);
+}
+
+.rental-card h4 {
+  font-size: 0.74rem; font-weight: 600; color: var(--navy);
+  margin-bottom: 8px; line-height: 1.3;
+}
+
+.rental-card input {
+  width: 100% !important; font-size: 0.82rem !important; padding: 7px 10px !important; margin-top: 0 !important;
+}
+
+.guidelines-box {
+  border: 1.5px solid rgba(214,75,75,0.25); background: rgba(214,75,75,0.03);
+  padding: 18px; border-radius: 10px; margin-top: 22px;
+}
+
+.guidelines-box h3 { margin-top: 0; font-size: 0.9rem; color: #c0392b; margin-bottom: 8px; }
+.guidelines-box p { font-size: 0.84rem; color: #555; margin-bottom: 12px; }
+
+.guidelines-download {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 9px 16px; background: var(--navy); color: #fff;
+  text-decoration: none; border-radius: 7px; font-size: 0.82rem;
+  font-weight: 600; margin-bottom: 12px; transition: var(--transition);
+}
+
+.guidelines-download:hover { background: var(--navy-light); }
+
+.guidelines-confirm-row {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 0.84rem; color: var(--text); margin-top: 8px;
+}
+
+.guidelines-confirm-row input {
+  width: 18px !important; height: 18px;
+  accent-color: var(--navy); margin-top: 0 !important;
+}
+
+.submit-btn {
+  width: 100%; padding: 14px;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: white; border: none; border-radius: 10px; margin-top: 28px;
+  cursor: pointer; font-family: var(--font-body); font-size: 0.95rem;
+  font-weight: 600; letter-spacing: 0.04em; transition: var(--transition);
+  box-shadow: 0 4px 18px rgba(11,31,58,0.25);
+}
+
+.submit-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(11,31,58,0.3); }
+.submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── FOOTER ─────────────────────────────── */
+.gtec-footer {
+  background: linear-gradient(180deg, #0d1a2e 0%, #080f1c 100%);
+  color: #9aa0c3; padding-top: 5rem; position: relative;
+  border-top: 1px solid rgba(201,168,76,0.12);
+}
+
+.gtec-footer::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.4;
+}
+
+.footer-grid {
+  display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem; max-width: 1160px; margin: 0 auto; padding: 0 28px 3rem;
+}
+
+.footer-col h4 {
+  font-family: var(--font-display); color: var(--white); font-size: 1rem;
+  font-weight: 600; margin-bottom: 1.4rem; position: relative; padding-bottom: 12px;
+}
+
+.footer-col h4::after {
+  content: ''; position: absolute; bottom: 0; left: 0;
+  width: 28px; height: 2px; background: var(--gold); border-radius: 2px;
+}
+
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.8rem; }
+.footer-col ul li a { color: #8a90b0; text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+.footer-col ul li a:hover { color: var(--gold-light); }
+.footer-col p { font-size: 0.88rem; line-height: 1.65; margin-bottom: 1rem; color: #8a90b0; }
+
+.subscribe-formm {
+  display: flex; border-radius: 8px; overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1); max-width: 280px;
+}
+
+.subscribe-formm input {
+  flex: 1; background: rgba(255,255,255,0.06); color: #fff;
+  border: none; padding: 10px 14px;
+  font-family: var(--font-body); font-size: 0.85rem; outline: none;
+}
+
+.subscribe-formm input::placeholder { color: rgba(255,255,255,0.4); }
+
+.subscribe-formm button {
+  background: var(--gold); color: var(--navy); border: none;
+  padding: 10px 16px; cursor: pointer; font-size: 1rem; font-weight: 700; transition: var(--transition);
+}
+
+.subscribe-formm button:hover { background: var(--gold-light); }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06); text-align: center;
+  padding: 1.4rem 28px; font-size: 0.82rem; color: #5a6080;
+  max-width: 1160px; margin: 0 auto;
+}
+
+.footer-bottom a { color: #9aa0c3; text-decoration: none; }
+.footer-bottom a:hover { color: var(--gold-light); }
+
+#scrollTopBtn {
+  position: fixed; bottom: 32px; right: 32px;
+  background: var(--navy); color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.3);
+  width: 44px; height: 44px; font-size: 18px; cursor: pointer;
+  border-radius: 10px; display: none; align-items: center;
+  justify-content: center; box-shadow: var(--shadow-md);
+  transition: var(--transition); z-index: 400;
+}
+
+#scrollTopBtn:hover { background: var(--gold); color: var(--navy); transform: translateY(-2px); }
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media (max-width: 900px) {
+  .contact-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+
+  .nav {
+    position: absolute; top: 72px; left: 0; width: 100%;
+    background: var(--navy); display: none; flex-direction: column;
+    padding: 12px 0; border-top: 1px solid rgba(201,168,76,0.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  .nav a { border-radius: 0; padding: 12px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .nav.show { display: flex; }
+  .book-now-btn { display: none; }
+}
+</style>
+
+<!-- Firebase config -->
+<script>
 const firebaseConfig = {
   apiKey: "AIzaSyA80t2tr136ihN57YQWwD4nYcPhyutACX4",
   authDomain: "userlogin-44d0a.firebaseapp.com",
@@ -32,52 +634,46 @@ const firebaseConfig = {
   appId: "1:47108256134:web:60888fa5f06dfb075d3c07",
   measurementId: "G-ZCVWTTFT2H"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const auth = firebase.auth();
 </script>
 
-
-  
 <script>
 function showNotification(message, success = true) {
-  const notification = document.getElementById("notification");
-  notification.textContent = message;
-  notification.style.background = success ? "#28a745" : "#ff6a00"; // green for success, orange/red for error
-  notification.style.display = "block";
-
-  setTimeout(() => {
-    notification.style.display = "none";
-  }, 3500); // hide after 3.5 seconds
+  const n = document.getElementById("notification");
+  n.textContent = message;
+  n.style.background = success
+    ? "linear-gradient(135deg,#0a7a3b,#0d9a4c)"
+    : "linear-gradient(135deg,#c0392b,#e74c3c)";
+  n.style.display = "block";
+  setTimeout(() => { n.style.display = "none"; }, 3500);
 }
 
 document.addEventListener('DOMContentLoaded', () => {
-  const contactForm = document.getElementById('contactForm');
+  const contactForm   = document.getElementById('contactForm');
   const loadingOverlay = document.getElementById('loadingOverlay');
 
   contactForm.addEventListener('submit', async (e) => {
     e.preventDefault();
     loadingOverlay.style.display = 'flex';
-
-    const submitBtn = contactForm.querySelector("button");
+    const submitBtn = contactForm.querySelector("button[type='submit']");
     submitBtn.disabled = true;
-    submitBtn.textContent = "Sending...";
+    submitBtn.textContent = "Sending…";
 
     const data = {
-      name: contactForm.name.value,
-      email: contactForm.email.value,
-      message: contactForm.message.value,
+      name:      contactForm.name.value,
+      email:     contactForm.email.value,
+      message:   contactForm.message.value,
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     };
 
     try {
       await db.collection('contactMessages').add(data);
-      showNotification("Your message was sent successfully! ✅", true);
+      showNotification("Message sent successfully! We'll be in touch shortly. ✓", true);
       contactForm.reset();
     } catch (err) {
-      console.error("Error saving message:", err);
-      showNotification("Failed to send message. Try again ❌", false);
+      showNotification("Failed to send message. Please try again.", false);
     } finally {
       loadingOverlay.style.display = 'none';
       submitBtn.disabled = false;
@@ -86,218 +682,150 @@ document.addEventListener('DOMContentLoaded', () => {
   });
 });
 </script>
-
-  
-
-    
-
-     <style>
-    /* ===== General ===== */
-   
-    body {
-      font-family: 'Poppins', sans-serif;
-      margin: 0;
-      background: #f9f9f9;
-      color: #333;
-    }
-    a { text-decoration: none; color: inherit; }
-
-    
-
-    /* ===== Main ===== */
-    .contact-page { max-width: 1000px; margin: 50px auto; padding: 0 20px; }
-    .page-title { text-align: center; font-size: 2.2rem; margin-bottom: 40px; color: #1a1a1a; }
-    .grid-2 { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; }
-
-    form {
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-      transition: all 0.3s ease;
-    }
-    form label { display: block; margin-bottom: 6px; font-weight: 500; color: #555; }
-    form input, form textarea {
-      width: 100%;
-      padding: 10px 12px;
-      margin-bottom: 20px;
-      border: 1px solid #ccc;
-      border-radius: 6px;
-      font-size: 1rem;
-      transition: all 0.3s ease;
-    }
-    form input:focus, form textarea:focus {
-      border-color: #ff6a00;
-      outline: none;
-      box-shadow: 0 0 5px rgba(255,106,0,0.4);
-    }
-    .btn-primary {
-      background: #ff6a00;
-      color: #fff;
-      border: none;
-      padding: 12px 25px;
-      font-size: 1rem;
-      border-radius: 8px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-    }
-    .btn-primary:hover { background: #e65c00; }
-
-    .grid-2 div:last-child {
-      background: #fff;
-      padding: 30px;
-      border-radius: 10px;
-      box-shadow: 0 8px 20px rgba(0,0,0,0.08);
-    }
-    .grid-2 h3 { margin-bottom: 10px; color: #1a1a1a; }
-    .grid-2 p { line-height: 1.6; color: #555; }
-
-    /* ===== Footer ===== */
-    .site-footer { background: #fff; color: #000; text-align: center; padding: 15px 0; margin-top: 50px; }
-
-   /* ===== Loading Overlay ===== */
-#loadingOverlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0,0,0,0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
-  display: none;
-}
-     /* ===== Header  =====*/
-   .nav a:hover { background: #e6b802; color: #000; border-radius: 6px; padding: 8px 15px;}
-
-.spinner {
-  border: 6px solid #f3f3f3;
-  border-top: 6px solid #ff6a00;
-  border-radius: 50%;
-  width: 60px;
-  height: 60px;
-  animation: spin 1s linear infinite;
-}
-
-@keyframes spin {
-  0% { transform: rotate(0deg);}
-  100% { transform: rotate(360deg);}
-}
-
-
-    /* Responsive */
-    @media(max-width: 768px){
-      .grid-2 { gap: 25px; }
-      .header-inner { flex-direction: column; gap: 15px; }
-      .nav a { margin-left: 10px; }
-    }
-  </style>
 </head>
 
-  
-  <header class="site-header">
-  <div class="container header-inner">
+<body>
 
+<!-- ════════════════ HEADER ════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
     <div class="brand">
       <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
-      <span class="brand-name">GTEC Conference Facility</span>
+      <div class="brand-name">
+        GTEC
+        <span>Conference Facility</span>
+      </div>
     </div>
 
-    <!-- Hamburger Icon (Mobile only) -->
-    <div class="menu-toggle" id="menuToggle">
-      ☰
-    </div>
+    <div class="menu-toggle" id="menuToggle">☰</div>
 
     <nav class="nav" id="mobileNav">
       <a href="index.html">Home</a>
       <a href="halls.html">Halls</a>
       <a href="about.html">About Us</a>
-      <a href="contact.html">Contact Us</a>
+      <a href="contact.html" class="active">Contact Us</a>
       <a href="policies.html">Policies</a>
     </nav>
 
-      <button class="book-now-btn"
-          onclick="openBookingModal(' ')">
-    Book Now</button>
-
+    <button class="book-now-btn" onclick="openBookingModal(' ')">Book Now</button>
   </div>
 </header>
-  
-<body>
 
-  <main class="container contact-page">
-    <h1 class="page-title">Contact Us</h1>
-    <div class="grid-2">
-      <div>
-        <form id="contactForm">
-          <label>Name</label>
-          <input type="text" name="name" required>
-          <label>Email</label>
-          <input type="email" name="email" required>
-          <label>Message</label>
-          <textarea name="message" rows="5" required></textarea>
-          <button type="submit" class="btn-primary">Send Message</button>
-        </form>
+<!-- ════════════════ PAGE HERO ══════════════ -->
+<section class="page-hero">
+  <div class="hero-accent"></div>
+  <div class="container page-hero-inner">
+    <p class="page-eyebrow">Get In Touch</p>
+    <h1>Contact <em>GTEC</em></h1>
+    <p class="lead">We'd love to hear from you. Reach out with enquiries, bookings or feedback and our team will respond promptly.</p>
+  </div>
+</section>
+
+<!-- ════════════════ CONTACT MAIN ════════════ -->
+<main class="contact-main">
+  <div class="container">
+    <div class="contact-grid">
+
+      <!-- FORM CARD -->
+      <div class="contact-form-card">
+        <div class="contact-form-header">
+          <h2>Send Us a Message</h2>
+          <p>Fill in the form and we'll get back to you as soon as possible</p>
+        </div>
+        <div class="contact-form-body">
+          <form id="contactForm">
+            <label>Your Name</label>
+            <input type="text" name="name" placeholder="Full name" required>
+
+            <label>Email Address</label>
+            <input type="email" name="email" placeholder="you@example.com" required>
+
+            <label>Message</label>
+            <textarea name="message" rows="6" placeholder="Write your message here…" required></textarea>
+
+            <button type="submit" class="contact-submit-btn">Send Message</button>
+          </form>
+        </div>
       </div>
-      <div>
-        <h3>Visit Us</h3>
-        <p>P. O. Box MB 28, Ministries - Accra, Ghana, West Africa<br>GPS: GA - 452 - 0871</p>
-        <h3>Phone</h3>
-        <p>+233 24 466 0848</p>
-        <h3>Email</h3>
-        <p>hospitality@gtec.edu.gh</p>
+
+      <!-- INFO PANEL -->
+      <div class="info-panel">
+
+        <div class="info-card">
+          <div class="info-icon">📍</div>
+          <div class="info-card-text">
+            <h4>Visit Us</h4>
+            <p>P. O. Box MB 28, Ministries<br>Accra, Ghana, West Africa<br>GPS: GA-452-0871</p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">📞</div>
+          <div class="info-card-text">
+            <h4>Phone</h4>
+            <p><a href="tel:+233244660848">+233 24 466 0848</a></p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">✉️</div>
+          <div class="info-card-text">
+            <h4>Email</h4>
+            <p><a href="mailto:hospitality@gtec.edu.gh">hospitality@gtec.edu.gh</a></p>
+          </div>
+        </div>
+
+        <div class="info-card">
+          <div class="info-icon">🕐</div>
+          <div class="info-card-text">
+            <h4>Office Hours</h4>
+            <p>Monday – Friday: 8:00 AM – 5:00 PM<br>Saturday: 9:00 AM – 6:00 PM<br>Sunday: 2:00 PM – 6:00 PM</p>
+          </div>
+        </div>
+
+        <!-- Map -->
+        <div class="map-card">
+          <div class="map-card-header">
+            <span>📍 Find Us on the Map</span>
+          </div>
+          <iframe
+            src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3970.852634898755!2d-0.19651102414851!3d5.563749433836547!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xfdf9084b2d7f77b%3A0x28fd4c60c9ad91d9!2sGhana%20Technology%20and%20Engineering%20Centre!5e0!3m2!1sen!2sgh!4v1702000000000!5m2!1sen!2sgh"
+            allowfullscreen loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+          </iframe>
+        </div>
+
       </div>
     </div>
-  </main>
+  </div>
+</main>
 
+<!-- ════════════════ NOTIFICATION ════════════ -->
+<div id="notification"></div>
 
-
-<br>
-  <br>
-  <br>
-
-
-
-  <!-- Custom Notification -->
-<div id="notification" style="
-    position: fixed;
-    top: 20px;
-    right: 20px;
-    background: #ff6a00;
-    color: white;
-    padding: 15px 20px;
-    border-radius: 8px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-    display: none;
-    z-index: 10000;
-    font-weight: 500;
-    ">
+<!-- ════════════════ LOADING OVERLAY ═════════ -->
+<div id="loadingOverlay">
+  <div class="spinner"></div>
+  <p>Sending your message…</p>
 </div>
 
-
-    <!-- Footer -->
-  <footer class="gtec-footer">
-  <div class="container footer-grid">
-
-    <!-- ABOUT US -->
+<!-- ════════════════ FOOTER ══════════════════ -->
+<footer class="gtec-footer">
+  <div class="footer-grid">
     <div class="footer-col">
       <h4>About Us</h4>
       <ul>
         <li><a href="index.html">General Overview</a></li>
         <li><a href="about.html">Vision / Mission / Core Values</a></li>
         <li><a href="#">Gallery</a></li>
-        </ul>
+      </ul>
     </div>
-
-    <!-- WHAT WE DO -->
     <div class="footer-col">
       <h4>What We Do</h4>
       <ul>
         <li><a href="halls.html">Book Events</a></li>
-        <li><a href="https://guesthousesystem-86fdc.web.app/roomsui.html">Reserve a room</a></li>
-        </ul>
+        <li><a href="https://guesthousesystem-86fdc.web.app/roomsui.html">Reserve a Room</a></li>
+      </ul>
     </div>
-
-    <!-- QA GUIDELINES -->
     <div class="footer-col">
       <h4>QA Guidelines</h4>
       <ul>
@@ -305,414 +833,257 @@ document.addEventListener('DOMContentLoaded', () => {
         <li><a href="contact.html">Contact Us</a></li>
       </ul>
     </div>
-
-   <!-- SUBSCRIBE -->
-<div class="footer-col">
-  <h4>Subscribe</h4>
-  <p>
-    Stay informed about conference hall availability, bookings and official updates.
-  </p>
-
-  <form class="subscribe-formm" id="subscribeForm">
-  <input
-    type="email"
-    name="email"
-    placeholder="Your Email"
-    required
-  >
-  <button type="submit">➤</button>
-</form>
-<p id="subscribeMessage" style="color:green; display:none;"></p>
-</div>
-
-
-    
-<style>
-  
-/* Subscribe */
-.subscribe-formm {
-  display: flex;
-  width: 420px;          /* ⬅ increase width */
-  max-width: 100%;
-  height: 100px;          /* ⬅ reduce overall height */
-  background: linear-gradient(180deg, #1d1b3a, #14122c);
-}
-
-.subscribe-formm input {
-  flex: 1;
-  background: #3b3a5c;
-  color: #ffffff;
-  border: none;
-  padding: 0 16px;       /* ⬅ reduce vertical padding */
-  font-size: 0.95rem;
-  height: 100%;
-  width: 150px; 
-  outline: none;
-}
-
-.subscribe-formm button {
-  width: 48px;           /* ⬅ wider yellow block */
-  height: 100%;
-  background: #d4af37;
-  border: none;
-  color: #ffffff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.subscribe-formm input::placeholder {
-  color: #ffffff;
-  opacity: 0.9;
-}
-
-
-.subscribe-formm button:hover {
-  opacity: 0.9;
-}
-</style>
-
-    
-
-  <!-- BOTTOM BAR -->
-  <div class="footer-bottom">
-    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
+    <div class="footer-col">
+      <h4>Stay Updated</h4>
+      <p>Stay informed about hall availability, bookings and official updates.</p>
+      <form class="subscribe-formm" id="subscribeForm">
+        <input type="email" name="email" placeholder="Your email address" required>
+        <button type="submit">➤</button>
+      </form>
+      <p id="subscribeMessage" style="color:#6ee7b7;display:none;margin-top:8px;font-size:0.82rem;"></p>
+    </div>
   </div>
 
-  <p style="margin: 0; padding: 15px 0 0 0; font-size: 14px; text-align: center; margin-top: 7%;">
-       Developed & Maintained by <a href="https://myportfolio-theta-topaz-43.vercel.app/" target="_blank" style="text-decoration: none; color: #9aa0c3;"><br><strong>Prince Antwi Wiafe</strong></a>
-    </p>
+  <div class="footer-bottom">
+    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
+    <p style="margin-top:8px;">Developed &amp; Maintained by <a href="https://myportfolio-theta-topaz-43.vercel.app/" target="_blank"><strong>Prince Antwi Wiafe</strong></a></p>
+  </div>
 
-  <!-- SCROLL TO TOP -->
-  <button id="scrollTopBtn" title="Go to top">↑</button>
+  <button id="scrollTopBtn" title="Back to top" style="display:none;">↑</button>
 </footer>
 
-<!-- SCROLL TO TOP -->
-  <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
+<!-- ════════════════ BOOKING MODAL ══════════ -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <h2>Conference Hall Booking</h2>
+      <p>Complete the form below and our team will be in touch shortly</p>
+    </div>
+    <div class="modal-body">
+      <form id="bookingForm">
+        <label>Full Name</label>
+        <input type="text" name="applicantName" placeholder="Enter your full name" required>
 
-  const btn = document.getElementById("scrollTopBtn");
+        <label>Telephone</label>
+        <input type="tel" name="telephone" placeholder="+233 XX XXX XXXX" required>
 
-  window.onscroll = () => {
-    btn.style.display = window.scrollY > 300 ? "block" : "none";
-  };
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="you@example.com" required>
 
-  btn.onclick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-</script>
- 
+        <label>Booking Type</label>
+        <select name="bookingType" required>
+          <option value="">Select type...</option>
+          <option value="Institution/Organization">Institution / Organization</option>
+          <option value="Personal">Personal</option>
+        </select>
 
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+        <label>Institution / Organization / Person</label>
+        <input type="text" name="institutionName" placeholder="Name of institution or person" required>
 
+        <label>Number of Participants</label>
+        <input type="number" name="participants" placeholder="Expected headcount" required>
 
-  <!-- Loading Overlay -->
-  <!-- Loading Overlay -->
-<div id="loadingOverlay">
-  <div class="spinner"></div>
-  <p style="color:white; margin-top:10px;">Sending your message...</p>
+        <label>Venue (Hall)</label>
+        <select name="venue" id="venueSelect" required>
+          <option value="">Select a hall...</option>
+          <option value="Paul Effah Hall- Full Capacity">Paul Effah Hall — Full Capacity</option>
+          <option value="Paul Effah Hall- Ground Floor">Paul Effah Hall — Ground Floor</option>
+          <option value="Ahmed Jinapor Hall">Ahmed Jinapor Hall</option>
+          <option value="Nikoi Kotey Hall">Nikoi Kotey Hall</option>
+          <option value="Kwame Dattey Hall">Kwame Dattey Hall</option>
+          <option value="VIP">VIP</option>
+        </select>
+
+        <div class="additional-services-container" style="margin-top:18px;">
+          <label style="margin-top:0;text-transform:uppercase;font-size:0.78rem;letter-spacing:0.1em;">Additional Services (Optional)</label>
+          <div class="checkbox-item">
+            <span>Changing Room</span>
+            <input type="checkbox" name="additionalServices[]" value="Changing Room">
+          </div>
+          <div class="checkbox-item">
+            <span>Rehearsals</span>
+            <input type="checkbox" name="additionalServices[]" value="Rehearsals">
+          </div>
+          <div class="checkbox-item">
+            <span>Dining Area</span>
+            <input type="checkbox" name="additionalServices[]" value="Dining Area">
+          </div>
+        </div>
+
+        <div class="rentals-section">
+          <p class="booking-subtitle">Furniture Rentals (Optional)</p>
+          <div class="rentals-cards">
+            <div class="rental-card">
+              <img src="images/standard_chair.jpg" alt="Standard Chair">
+              <h4>Standard Chair</h4>
+              <input type="number" name="standardChair" min="0" placeholder="Qty">
+            </div>
+            <div class="rental-card">
+              <img src="images/executive_chair.jpeg" alt="Executive Chair">
+              <h4>Executive Chair</h4>
+              <input type="number" name="executiveChair" min="0" placeholder="Qty">
+            </div>
+            <div class="rental-card">
+              <img src="images/table.jpeg" alt="Table">
+              <h4>Table</h4>
+              <input type="number" name="tableQty" min="0" placeholder="Qty">
+            </div>
+            <div class="rental-card">
+              <img src="images/table_with_cloth.jpeg" alt="Table with Cloth">
+              <h4>Table + Cloth</h4>
+              <input type="number" name="tableClothQty" min="0" placeholder="Qty">
+            </div>
+            <div class="rental-card">
+              <img src="images/marquee-tent.webp" alt="Marquee Canopy">
+              <h4>Marquee Canopy (16/16 & 20/20)</h4>
+              <input type="number" name="marqueeCanopyQty" min="0" placeholder="Qty">
+            </div>
+          </div>
+        </div>
+
+        <label>Event Description</label>
+        <textarea name="eventDescription" rows="3" placeholder="Describe your event..." required></textarea>
+
+        <label>Event Start Date</label>
+        <input type="date" name="startDate" id="startDate" required>
+
+        <label>Event End Date</label>
+        <input type="date" name="endDate" id="endDate" required>
+
+        <label>Number of Days</label>
+        <input type="number" name="days" id="eventDays" readonly placeholder="Auto-calculated">
+
+        <label>Event Start Time</label>
+        <input type="time" name="startTime" required>
+
+        <label>Event End Time</label>
+        <input type="time" name="endTime" required>
+
+        <label>Recipient Name for Invoice</label>
+        <input type="text" name="invoiceName" placeholder="Invoice recipient name" required>
+
+        <label>Recipient Email for Invoice</label>
+        <input type="email" name="invoiceEmail" placeholder="Invoice email address" required>
+
+        <div class="guidelines-box">
+          <h3>📄 Booking Guidelines (Mandatory)</h3>
+          <p>Please download and read the booking guidelines before submitting your request.</p>
+          <a href="2026 Guidelines/Guidelines -2026.pdf" download id="downloadGuidelines" class="guidelines-download">
+            ⬇ Download Guidelines
+          </a>
+          <div class="guidelines-confirm-row">
+            <input type="checkbox" id="guidelinesConfirm" disabled>
+            <label for="guidelinesConfirm" style="margin:0;text-transform:none;font-size:0.84rem;letter-spacing:0;font-weight:600;">
+              I have downloaded and read the booking guidelines
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBooking" disabled>Submit Booking Request</button>
+      </form>
+    </div>
+  </div>
 </div>
 
-  
+<!-- ════════════════ SCRIPTS ════════════════ -->
 <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
+document.getElementById("year").textContent = new Date().getFullYear();
 
+/* Scroll to top */
+const scrollBtn = document.getElementById("scrollTopBtn");
+window.addEventListener("scroll", () => {
+  scrollBtn.style.display = window.scrollY > 300 ? "flex" : "none";
+});
+scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  
-  <script src="js/main.js"></script>
-
-  <script>
+/* Mobile nav */
 const menuToggle = document.getElementById("menuToggle");
-const mobileNav = document.getElementById("mobileNav");
-
+const mobileNav  = document.getElementById("mobileNav");
 menuToggle.addEventListener("click", () => {
   mobileNav.classList.toggle("show");
   menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
 });
-</script>
-  
 
-    <!-- Booking Modal -->
-  <!-- ===================== BOOKING POPUP MODAL ===================== -->
-<div id="bookingModal" class="modal">
-  <div class="modal-content">
-    <span class="close-btn" id="closeModal">&times;</span>
-
-    <h2>Conference Hall Booking Form</h2>
-
-    <form id="bookingForm">
-
-      <label>Name of Applicant (Full Name)</label>
-      <input type="text" name="applicantName" required>
-
-      <label>Telephone</label>
-      <input type="tel" name="telephone" required>
-
-      <label>Email</label>
-      <input type="email" name="email" required>
-
-      <label>Booking Type</label>
-      <select name="bookingType" required>
-        <option value="">Select Type</option>
-        <option value="Institution/Organization">Institution/Organization</option>
-        <option value="Personal">Personal</option>
-      </select>
-
-      <label>Name of Institution / Organization / Person</label>
-      <input type="text" name="institutionName" required>
-
-      <label>Number of Participants</label>
-      <input type="number" name="participants" required>
-
-      <label>Venue (Hall)</label>
-      <select name="venue" required>
-        <option value="">Select Hall</option>
-        <option value="Paul Effah Hall- Full Capacity">Paul Effah Hall- Full Capacity</option>
-        <option value="Paul Effah Hall- Ground Floor">Paul Effah Hall- Ground Floor</option>
-        <option value="Ahmed Jinapor Hall">Ahmed Jinapor Hall</option>
-        <option value="Nikoi Kotey Hall">Nikoi Kotey Hall</option>
-        <option value="Kwame Dattey Hall">Kwame Dattey Hall</option>
-        <option value="VIP">VIP</option>
-      </select>
-
-  <!-- ADDITIONAL SERVICES SECTION -->
-<div class="additional-services-container" style="border:1px solid #ccc; border-radius:8px; padding:15px; max-width:400px;">
-  <label style="font-weight:bold; display:block; margin-bottom:10px;">
-    Additional Services (Optional)
-  </label>
-
-  <div style="max-width:260px;">
-    <div class="checkbox-item">
-      <span>Changing Room</span>
-      <input type="checkbox" name="additionalServices[]" value="Changing Room">
-    </div>
-
-    <div class="checkbox-item">
-      <span>Rehearsals</span>
-      <input type="checkbox" name="additionalServices[]" value="Rehearsals">
-    </div>
-
-    <div class="checkbox-item">
-      <span>Dining Area</span>
-      <input type="checkbox" name="additionalServices[]" value="Dining Area">
-    </div>
-  </div>
-</div>
-
-      <style>
-        .checkbox-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+/* Booking modal */
+function openBookingModal(hallName) {
+  const modal = document.getElementById("bookingModal");
+  modal.style.display = "flex";
+  if (hallName && hallName.trim() !== '') {
+    const sel = document.getElementById("venueSelect");
+    if (sel) {
+      for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === hallName) { sel.selectedIndex = i; break; }
+      }
+    }
+  }
+  document.body.style.overflow = "hidden";
 }
 
-      </style>
+document.getElementById("closeModal").onclick = () => {
+  document.getElementById("bookingModal").style.display = "none";
+  document.body.style.overflow = "";
+};
 
-
-<!-- RENTALS SECTION -->
-      <div class="rentals-section">
-<h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
-
-<div class="rentals-cards">
-
-  
-  <!-- TABLES CARD -->
-  <div class="rental-card">
-    <img src="images/standard_chair.jpg" alt="Tables">
-    <h4>Standard Chair</h4>
-
-    <input type="number" name="standardChair" min="0" placeholder="Quantity">
-  </div>
-
-  <!-- TABLES CARD -->
-  <div class="rental-card">
-    <img src="images/executive_chair.jpeg" alt="Tables">
-    <h4>Executive Chair</h4>
-
-    <input type="number" name="executiveChair" min="0" placeholder="Quantity">
-  </div>
-
-
-<!-- TABLES CARD -->
-  <div class="rental-card">
-    <img src="images/table.jpeg" alt="Tables">
-    <h4>Table</h4>
-
-    <input type="number" name="tableQty" min="0" placeholder="Quantity">
-  </div>
-  
-
-  <!-- TABLE + CLOTH CARD -->
-  <div class="rental-card">
-    <img src="images/table_with_cloth.jpeg" alt="Table with Cloth">
-    <h4>Table + Cloth</h4>
-
-    <input type="number" name="tableClothQty" min="0" placeholder="Quantity">
-  </div>
-
-<p>
-
-   <!-- Marquee Canopy -->
-  <div class="rental-card">
-    <img src="images/marquee-tent.webp" alt="Marquee Canopy">
-    <h4>Marquee Canopy (Available: 16/16 and 20/20)</h4>
-
-    <input type="number" name="marqueeCanopyQty" min="0" placeholder="Quantity">
-  </div>
-
-</div>
-      </div>
-      
-</p>
-        
-      <!-- //RENTALS SECTION -->
-
-
-
-      <label>Event Description</label>
-      <textarea name="eventDescription" rows="3" required></textarea>
-
-      <label>Event Start Date</label>
-      <input type="date" name="startDate" id="startDate" required>
-
-      <label>Event End Date</label>
-      <input type="date" name="endDate" id="endDate" required>
-
-      <label>Number of Days of Event</label>
-      <input type="number" name="days" id="eventDays" readonly>
-
-      <label>Time Event Starts</label>
-      <input type="time" name="startTime" required>
-
-      <label>Time Event Ends</label>
-      <input type="time" name="endTime" required>
-
-      <label>Recipient Name for Invoice</label>
-      <input type="text" name="invoiceName" required>
-
-      <label>Recipient Email for Invoice</label>
-      <input type="email" name="invoiceEmail" required>
-
-      
-                  <!-- GUIDELINES SECTION (MANDATORY) -->
-<div class="guidelines-box" style="border:1px solid #e74c3c; padding:15px; border-radius:8px; margin-top:20px;">
-  <h3 style="margin-top:0; color:#e74c3c;">📄 Booking Guidelines (Mandatory)</h3>
-
-  <p style="font-size:14px;">
-    Please download and read the booking guidelines before submitting your request.
-  </p>
-
-  <a
-    href="2026 Guidelines/Guidelines -2026.pdf"
-    download
-    id="downloadGuidelines"
-    class="guidelines-download"
-    style="display:inline-block; padding:10px 15px; background:#2c3e50; color:#fff; text-decoration:none; border-radius:5px; margin-bottom:10px;"
-  >
-    ⬇ Download Guidelines
-  </a>
-
-<div style="margin-top:10px; display:flex; align-items:center; gap:10px; font-size:14px;">
-  <input type="checkbox" id="guidelinesConfirm" disabled>
-
-  <label for="guidelinesConfirm" style="cursor:pointer; margin:0;">
-   <span style="font-weight:600;"> I have downloaded and read the booking guidelines</span>
-  </label>
-
-</div>
-</div>
-      <style>
-        #guidelinesConfirm {
-  width: auto !important;
-}
-
-label[for="guidelinesConfirm"] {
-  display: inline !important;
-}
-
-      </style>
-      
-      
-      <button type="submit" class="submit-btn" id="submitBooking" disabled>
-  Submit Booking
-</button>
-      
-</form>
-
-    </div>
-</div>
-
-
-  <script>
-  loadingOverlay.classList.add('active'); // show
-loadingOverlay.classList.remove('active'); // hide
-
-</script>
-  
-
-  <script>
-document.getElementById("subscribeForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
-
-  const email = this.email.value.trim().toLowerCase();
-  const msg = document.getElementById("subscribeMessage");
-
-  if (!email) return;
-
-  try {
-    await db.collection("subscriptions").add({
-      email: email,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
-
-    msg.style.display = "block";
-    msg.textContent = "Subscribed successfully!";
-
-    this.reset();
-
-    // Hide message after 3 seconds
-    setTimeout(() => {
-      msg.style.display = "none";
-    }, 3000);
-
-  } catch (error) {
-    console.error("Subscription error:", error);
-    alert("Failed to subscribe. Please try again.");
+document.getElementById("bookingModal").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("bookingModal")) {
+    document.getElementById("bookingModal").style.display = "none";
+    document.body.style.overflow = "";
   }
 });
 
+/* Date calculation */
+const startDateInput = document.getElementById("startDate");
+const endDateInput   = document.getElementById("endDate");
+const eventDaysInput = document.getElementById("eventDays");
+
+function calcDays() {
+  if (startDateInput.value && endDateInput.value) {
+    const diff = Math.round((new Date(endDateInput.value) - new Date(startDateInput.value)) / (1000*60*60*24)) + 1;
+    eventDaysInput.value = diff > 0 ? diff : '';
+  }
+}
+startDateInput.addEventListener("change", calcDays);
+endDateInput.addEventListener("change", calcDays);
+
+/* Booking form submit */
+document.getElementById("bookingForm").addEventListener("submit", function(e) {
+  e.preventDefault();
+  document.getElementById("bookingModal").style.display = "none";
+  document.body.style.overflow = "";
+  alert("Booking received! Our team will contact you shortly.");
+  this.reset();
+});
+
+/* Guidelines */
+document.getElementById("downloadGuidelines").addEventListener("click", () => {
+  setTimeout(() => { document.getElementById("guidelinesConfirm").disabled = false; }, 500);
+});
+document.getElementById("guidelinesConfirm").addEventListener("change", function() {
+  document.getElementById("submitBooking").disabled = !this.checked;
+});
+
+/* Subscribe */
+document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const email = this.email.value.trim().toLowerCase();
+  const msg = document.getElementById("subscribeMessage");
+  if (!email) return;
+  try {
+    await db.collection("subscriptions").add({
+      email, createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    msg.style.display = "block";
+    msg.textContent = "✓ Subscribed successfully!";
+    this.reset();
+    setTimeout(() => { msg.style.display = "none"; }, 3500);
+  } catch (err) {
+    alert("Failed to subscribe. Please try again.");
+  }
+});
 </script>
 
-<script>
-  const downloadBtn = document.getElementById("downloadGuidelines");
-  const confirmCheckbox = document.getElementById("guidelinesConfirm");
-  const submitBtn = document.getElementById("submitBooking");
+<script src="js/main.js"></script>
 
-  let hasDownloaded = false;
-
-  // Detect guideline download click
-  downloadBtn.addEventListener("click", () => {
-    hasDownloaded = true;
-
-    // Enable confirmation checkbox after download
-    setTimeout(() => {
-      confirmCheckbox.disabled = false;
-    }, 500);
-  });
-
-  // Enable submit button only after confirmation
-  confirmCheckbox.addEventListener("change", () => {
-    submitBtn.disabled = !confirmCheckbox.checked;
-  });
-
-</script>
-  
 </body>
-</html>
+</html>s

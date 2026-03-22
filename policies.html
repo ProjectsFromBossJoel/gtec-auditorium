@@ -3,110 +3,450 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Policies & Documents | GTEC Conference Facility</title>
+  <title>Policies & Guidelines — GTEC Conference Facility</title>
   <link rel="icon" type="image/png" href="images/favicon.png">
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <!-- Firebase SDKs -->
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+<style>
+:root {
+  --navy:       #0b1f3a;
+  --navy-mid:   #122952;
+  --navy-light: #1a3a6b;
+  --gold:       #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim:   #8a6b28;
+  --pearl:      #faf8f4;
+  --cream:      #f3ede2;
+  --white:      #ffffff;
+  --muted:      #6b7a8d;
+  --text:       #1c2b3d;
 
-  
-  <link rel="stylesheet" href="css/style.css">
+  --shadow-sm: 0 2px 12px rgba(11,31,58,0.08);
+  --shadow-md: 0 8px 32px rgba(11,31,58,0.12);
+  --shadow-lg: 0 20px 60px rgba(11,31,58,0.18);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--pearl);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed; inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none; z-index: 9998; opacity: 0.4;
+}
+
+.container { max-width: 1160px; margin: 0 auto; padding: 0 28px; }
+
+/* ── HEADER ─────────────────────────────── */
+.site-header { background: var(--navy); position: sticky; top: 0; z-index: 500; border-bottom: 1px solid rgba(201,168,76,0.15); }
+.site-header::after { content: ''; display: block; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.6; }
+.header-inner { display: flex; align-items: center; justify-content: space-between; padding: 0 28px; height: 72px; max-width: 1160px; margin: 0 auto; }
+.brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.logo { width: 46px; height: 46px; object-fit: contain; border-radius: 8px; border: 1.5px solid rgba(201,168,76,0.4); }
+.brand-name { font-family: var(--font-display); font-weight: 700; font-size: 1.05rem; color: #fff; letter-spacing: 0.02em; line-height: 1.2; }
+.brand-name span { display: block; font-family: var(--font-body); font-weight: 400; font-size: 0.7rem; color: var(--gold-light); letter-spacing: 0.15em; text-transform: uppercase; }
+.nav { display: flex; align-items: center; gap: 4px; }
+.nav a { font-size: 0.875rem; font-weight: 500; color: rgba(255,255,255,0.78); text-decoration: none; padding: 8px 14px; border-radius: 8px; letter-spacing: 0.02em; transition: var(--transition); position: relative; }
+.nav a::after { content: ''; position: absolute; bottom: 4px; left: 14px; right: 14px; height: 1px; background: var(--gold); transform: scaleX(0); transition: transform 0.25s ease; transform-origin: right; }
+.nav a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+.nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav a.active { color: var(--gold-light); }
+.book-now-btn { background: linear-gradient(135deg, var(--gold), var(--gold-light)); color: var(--navy); font-family: var(--font-body); font-weight: 600; font-size: 0.875rem; letter-spacing: 0.04em; border: none; border-radius: 10px; padding: 10px 22px; cursor: pointer; transition: var(--transition); box-shadow: 0 4px 16px rgba(201,168,76,0.3); text-decoration: none; display: inline-block; }
+.book-now-btn:hover { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(201,168,76,0.4); }
+.menu-toggle { display: none; font-size: 22px; cursor: pointer; color: #fff; padding: 6px; border-radius: 6px; transition: background 0.2s; }
+.menu-toggle:hover { background: rgba(255,255,255,0.1); }
+
+/* ── PAGE HERO ──────────────────────────── */
+.page-hero { background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 55%, #0f3060 100%); padding: 72px 0 64px; position: relative; overflow: hidden; }
+.page-hero::before { content: ''; position: absolute; top: -40%; right: -10%; width: 500px; height: 500px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%); pointer-events: none; }
+.page-hero::after { content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.4; }
+.hero-accent { position: absolute; top: 0; left: 0; width: 180px; height: 180px; border-left: 1px solid rgba(201,168,76,0.2); border-top: 1px solid rgba(201,168,76,0.2); pointer-events: none; }
+.hero-accent::after { content: ''; display: block; width: 50px; height: 50px; margin: 16px; border-left: 1px solid rgba(201,168,76,0.35); border-top: 1px solid rgba(201,168,76,0.35); }
+.page-hero-inner { text-align: center; position: relative; }
+.page-eyebrow { display: inline-flex; align-items: center; gap: 8px; font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); margin-bottom: 18px; }
+.page-eyebrow::before, .page-eyebrow::after { content: ''; height: 1px; width: 28px; background: var(--gold); opacity: 0.6; }
+.page-hero h1 { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3rem); font-weight: 700; color: #fff; letter-spacing: -0.02em; line-height: 1.18; margin-bottom: 16px; }
+.page-hero h1 em { font-style: italic; color: var(--gold-light); }
+.page-hero .lead { font-size: 1rem; color: rgba(255,255,255,0.65); max-width: 520px; margin: 0 auto; line-height: 1.75; }
+
+/* ── MAIN CONTENT ───────────────────────── */
+.policies-main { padding: 80px 0 100px; }
+
+/* Section eyebrow */
+.section-eyebrow { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--gold); display: block; margin-bottom: 10px; }
+.section-title-text { font-family: var(--font-display); font-size: clamp(1.5rem, 2.5vw, 2rem); font-weight: 700; color: var(--navy); letter-spacing: -0.02em; margin-bottom: 40px; }
+
+/* Documents grid */
+.documents-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 24px; margin-bottom: 72px; }
+
+.doc-card {
+  background: var(--white);
+  border: 1px solid rgba(11,31,58,0.07);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  position: relative;
+  overflow: hidden;
+}
+
+.doc-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  transform: scaleX(0); transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.doc-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); border-color: rgba(201,168,76,0.18); }
+.doc-card:hover::before { transform: scaleX(1); }
+
+.doc-icon {
+  width: 52px; height: 52px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.04));
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 14px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 22px; margin-bottom: 20px;
+}
+
+.doc-card h3 { font-family: var(--font-display); font-size: 1.1rem; font-weight: 600; color: var(--navy); margin-bottom: 10px; }
+.doc-card p { font-size: 0.88rem; color: var(--muted); line-height: 1.65; margin-bottom: 22px; }
+
+.doc-download-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  padding: 10px 20px;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: #fff; text-decoration: none; border-radius: var(--radius-sm);
+  font-family: var(--font-body); font-size: 0.82rem; font-weight: 600;
+  letter-spacing: 0.04em; transition: var(--transition);
+  box-shadow: 0 3px 12px rgba(11,31,58,0.2);
+}
+
+.doc-download-btn:hover { transform: translateY(-1px); box-shadow: 0 6px 18px rgba(11,31,58,0.3); }
+
+/* Policy highlights */
+.policy-highlights { background: var(--cream); border-radius: var(--radius-lg); padding: 56px 48px; margin-bottom: 72px; position: relative; overflow: hidden; }
+.policy-highlights::before { content: ''; position: absolute; top: -30%; right: -10%; width: 300px; height: 300px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
+
+.policy-highlights h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; letter-spacing: -0.02em; }
+.policy-highlights .lead-text { font-size: 0.92rem; color: var(--muted); margin-bottom: 36px; }
+
+.highlights-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+
+.highlight-item {
+  background: var(--white); border: 1px solid rgba(11,31,58,0.06);
+  border-radius: var(--radius-sm); padding: 22px 20px;
+  display: flex; gap: 14px; align-items: flex-start;
+  box-shadow: var(--shadow-sm); transition: var(--transition);
+}
+
+.highlight-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-md); border-color: rgba(201,168,76,0.2); }
+
+.highlight-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--gold); flex-shrink: 0; margin-top: 5px; }
+
+.highlight-item h4 { font-weight: 600; font-size: 0.88rem; color: var(--navy); margin-bottom: 4px; }
+.highlight-item p { font-size: 0.8rem; color: var(--muted); line-height: 1.55; }
+
+/* CTA strip */
+.cta-strip {
+  background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+  border-radius: var(--radius-lg);
+  padding: 52px 48px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 32px; position: relative; overflow: hidden;
+}
+
+.cta-strip::before { content: ''; position: absolute; top: -50%; right: -10%; width: 400px; height: 400px; border-radius: 50%; background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%); pointer-events: none; }
+
+.cta-strip-text h2 { font-family: var(--font-display); font-size: 1.5rem; font-weight: 700; color: #fff; margin-bottom: 8px; }
+.cta-strip-text p { font-size: 0.9rem; color: rgba(255,255,255,0.6); }
+
+.cta-strip-btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy); font-family: var(--font-body); font-weight: 700;
+  font-size: 0.9rem; letter-spacing: 0.04em; border: none;
+  border-radius: 10px; padding: 14px 28px; cursor: pointer;
+  transition: var(--transition); box-shadow: 0 4px 18px rgba(201,168,76,0.35);
+  white-space: nowrap; flex-shrink: 0;
+}
+
+.cta-strip-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(201,168,76,0.45); }
+
+/* ── SUBMISSION OVERLAY ─────────────────── */
+.overlay { position: fixed; inset: 0; background: rgba(0,0,0,0.75); backdrop-filter: blur(6px); display: flex; flex-direction: column; justify-content: center; align-items: center; z-index: 9999; }
+.spinner { width: 60px; height: 60px; border: 4px solid rgba(255,255,255,0.15); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.85s linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+.success-card { background: var(--white); padding: 44px 36px; border-radius: 18px; max-width: 440px; width: 90%; text-align: center; box-shadow: 0 30px 80px rgba(0,0,0,0.35); animation: fadeScale 0.45s ease; }
+@keyframes fadeScale { from { opacity: 0; transform: scale(0.88) translateY(12px); } to { opacity: 1; transform: scale(1) translateY(0); } }
+.checkmark-circle svg { width: 72px; height: 72px; stroke: #0a7a3b; stroke-width: 3.5; fill: none; margin-bottom: 16px; }
+.checkmark-circle circle { stroke-dasharray: 157; stroke-dashoffset: 157; animation: draw 0.9s ease forwards; }
+.checkmark-circle path { stroke-dasharray: 48; stroke-dashoffset: 48; animation: draw 0.55s ease forwards 0.45s; }
+@keyframes draw { to { stroke-dashoffset: 0; } }
+.success-card h3 { font-family: var(--font-display); font-size: 1.4rem; color: var(--navy); margin-bottom: 12px; }
+.success-card p { font-size: 0.9rem; color: var(--muted); line-height: 1.65; }
+
+/* ── BOOKING MODAL ──────────────────────── */
+.modal { position: fixed; inset: 0; display: none; align-items: center; justify-content: center; background: rgba(8,15,30,0.75); backdrop-filter: blur(8px); z-index: 3000; padding: 20px; }
+.modal-content { background: var(--white); width: 100%; max-width: 620px; border-radius: var(--radius-lg); box-shadow: 0 32px 80px rgba(8,15,30,0.3); max-height: 90vh; overflow-y: auto; animation: popIn 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+@keyframes popIn { from { transform: scale(0.85) translateY(20px); opacity: 0; } to { transform: scale(1) translateY(0); opacity: 1; } }
+.modal-header { background: linear-gradient(135deg, var(--navy), var(--navy-mid)); padding: 24px 28px 20px; border-radius: var(--radius-lg) var(--radius-lg) 0 0; position: sticky; top: 0; z-index: 1; }
+.modal-header h2 { font-family: var(--font-display); font-size: 1.25rem; font-weight: 700; color: var(--white); margin: 0; }
+.modal-header p { font-size: 0.8rem; color: rgba(255,255,255,0.55); margin-top: 4px; }
+.close-btn { position: absolute; top: 18px; right: 22px; font-size: 24px; cursor: pointer; color: rgba(255,255,255,0.6); line-height: 1; transition: color 0.2s; background: none; border: none; font-family: inherit; }
+.close-btn:hover { color: #fff; }
+.modal-body { padding: 28px; }
+#bookingForm { display: flex; flex-direction: column; gap: 0; }
+.modal-body label { display: block; font-size: 0.8rem; font-weight: 600; color: var(--navy); letter-spacing: 0.04em; text-transform: uppercase; margin-top: 18px; margin-bottom: 6px; }
+.modal-body input, .modal-body select, .modal-body textarea { width: 100%; padding: 11px 14px; border: 1.5px solid rgba(11,31,58,0.12); border-radius: 8px; font-family: var(--font-body); font-size: 0.9rem; color: var(--text); background: var(--pearl); transition: border-color 0.2s, box-shadow 0.2s; outline: none; }
+.modal-body input:focus, .modal-body select:focus, .modal-body textarea:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); background: #fff; }
+.modal-body textarea { resize: vertical; min-height: 80px; }
+.additional-services-container { border: 1.5px solid rgba(11,31,58,0.1); border-radius: 10px; padding: 18px; background: var(--pearl); margin-top: 18px; }
+.checkbox-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 0; border-bottom: 1px solid rgba(11,31,58,0.05); font-size: 0.88rem; color: var(--text); }
+.checkbox-item:last-child { border-bottom: none; }
+.checkbox-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--navy); }
+.rentals-section { border: 1.5px solid rgba(11,31,58,0.1); border-radius: 10px; padding: 18px; background: var(--pearl); margin-top: 18px; }
+.booking-subtitle { font-family: var(--font-display); font-size: 0.95rem; font-weight: 600; color: var(--navy); margin-bottom: 14px; }
+.rentals-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(110px, 1fr)); gap: 12px; }
+.rental-card { background: var(--white); border: 1px solid rgba(11,31,58,0.08); border-radius: 10px; padding: 12px; text-align: center; }
+.rental-card img { width: 100%; height: 90px; object-fit: contain; border-radius: 6px; margin-bottom: 8px; background: var(--cream); }
+.rental-card h4 { font-size: 0.74rem; font-weight: 600; color: var(--navy); margin-bottom: 8px; line-height: 1.3; }
+.rental-card input { width: 100% !important; font-size: 0.82rem !important; padding: 7px 10px !important; margin-top: 0 !important; }
+.guidelines-box { border: 1.5px solid rgba(214,75,75,0.25); background: rgba(214,75,75,0.03); padding: 18px; border-radius: 10px; margin-top: 22px; }
+.guidelines-box h3 { margin-top: 0; font-size: 0.9rem; color: #c0392b; margin-bottom: 8px; }
+.guidelines-box p { font-size: 0.84rem; color: #555; margin-bottom: 12px; }
+.guidelines-download { display: inline-flex; align-items: center; gap: 8px; padding: 9px 16px; background: var(--navy); color: #fff; text-decoration: none; border-radius: 7px; font-size: 0.82rem; font-weight: 600; margin-bottom: 12px; transition: var(--transition); }
+.guidelines-download:hover { background: var(--navy-light); }
+.guidelines-confirm-row { display: flex; align-items: center; gap: 10px; font-size: 0.84rem; color: var(--text); margin-top: 8px; }
+.guidelines-confirm-row input { width: 18px !important; height: 18px; accent-color: var(--navy); margin-top: 0 !important; }
+.submit-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, var(--navy), var(--navy-light)); color: white; border: none; border-radius: 10px; margin-top: 28px; cursor: pointer; font-family: var(--font-body); font-size: 0.95rem; font-weight: 600; letter-spacing: 0.04em; transition: var(--transition); box-shadow: 0 4px 18px rgba(11,31,58,0.25); }
+.submit-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(11,31,58,0.3); }
+.submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
+
+/* ── FOOTER ─────────────────────────────── */
+.gtec-footer { background: linear-gradient(180deg, #0d1a2e 0%, #080f1c 100%); color: #9aa0c3; padding-top: 5rem; position: relative; border-top: 1px solid rgba(201,168,76,0.12); }
+.gtec-footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: 0.4; }
+.footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 3rem; max-width: 1160px; margin: 0 auto; padding: 0 28px 3rem; }
+.footer-col h4 { font-family: var(--font-display); color: var(--white); font-size: 1rem; font-weight: 600; margin-bottom: 1.4rem; position: relative; padding-bottom: 12px; }
+.footer-col h4::after { content: ''; position: absolute; bottom: 0; left: 0; width: 28px; height: 2px; background: var(--gold); border-radius: 2px; }
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.8rem; }
+.footer-col ul li a { color: #8a90b0; text-decoration: none; font-size: 0.88rem; transition: color 0.2s; }
+.footer-col ul li a:hover { color: var(--gold-light); }
+.footer-col p { font-size: 0.88rem; line-height: 1.65; margin-bottom: 1rem; color: #8a90b0; }
+.subscribe-formm { display: flex; border-radius: 8px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); max-width: 280px; }
+.subscribe-formm input { flex: 1; background: rgba(255,255,255,0.06); color: #fff; border: none; padding: 10px 14px; font-family: var(--font-body); font-size: 0.85rem; outline: none; }
+.subscribe-formm input::placeholder { color: rgba(255,255,255,0.4); }
+.subscribe-formm button { background: var(--gold); color: var(--navy); border: none; padding: 10px 16px; cursor: pointer; font-size: 1rem; font-weight: 700; transition: var(--transition); }
+.subscribe-formm button:hover { background: var(--gold-light); }
+.footer-bottom { border-top: 1px solid rgba(255,255,255,0.06); text-align: center; padding: 1.4rem 28px; font-size: 0.82rem; color: #5a6080; max-width: 1160px; margin: 0 auto; }
+.footer-bottom a { color: #9aa0c3; text-decoration: none; }
+.footer-bottom a:hover { color: var(--gold-light); }
+#scrollTopBtn { position: fixed; bottom: 32px; right: 32px; background: var(--navy); color: var(--gold); border: 1px solid rgba(201,168,76,0.3); width: 44px; height: 44px; font-size: 18px; cursor: pointer; border-radius: 10px; display: none; align-items: center; justify-content: center; box-shadow: var(--shadow-md); transition: var(--transition); z-index: 400; }
+#scrollTopBtn:hover { background: var(--gold); color: var(--navy); transform: translateY(-2px); }
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+  .nav { position: absolute; top: 72px; left: 0; width: 100%; background: var(--navy); display: none; flex-direction: column; padding: 12px 0; border-top: 1px solid rgba(201,168,76,0.15); box-shadow: 0 8px 24px rgba(0,0,0,0.2); }
+  .nav a { border-radius: 0; padding: 12px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .nav.show { display: flex; }
+  .book-now-btn { display: none; }
+  .cta-strip { flex-direction: column; text-align: center; padding: 40px 28px; }
+  .policy-highlights { padding: 40px 28px; }
+}
+
+@media (max-width: 600px) {
+  .highlights-grid { grid-template-columns: 1fr; }
+  .documents-grid { grid-template-columns: 1fr; }
+}
+</style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="container header-inner">
+<!-- ════════════ SUBMISSION OVERLAY ════════ -->
+<div id="submissionOverlay" class="overlay" style="display:none;">
+  <div class="spinner" id="spinner"></div>
+  <div id="successCard" class="success-card" style="display:none;">
+    <div class="checkmark-circle">
+      <svg viewBox="0 0 52 52">
+        <circle cx="26" cy="26" r="25" fill="none"/>
+        <path fill="none" d="M14 27l7 7 17-17"/>
+      </svg>
+    </div>
+    <h3>Booking Received</h3>
+    <p>Thank you. We have received your booking.<br><br>Our team will review the details and contact you shortly via phone or email.</p>
+  </div>
+</div>
 
+<!-- ════════════ HEADER ════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
     <div class="brand">
       <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
-      <span class="brand-name">GTEC Conference Facility</span>
+      <div class="brand-name">GTEC <span>Conference Facility</span></div>
     </div>
-
-    <!-- Hamburger Icon (Mobile only) -->
-    <div class="menu-toggle" id="menuToggle">
-      ☰
-    </div>
-
+    <div class="menu-toggle" id="menuToggle">☰</div>
     <nav class="nav" id="mobileNav">
       <a href="index.html">Home</a>
       <a href="halls.html">Halls</a>
       <a href="about.html">About Us</a>
       <a href="contact.html">Contact Us</a>
-      <a href="policies.html">Policies</a>
+      <a href="policies.html" class="active">Policies</a>
     </nav>
-
-      <button class="book-now-btn"
-          onclick="openBookingModal(' ')">
-    Book Now</button>
-
+    <button class="book-now-btn" onclick="openBookingModal(' ')">Book Now</button>
   </div>
 </header>
 
+<!-- ════════════ PAGE HERO ══════════════════ -->
+<section class="page-hero">
+  <div class="hero-accent"></div>
+  <div class="container page-hero-inner">
+    <p class="page-eyebrow">Official Documents</p>
+    <h1>Policies &amp; <em>Guidelines</em></h1>
+    <p class="lead">Download official documents, policies and booking guidelines for using GTEC Conference Facilities.</p>
+  </div>
+</section>
 
-<main class="container">
-  <h1 class="section-title">Policies & Guidelines</h1>
-  <p class="lead">
-    Download official documents, policies and booking guidelines for using
-    GTEC Conference Facilities.
-  </p>
+<!-- ════════════ MAIN CONTENT ══════════════ -->
+<main class="policies-main">
+  <div class="container">
 
-  <div class="documents-grid">
+    <!-- Documents -->
+    <span class="section-eyebrow">Downloads</span>
+    <h2 class="section-title-text">Official Documents</h2>
 
-    <div class="doc-card">
-      <h3>Conference Hall Usage Policy</h3>
-      <p>Rules and regulations governing the use of conference halls.</p>
-      <a href="2026 Guidelines/Guidelines -2026.pdf" download class="btn btn-primary" style="text-decoration: none;">
-        📂Download PDF
-      </a>
+    <div class="documents-grid">
+      <div class="doc-card">
+        <div class="doc-icon">📋</div>
+        <h3>Conference Hall Usage Policy</h3>
+        <p>Rules and regulations governing the booking, use and management of GTEC conference halls for all event types.</p>
+        <a href="2026 Guidelines/Guidelines -2026.pdf" download class="doc-download-btn">
+          ⬇ Download PDF
+        </a>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon">🛡️</div>
+        <h3>Health &amp; Safety Guidelines</h3>
+        <p>Safety measures, compliance requirements and emergency procedures for all events hosted at GTEC facilities.</p>
+        <a href="2026 Guidelines/Guidelines -2026.pdf" download class="doc-download-btn">
+          ⬇ Download PDF
+        </a>
+      </div>
+
+      <div class="doc-card">
+        <div class="doc-icon">📅</div>
+        <h3>Booking Procedures &amp; Terms</h3>
+        <p>Step-by-step booking process, cancellation policy, payment terms and conditions for all venue reservations.</p>
+        <a href="2026 Guidelines/Guidelines -2026.pdf" download class="doc-download-btn">
+          ⬇ Download PDF
+        </a>
+      </div>
     </div>
 
+    <!-- Policy Highlights -->
+    <div class="policy-highlights">
+      <span class="section-eyebrow">Key Points</span>
+      <h2>What You Need to Know</h2>
+      <p class="lead-text">A summary of the most important policies before booking a hall at GTEC.</p>
 
-    <div class="doc-card">
-      <h3>Health & Safety Guidelines</h3>
-      <p>Safety measures and compliance requirements.</p>
-      <a href="2026 Guidelines/Guidelines -2026.pdf" download class="btn btn-primary" style="text-decoration: none;">
-        📂Download PDF
-      </a>
+      <div class="highlights-grid">
+        <div class="highlight-item">
+          <div class="highlight-dot"></div>
+          <div>
+            <h4>Advance Booking</h4>
+            <p>All bookings must be made in advance and confirmed by our team before the event date.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-dot"></div>
+          <div>
+            <h4>Guidelines Mandatory</h4>
+            <p>Clients must download and read the usage guidelines before submitting a booking request.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-dot"></div>
+          <div>
+            <h4>Hall Conditions</h4>
+            <p>Halls must be returned in their original condition. Damage may attract additional charges.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-dot"></div>
+          <div>
+            <h4>Catering &amp; Setup</h4>
+            <p>External catering is permitted. Setup and breakdown times must be agreed in advance.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-dot"></div>
+          <div>
+            <h4>AV &amp; Technical Support</h4>
+            <p>On-site AV technicians are available to assist with equipment setup and livestreaming.</p>
+          </div>
+        </div>
+        <div class="highlight-item">
+          <div class="highlight-dot"></div>
+          <div>
+            <h4>Cancellation Policy</h4>
+            <p>Cancellations must be communicated in writing. See the full policy document for details.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA Strip -->
+    <div class="cta-strip">
+      <div class="cta-strip-text">
+        <h2>Ready to Book a Hall?</h2>
+        <p>Contact our team or submit a booking request and we'll be in touch shortly.</p>
+      </div>
+      <button class="cta-strip-btn" onclick="openBookingModal(' ')">Book a Hall Now</button>
     </div>
 
   </div>
 </main>
 
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  <br>
-  
-
-  
-
-  <!-- Footer -->
-  <footer class="gtec-footer">
-  <div class="container footer-grid">
-
-    <!-- ABOUT US -->
+<!-- ════════════ FOOTER ══════════════════ -->
+<footer class="gtec-footer">
+  <div class="footer-grid">
     <div class="footer-col">
       <h4>About Us</h4>
       <ul>
         <li><a href="index.html">General Overview</a></li>
         <li><a href="about.html">Vision / Mission / Core Values</a></li>
         <li><a href="#">Gallery</a></li>
-        </ul>
+      </ul>
     </div>
-
-    <!-- WHAT WE DO -->
     <div class="footer-col">
       <h4>What We Do</h4>
       <ul>
         <li><a href="halls.html">Book Events</a></li>
-        <li><a href="https://guesthousesystem-86fdc.web.app/roomsui.html">Reserve a room</a></li>
-        </ul>
+        <li><a href="https://guesthousesystem-86fdc.web.app/roomsui.html">Reserve a Room</a></li>
+      </ul>
     </div>
-
-    <!-- QA GUIDELINES -->
     <div class="footer-col">
       <h4>QA Guidelines</h4>
       <ul>
@@ -114,354 +454,108 @@
         <li><a href="contact.html">Contact Us</a></li>
       </ul>
     </div>
-
-   <!-- SUBSCRIBE -->
-<div class="footer-col">
-  <h4>Subscribe</h4>
-  <p>
-    Stay informed about conference hall availability, bookings and official updates.
-  </p>
-
-  <form class="subscribe-formm" id="subscribeForm">
-  <input
-    type="email"
-    name="email"
-    placeholder="Your Email"
-    required
-  >
-  <button type="submit">➤</button>
-</form>
-<p id="subscribeMessage" style="color:green; display:none;"></p>
-</div>
-
-
-    
-<style>
-/* ===== Header  =====*/
-  .nav a:hover { background: #e6b802; color: #000; border-radius: 6px; padding: 8px 15px;}
-  
-/* Subscribe */
-.subscribe-formm {
-  display: flex;
-  width: 420px;          /* ⬅ increase width */
-  max-width: 100%;
-  height: 55px;          /* ⬅ reduce overall height */
-  background: linear-gradient(180deg, #1d1b3a, #14122c);
-}
-
-.subscribe-formm input {
-  flex: 1;
-  background: #3b3a5c;
-  color: #ffffff;
-  border: none;
-  padding: 0 16px;       /* ⬅ reduce vertical padding */
-  font-size: 0.95rem;
-  height: 100%;
-  width: 150px; 
-  outline: none;
-}
-
-.subscribe-formm button {
-  width: 48px;           /* ⬅ wider yellow block */
-  height: 100%;
-  background: #d4af37;
-  border: none;
-  color: #ffffff;
-  font-size: 1.2rem;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-
-.subscribe-formm input::placeholder {
-  color: #ffffff;
-  opacity: 0.9;
-}
-
-
-.subscribe-formm button:hover {
-  opacity: 0.9;
-}
-</style>
-
-    
-
-  <!-- BOTTOM BAR -->
+    <div class="footer-col">
+      <h4>Stay Updated</h4>
+      <p>Stay informed about hall availability, bookings and official updates.</p>
+      <form class="subscribe-formm" id="subscribeForm">
+        <input type="email" name="email" placeholder="Your email address" required>
+        <button type="submit">➤</button>
+      </form>
+      <p id="subscribeMessage" style="color:#6ee7b7;display:none;margin-top:8px;font-size:0.82rem;"></p>
+    </div>
+  </div>
   <div class="footer-bottom">
     <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
+    <p style="margin-top:8px;">Developed &amp; Maintained by <a href="https://myportfolio-theta-topaz-43.vercel.app/" target="_blank"><strong>Prince Antwi Wiafe</strong></a></p>
   </div>
-
-  <p style="margin: 0; padding: 15px 0 0 0; font-size: 14px; text-align: center; margin-top: 7%;">
-       Developed & Maintained by <a href="https://myportfolio-theta-topaz-43.vercel.app/" target="_blank" style="text-decoration: none; color: #9aa0c3;"><br><strong>Prince Antwi Wiafe</strong></a>
-    </p>
-
-  <!-- SCROLL TO TOP -->
-  <button id="scrollTopBtn" title="Go to top">↑</button>
+  <button id="scrollTopBtn" title="Back to top" style="display:none;">↑</button>
 </footer>
 
-<!-- SCROLL TO TOP -->
-  <script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-
-  const btn = document.getElementById("scrollTopBtn");
-
-  window.onscroll = () => {
-    btn.style.display = window.scrollY > 300 ? "block" : "none";
-  };
-
-  btn.onclick = () => {
-    window.scrollTo({ top: 0, behavior: "smooth" });
-  };
-</script>
-
-
- 
-<script>
-  document.getElementById("year").textContent = new Date().getFullYear();
-</script>
-
-
-  
-  <script src="js/main.js"></script>
-
-
-  <!-- Booking Modal -->
-  <!-- ===================== BOOKING POPUP MODAL ===================== -->
+<!-- ════════════ BOOKING MODAL ═══════════ -->
 <div id="bookingModal" class="modal">
   <div class="modal-content">
-    <span class="close-btn" id="closeModal">&times;</span>
-
-    <h2>Conference Hall Booking Form</h2>
-
-    <form id="bookingForm">
-
-      <label>Name of Applicant (Full Name)</label>
-      <input type="text" name="applicantName" required>
-
-      <label>Telephone</label>
-      <input type="tel" name="telephone" required>
-
-      <label>Email</label>
-      <input type="email" name="email" required>
-
-      <label>Booking Type</label>
-      <select name="bookingType" required>
-        <option value="">Select Type</option>
-        <option value="Institution/Organization">Institution/Organization</option>
-        <option value="Personal">Personal</option>
-      </select>
-
-      <label>Name of Institution / Organization / Person</label>
-      <input type="text" name="institutionName" required>
-
-      <label>Number of Participants</label>
-      <input type="number" name="participants" required>
-
-      <label>Venue (Hall)</label>
-      <select name="venue" required>
-        <option value="">Select Hall</option>
-        <option value="Paul Effah Hall- Full Capacity">Paul Effah Hall- Full Capacity</option>
-        <option value="Paul Effah Hall- Ground Floor">Paul Effah Hall- Ground Floor</option>
-        <option value="Ahmed Jinapor Hall">Ahmed Jinapor Hall</option>
-        <option value="Nikoi Kotey Hall">Nikoi Kotey Hall</option>
-        <option value="Kwame Dattey Hall">Kwame Dattey Hall</option>
-        <option value="VIP">VIP</option>
-      </select>
-
-  <!-- ADDITIONAL SERVICES SECTION -->
-<div class="additional-services-container" style="border:1px solid #ccc; border-radius:8px; padding:15px; max-width:400px;">
-  <label style="font-weight:bold; display:block; margin-bottom:10px;">
-    Additional Services (Optional)
-  </label>
-
-  <div style="max-width:260px;">
-    <div class="checkbox-item">
-      <span>Changing Room</span>
-      <input type="checkbox" name="additionalServices[]" value="Changing Room">
+    <div class="modal-header">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <h2>Conference Hall Booking</h2>
+      <p>Complete the form below and our team will be in touch shortly</p>
     </div>
-
-    <div class="checkbox-item">
-      <span>Rehearsals</span>
-      <input type="checkbox" name="additionalServices[]" value="Rehearsals">
+    <div class="modal-body">
+      <form id="bookingForm">
+        <label>Full Name</label>
+        <input type="text" name="applicantName" placeholder="Enter your full name" required>
+        <label>Telephone</label>
+        <input type="tel" name="telephone" placeholder="+233 XX XXX XXXX" required>
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="you@example.com" required>
+        <label>Booking Type</label>
+        <select name="bookingType" required>
+          <option value="">Select type...</option>
+          <option value="Institution/Organization">Institution / Organization</option>
+          <option value="Personal">Personal</option>
+        </select>
+        <label>Institution / Organization / Person</label>
+        <input type="text" name="institutionName" placeholder="Name of institution or person" required>
+        <label>Number of Participants</label>
+        <input type="number" name="participants" placeholder="Expected headcount" required>
+        <label>Venue (Hall)</label>
+        <select name="venue" id="venueSelect" required>
+          <option value="">Select a hall...</option>
+          <option value="Paul Effah Hall- Full Capacity">Paul Effah Hall — Full Capacity</option>
+          <option value="Paul Effah Hall- Ground Floor">Paul Effah Hall — Ground Floor</option>
+          <option value="Ahmed Jinapor Hall">Ahmed Jinapor Hall</option>
+          <option value="Nikoi Kotey Hall">Nikoi Kotey Hall</option>
+          <option value="Kwame Dattey Hall">Kwame Dattey Hall</option>
+          <option value="VIP">VIP</option>
+        </select>
+        <div class="additional-services-container" style="margin-top:18px;">
+          <label style="margin-top:0;text-transform:uppercase;font-size:0.78rem;letter-spacing:0.1em;">Additional Services (Optional)</label>
+          <div class="checkbox-item"><span>Changing Room</span><input type="checkbox" name="additionalServices[]" value="Changing Room"></div>
+          <div class="checkbox-item"><span>Rehearsals</span><input type="checkbox" name="additionalServices[]" value="Rehearsals"></div>
+          <div class="checkbox-item"><span>Dining Area</span><input type="checkbox" name="additionalServices[]" value="Dining Area"></div>
+        </div>
+        <div class="rentals-section">
+          <p class="booking-subtitle">Furniture Rentals (Optional)</p>
+          <div class="rentals-cards">
+            <div class="rental-card"><img src="images/standard_chair.jpg" alt="Standard Chair"><h4>Standard Chair</h4><input type="number" name="standardChair" min="0" placeholder="Qty"></div>
+            <div class="rental-card"><img src="images/executive_chair.jpeg" alt="Executive Chair"><h4>Executive Chair</h4><input type="number" name="executiveChair" min="0" placeholder="Qty"></div>
+            <div class="rental-card"><img src="images/table.jpeg" alt="Table"><h4>Table</h4><input type="number" name="tableQty" min="0" placeholder="Qty"></div>
+            <div class="rental-card"><img src="images/table_with_cloth.jpeg" alt="Table with Cloth"><h4>Table + Cloth</h4><input type="number" name="tableClothQty" min="0" placeholder="Qty"></div>
+            <div class="rental-card"><img src="images/marquee-tent.webp" alt="Marquee Canopy"><h4>Marquee Canopy (16/16 & 20/20)</h4><input type="number" name="marqueeCanopyQty" min="0" placeholder="Qty"></div>
+          </div>
+        </div>
+        <label>Event Description</label>
+        <textarea name="eventDescription" rows="3" placeholder="Describe your event..." required></textarea>
+        <label>Event Start Date</label>
+        <input type="date" name="startDate" id="startDate" required>
+        <label>Event End Date</label>
+        <input type="date" name="endDate" id="endDate" required>
+        <label>Number of Days</label>
+        <input type="number" name="days" id="eventDays" readonly placeholder="Auto-calculated">
+        <label>Event Start Time</label>
+        <input type="time" name="startTime" required>
+        <label>Event End Time</label>
+        <input type="time" name="endTime" required>
+        <label>Recipient Name for Invoice</label>
+        <input type="text" name="invoiceName" placeholder="Invoice recipient name" required>
+        <label>Recipient Email for Invoice</label>
+        <input type="email" name="invoiceEmail" placeholder="Invoice email address" required>
+        <div class="guidelines-box">
+          <h3>📄 Booking Guidelines (Mandatory)</h3>
+          <p>Please download and read the booking guidelines before submitting your request.</p>
+          <a href="2026 Guidelines/Guidelines -2026.pdf" download id="downloadGuidelines" class="guidelines-download">⬇ Download Guidelines</a>
+          <div class="guidelines-confirm-row">
+            <input type="checkbox" id="guidelinesConfirm" disabled>
+            <label for="guidelinesConfirm" style="margin:0;text-transform:none;font-size:0.84rem;letter-spacing:0;font-weight:600;">I have downloaded and read the booking guidelines</label>
+          </div>
+        </div>
+        <button type="submit" class="submit-btn" id="submitBooking" disabled>Submit Booking Request</button>
+      </form>
     </div>
-
-    <div class="checkbox-item">
-      <span>Dining Area</span>
-      <input type="checkbox" name="additionalServices[]" value="Dining Area">
-    </div>
   </div>
 </div>
 
-      <style>
-        .checkbox-item {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
-}
-
-      </style>
-
-
-<!-- RENTALS SECTION -->
-      <div class="rentals-section">
-<h3 class="booking-subtitle">Furniture Rentals (Optional)</h3>
-
-<div class="rentals-cards">
-
-  
-  <!-- TABLES CARD -->
-  <div class="rental-card">
-    <img src="images/standard_chair.jpg" alt="Tables">
-    <h4>Standard Chair</h4>
-
-    <input type="number" name="standardChair" min="0" placeholder="Quantity">
-  </div>
-
-  <!-- TABLES CARD -->
-  <div class="rental-card">
-    <img src="images/executive_chair.jpeg" alt="Tables">
-    <h4>Executive Chair</h4>
-
-    <input type="number" name="executiveChair" min="0" placeholder="Quantity">
-  </div>
-
-
-<!-- TABLES CARD -->
-  <div class="rental-card">
-    <img src="images/table.jpeg" alt="Tables">
-    <h4>Table</h4>
-
-    <input type="number" name="tableQty" min="0" placeholder="Quantity">
-  </div>
-  
-
-  <!-- TABLE + CLOTH CARD -->
-  <div class="rental-card">
-    <img src="images/table_with_cloth.jpeg" alt="Table with Cloth">
-    <h4>Table + Cloth</h4>
-
-    <input type="number" name="tableClothQty" min="0" placeholder="Quantity">
-  </div>
-
-<p>
-
-   <!-- Marquee Canopy -->
-  <div class="rental-card">
-    <img src="images/marquee-tent.webp" alt="Marquee Canopy">
-    <h4>Marquee Canopy (Available: 16/16 and 20/20)</h4>
-
-    <input type="number" name="marqueeCanopyQty" min="0" placeholder="Quantity">
-  </div>
-
-</div>
-      </div>
-      
-</p>
-        
-      <!-- //RENTALS SECTION -->
-
-
-
-      <label>Event Description</label>
-      <textarea name="eventDescription" rows="3" required></textarea>
-
-      <label>Event Start Date</label>
-      <input type="date" name="startDate" id="startDate" required>
-
-      <label>Event End Date</label>
-      <input type="date" name="endDate" id="endDate" required>
-
-      <label>Number of Days of Event</label>
-      <input type="number" name="days" id="eventDays" readonly>
-
-      <label>Time Event Starts</label>
-      <input type="time" name="startTime" required>
-
-      <label>Time Event Ends</label>
-      <input type="time" name="endTime" required>
-
-      <label>Recipient Name for Invoice</label>
-      <input type="text" name="invoiceName" required>
-
-      <label>Recipient Email for Invoice</label>
-      <input type="email" name="invoiceEmail" required>
-
-
-      <!-- GUIDELINES SECTION (MANDATORY) -->
-<div class="guidelines-box" style="border:1px solid #e74c3c; padding:15px; border-radius:8px; margin-top:20px;">
-  <h3 style="margin-top:0; color:#e74c3c;">📄 Booking Guidelines (Mandatory)</h3>
-
-  <p style="font-size:14px;">
-    Please download and read the booking guidelines before submitting your request.
-  </p>
-
-  <a
-    href="2026 Guidelines/Guidelines -2026.pdf"
-    download
-    id="downloadGuidelines"
-    class="guidelines-download"
-    style="display:inline-block; padding:10px 15px; background:#2c3e50; color:#fff; text-decoration:none; border-radius:5px; margin-bottom:10px;"
-  >
-    ⬇ Download Guidelines
-  </a>
-<div style="margin-top:10px; display:flex; align-items:center; gap:10px; font-size:14px;">
-  <input type="checkbox" id="guidelinesConfirm" disabled>
-
-  <label for="guidelinesConfirm" style="cursor:pointer; margin:0;">
-   <span style="font-weight:600;"> I have downloaded and read the booking guidelines</span>
-  </label>
-
-</div>
-</div>
-      <style>
-        #guidelinesConfirm {
-  width: auto !important;
-}
-
-label[for="guidelinesConfirm"] {
-  display: inline !important;
-}
-
-      </style>
-      
-      <button type="submit" class="submit-btn" id="submitBooking" disabled>
-  Submit Booking
-</button>
-
-      
-</form>
-
-    </div>
-</div>
-  
-
+<!-- ════════════ FIREBASE ════════════════ -->
 <script>
-  loadingOverlay.classList.add('active'); // show
-loadingOverlay.classList.remove('active'); // hide
-
-</script>
-
-
-
-  <script>
-const menuToggle = document.getElementById("menuToggle");
-const mobileNav = document.getElementById("mobileNav");
-
-menuToggle.addEventListener("click", () => {
-  mobileNav.classList.toggle("show");
-  menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
-});
-</script>
-
-
-
-
-<!-- Your web app's Firebase configuration-->
-<!-- For Firebase JS SDK v7.20.0 and later, measurementId is optional-->
-  <script>
 const firebaseConfig = {
   apiKey: "AIzaSyA80t2tr136ihN57YQWwD4nYcPhyutACX4",
   authDomain: "userlogin-44d0a.firebaseapp.com",
@@ -471,103 +565,93 @@ const firebaseConfig = {
   appId: "1:47108256134:web:60888fa5f06dfb075d3c07",
   measurementId: "G-ZCVWTTFT2H"
 };
-
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 </script>
 
-
+<!-- ════════════ SCRIPTS ═════════════════ -->
 <script>
-document.getElementById("subscribeForm").addEventListener("submit", async function (e) {
-  e.preventDefault();
+document.getElementById("year").textContent = new Date().getFullYear();
 
-  const email = this.email.value.trim().toLowerCase();
-  const msg = document.getElementById("subscribeMessage");
+const scrollBtn = document.getElementById("scrollTopBtn");
+window.addEventListener("scroll", () => { scrollBtn.style.display = window.scrollY > 300 ? "flex" : "none"; });
+scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
 
-  if (!email) return;
+const menuToggle = document.getElementById("menuToggle");
+const mobileNav  = document.getElementById("mobileNav");
+menuToggle.addEventListener("click", () => {
+  mobileNav.classList.toggle("show");
+  menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
+});
 
-  try {
-    await db.collection("subscriptions").add({
-      email: email,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    });
+function openBookingModal(hallName) {
+  document.getElementById("bookingModal").style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
 
-    msg.style.display = "block";
-    msg.textContent = "Subscribed successfully!";
+document.getElementById("closeModal").onclick = () => {
+  document.getElementById("bookingModal").style.display = "none";
+  document.body.style.overflow = "";
+};
 
-    this.reset();
-
-    // Hide message after 3 seconds
-    setTimeout(() => {
-      msg.style.display = "none";
-    }, 3000);
-
-  } catch (error) {
-    console.error("Subscription error:", error);
-    alert("Failed to subscribe. Please try again.");
+document.getElementById("bookingModal").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("bookingModal")) {
+    document.getElementById("bookingModal").style.display = "none";
+    document.body.style.overflow = "";
   }
 });
 
-</script>
+const startDateInput = document.getElementById("startDate");
+const endDateInput   = document.getElementById("endDate");
+const eventDaysInput = document.getElementById("eventDays");
+function calcDays() {
+  if (startDateInput.value && endDateInput.value) {
+    const diff = Math.round((new Date(endDateInput.value) - new Date(startDateInput.value)) / (1000*60*60*24)) + 1;
+    eventDaysInput.value = diff > 0 ? diff : '';
+  }
+}
+startDateInput.addEventListener("change", calcDays);
+endDateInput.addEventListener("change", calcDays);
 
-  <script>
-  const downloadBtn = document.getElementById("downloadGuidelines");
-  const confirmCheckbox = document.getElementById("guidelinesConfirm");
-  const submitBtn = document.getElementById("submitBooking");
-
-  let hasDownloaded = false;
-
-  // Detect guideline download click
-  downloadBtn.addEventListener("click", () => {
-    hasDownloaded = true;
-
-    // Enable confirmation checkbox after download
-    setTimeout(() => {
-      confirmCheckbox.disabled = false;
-    }, 500);
-  });
-
-  // Enable submit button only after confirmation
-  confirmCheckbox.addEventListener("change", () => {
-    submitBtn.disabled = !confirmCheckbox.checked;
-  });
-
-</script>
-
-    <script>
-const bookingForm = document.getElementById("bookingForm");
-const bookingModal = document.getElementById("bookingModal");
+const bookingForm       = document.getElementById("bookingForm");
+const bookingModal      = document.getElementById("bookingModal");
 const submissionOverlay = document.getElementById("submissionOverlay");
-const spinner = document.getElementById("spinner");
-const successCard = document.getElementById("successCard");
+const spinner           = document.getElementById("spinner");
+const successCard       = document.getElementById("successCard");
 
-bookingForm.addEventListener("submit", function (e) {
+bookingForm.addEventListener("submit", function(e) {
   e.preventDefault();
-
-  /* 1. Close booking modal immediately */
   bookingModal.style.display = "none";
-
-  /* 2. Show overlay + spinner */
+  document.body.style.overflow = "";
   submissionOverlay.style.display = "flex";
   spinner.style.display = "block";
   successCard.style.display = "none";
-
-  /* 3. Simulate submission delay */
-  setTimeout(() => {
-    spinner.style.display = "none";
-    successCard.style.display = "block";
-  }, 2000);
-
-  /* 4. Auto-hide success card + overlay */
-  setTimeout(() => {
-    submissionOverlay.style.display = "none";
-    successCard.style.display = "none";
-    bookingForm.reset();
-  }, 10000);
+  setTimeout(() => { spinner.style.display = "none"; successCard.style.display = "block"; }, 2000);
+  setTimeout(() => { submissionOverlay.style.display = "none"; bookingForm.reset(); }, 10000);
 });
 
+document.getElementById("downloadGuidelines").addEventListener("click", () => {
+  setTimeout(() => { document.getElementById("guidelinesConfirm").disabled = false; }, 500);
+});
+document.getElementById("guidelinesConfirm").addEventListener("change", function() {
+  document.getElementById("submitBooking").disabled = !this.checked;
+});
 
+document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const email = this.email.value.trim().toLowerCase();
+  const msg = document.getElementById("subscribeMessage");
+  if (!email) return;
+  try {
+    await db.collection("subscriptions").add({ email, createdAt: firebase.firestore.FieldValue.serverTimestamp() });
+    msg.style.display = "block";
+    msg.textContent = "✓ Subscribed successfully!";
+    this.reset();
+    setTimeout(() => { msg.style.display = "none"; }, 3500);
+  } catch (err) { alert("Failed to subscribe. Please try again."); }
+});
 </script>
-  
+
+<script src="js/main.js"></script>
 </body>
 </html>
