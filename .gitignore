@@ -67,3 +67,9 @@ node_modules/
 
 # dataconnect generated files
 .dataconnect
+
+# Ignore video folder
+video/
+
+# Ignore all mp4 files
+*.mp4
