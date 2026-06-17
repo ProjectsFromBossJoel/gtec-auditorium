@@ -1,10 +1,31 @@
 {
   "hosting": {
     "public": ".",
+    "cleanUrls": true,
+
     "ignore": [
       "firebase.json",
       "**/.*",
       "**/node_modules/**"
+    ],
+
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "no-store"
+          }
+        ]
+      }
+    ],
+
+    "rewrites": [
+      {
+        "source": "**",
+        "destination": "/dashboard.html"
+      }
     ]
   }
 }
