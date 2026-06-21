@@ -987,6 +987,7 @@ body::before {
   object-fit: cover;
   display: block;
   transition: transform 0.5s ease;
+  cursor: pointer;
 }
 
 .gallery-item:hover img {
@@ -1000,6 +1001,7 @@ body::before {
   background: linear-gradient(to top, rgba(11,31,58,0.5) 0%, transparent 60%);
   opacity: 0;
   transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .gallery-item:hover::after {
@@ -1613,6 +1615,42 @@ body::before {
   line-height: 1.65;
 }
 
+/* Main gallery lightbox */
+.main-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+  cursor: zoom-out;
+  padding: 24px;
+}
+
+.main-lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  cursor: default;
+}
+
+.main-lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  color: rgba(255,255,255,0.75);
+  font-size: 30px;
+  cursor: pointer;
+  transition: color 0.2s;
+  z-index: 1;
+}
+
+.main-lightbox-close:hover { color: #fff; }
+
 /* Gallery overlay (hall details) */
 #galleryOverlay {
   position: fixed;
@@ -2016,25 +2054,31 @@ body::before {
     </div>
 
     <div class="gallery-grid">
-      <div class="gallery-item campus"><img src="gallery/paul-effah_full_auditorium.jpeg" alt="Paul Effah Hall"></div>
-      <div class="gallery-item campus"><img src="gallery/paul-effah_full_auditorium_12.jpeg" alt="Paul Effah Hall"></div>
-      <div class="gallery-item students"><img src="gallery/dattey_101.jpeg" alt="Kwame Dattey Hall"></div>
-      <div class="gallery-item campus"><img src="gallery/paul-effah_full_auditorium_11.jpeg" alt="Paul Effah Hall"></div>
-      <div class="gallery-item campus"><img src="gallery/paul-effah_ground-floor_13.jpeg" alt="Paul Effah Ground Floor"></div>
-      <div class="gallery-item teachers"><img src="gallery/nikoi_hall-1.jpeg" alt="Nikoi Kotey Hall"></div>
-      <div class="gallery-item students"><img src="gallery/dattey_103.jpeg" alt="Kwame Dattey Hall"></div>
-      <div class="gallery-item photos"><img src="gallery/jinapor-112.jpeg" alt="Ahmed Jinapor Hall"></div>
-      <div class="gallery-item campus"><img src="gallery/paul-effah_ground-floor_14.jpeg" alt="Paul Effah Ground Floor"></div>
-      <div class="gallery-item photos"><img src="gallery/jinapor_101.jpeg" alt="Ahmed Jinapor Hall"></div>
-      <div class="gallery-item campus"><img src="gallery/paul-effah_ground-floor_12.jpeg" alt="Paul Effah Ground Floor"></div>
-      <div class="gallery-item campus"><img src="gallery/paul_effah-top_leftwing.jpeg" alt="Paul Effah Hall"></div>
-      <div class="gallery-item photos"><img src="gallery/jinapor_101.jpg" alt="Ahmed Jinapor Hall"></div>
-      <div class="gallery-item photos"><img src="gallery/jinapor_102.jpg" alt="Ahmed Jinapor Hall"></div>
-      <div class="gallery-item photos"><img src="gallery/jinapor_103.jpg" alt="Ahmed Jinapor Hall"></div>
-      <div class="gallery-item photos"><img src="gallery/jinapor_104.jpg" alt="Ahmed Jinapor Hall"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_full_auditorium.jpeg" alt="Paul Effah Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_full_auditorium_12.jpeg" alt="Paul Effah Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item students"><img src="gallery/dattey_101.jpeg" alt="Kwame Dattey Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_full_auditorium_11.jpeg" alt="Paul Effah Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_ground-floor_13.jpeg" alt="Paul Effah Ground Floor" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item teachers"><img src="gallery/nikoi_hall-1.jpeg" alt="Nikoi Kotey Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item students"><img src="gallery/dattey_103.jpeg" alt="Kwame Dattey Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor-112.jpeg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_ground-floor_14.jpeg" alt="Paul Effah Ground Floor" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_101.jpeg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_ground-floor_12.jpeg" alt="Paul Effah Ground Floor" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul_effah-top_leftwing.jpeg" alt="Paul Effah Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_101.jpg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_102.jpg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_103.jpg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_104.jpg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
     </div>
   </div>
 </section>
+
+<!-- ════════════════ MAIN GALLERY LIGHTBOX ════ -->
+<div id="mainLightbox" class="main-lightbox" onclick="closeMainLightbox()">
+  <span class="main-lightbox-close" onclick="closeMainLightbox()">✕</span>
+  <img id="mainLightboxImg" src="" alt="Enlarged view">
+</div>
 
 <!-- ════════════════ FOOTER ══════════════════ -->
 <footer class="gtec-footer">
@@ -2407,6 +2451,22 @@ function stopAutoScroll() { clearInterval(autoScroll); }
 startAutoScroll();
 container.addEventListener("mouseenter", stopAutoScroll);
 container.addEventListener("mouseleave", startAutoScroll);
+
+/* ── Main gallery lightbox ───── */
+function openMainLightbox(src) {
+  document.getElementById("mainLightboxImg").src = src;
+  document.getElementById("mainLightbox").style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function closeMainLightbox() {
+  document.getElementById("mainLightbox").style.display = "none";
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeMainLightbox();
+});
 
 /* ── Gallery filters ─────────── */
 const filterBtns  = document.querySelectorAll(".gallery-filters button");
