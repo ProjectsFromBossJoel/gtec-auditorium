@@ -308,12 +308,17 @@ body::before {
   border-radius: var(--radius-md); overflow: hidden;
   box-shadow: var(--shadow-md); background: #000;
   position: relative;
+  max-height: 480px;
+  width: 480px;
 }
 
 .video-wrapper video {
-  width: 100%; display: block; max-height: 380px; object-fit: cover;
+  width: 100%;
+  height: 100%;
+  max-height: 480px;
+  display: block;
+  object-fit: cover;
 }
-
 .video-label {
   position: absolute; bottom: 14px; left: 14px;
   background: rgba(0,0,0,0.6); backdrop-filter: blur(6px);
@@ -819,7 +824,7 @@ body::before {
         <p class="page-eyebrow">Conference Hall</p>
         <h1><em>Ahmed Jinapor</em> Hall</h1>
         <div class="hall-hero-meta">
-          <span class="meta-badge gold">🪑 120 pax</span>
+          <span class="meta-badge gold">🪑 100 pax</span>
           <span class="meta-badge">📽️ Screen</span>
           <span class="meta-badge">🔊 PA System</span>
           <span class="meta-badge">❄️ Air Conditioned</span>
@@ -845,13 +850,14 @@ body::before {
         <!-- Photo Gallery -->
         <div class="gallery-block">
           <h3 class="gallery-block-title">Photo Gallery</h3>
-          <img src="jinapor/jinapor_212.jpeg" alt="Ahmed Jinapor Hall" class="gallery-main-img" id="mainGalleryImg" onclick="openLightbox(this.src)">
+          <img src="jinapor/jinapor_101.jpg" alt="Ahmed Jinapor Hall" class="gallery-main-img" id="mainGalleryImg" onclick="openLightbox(this.src)">
           <div class="gallery-thumbs">
-            <img src="jinapor/jinapor_212.jpeg"  class="gallery-thumb active" onclick="switchMain(this)" alt="View 1">
-            <img src="jinapor/jinapor_213.jpeg"  class="gallery-thumb" onclick="switchMain(this)" alt="View 2">
-            <img src="jinapor/jinapor_214.jpeg"  class="gallery-thumb" onclick="switchMain(this)" alt="View 3">
-            <img src="jinapor/jinapor_13.jpeg"   class="gallery-thumb" onclick="switchMain(this)" alt="View 4">
-            <img src="jinapor/jinapor-112.jpeg"  class="gallery-thumb" onclick="switchMain(this)" alt="View 5">
+            <img src="jinapor/jinapor_101.jpg"  class="gallery-thumb active" onclick="switchMain(this)" alt="View 1">
+            <img src="jinapor/jinapor_102.jpg"  class="gallery-thumb active" onclick="switchMain(this)" alt="View 1">
+            <img src="jinapor/jinapor_212.jpeg"  class="gallery-thumb" onclick="switchMain(this)" alt="View 2">
+            <img src="jinapor/jinapor_213.jpeg"  class="gallery-thumb" onclick="switchMain(this)" alt="View 3">
+            <img src="jinapor/jinapor-112.jpeg"   class="gallery-thumb" onclick="switchMain(this)" alt="View 4">
+            <img src="jinapor/jinapor_13.jpeg"  class="gallery-thumb" onclick="switchMain(this)" alt="View 5">
           </div>
         </div>
 
@@ -875,7 +881,7 @@ body::before {
           <div class="features-grid">
             <div class="feature-item">
               <div class="feature-check">✓</div>
-              <span class="feature-text">120 seating capacity</span>
+              <span class="feature-text">100 seating capacity</span>
             </div>
             <div class="feature-item">
               <div class="feature-check">✓</div>
@@ -912,7 +918,7 @@ body::before {
           <div class="sidebar-card-body">
             <div class="sidebar-stat-row">
               <span class="sidebar-stat-label">Capacity</span>
-              <span class="sidebar-stat-value">120 pax</span>
+              <span class="sidebar-stat-value">100 pax</span>
             </div>
             <div class="sidebar-stat-row">
               <span class="sidebar-stat-label">Seating Style</span>
@@ -1000,7 +1006,7 @@ body::before {
   </div>
   <div class="footer-bottom">
     <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
-    <p style="margin-top:8px;">Developed &amp; Maintained by <a href="https://myportfolio-theta-topaz-43.vercel.app/" target="_blank"><strong>Prince Antwi Wiafe</strong></a></p>
+    <p style="margin-top:8px;">Powered by <a href="https://myportfolio-theta-topaz-43.vercel.app/" target="_blank"><strong>TrevorMiles</strong></a></p>
   </div>
   <button id="scrollTopBtn" title="Back to top" style="display:none;">↑</button>
 </footer>
