@@ -1,0 +1,1236 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Events — GTEC Conference Facility</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --navy:       #0b1f3a;
+  --navy-mid:   #122952;
+  --navy-light: #1a3a6b;
+  --gold:       #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim:   #8a6b28;
+  --pearl:      #faf8f4;
+  --cream:      #f3ede2;
+  --white:      #ffffff;
+  --muted:      #6b7a8d;
+  --text:       #1c2b3d;
+  --border:     rgba(201,168,76,0.18);
+
+  --shadow-sm: 0 2px 12px rgba(11,31,58,0.08);
+  --shadow-md: 0 8px 32px rgba(11,31,58,0.12);
+  --shadow-lg: 0 20px 60px rgba(11,31,58,0.18);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--pearl);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.4;
+}
+
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ── HEADER ─────────────────────────────── */
+.site-header {
+  background: var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+}
+
+.site-header::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.6;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 72px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1.5px solid rgba(201,168,76,0.4);
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.brand-name span {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.7rem;
+  color: var(--gold-light);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav a {
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.78);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  letter-spacing: 0.02em;
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 14px;
+  right: 14px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+  transform-origin: right;
+}
+
+.nav a:hover { color: #fff; background: rgba(255,255,255,0.06); }
+.nav a:hover::after { transform: scaleX(1); transform-origin: left; }
+.nav a.active { color: var(--gold-light); }
+
+.book-now-btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  text-decoration: none;
+}
+
+.book-now-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+}
+
+.menu-toggle {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #fff;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.menu-toggle:hover { background: rgba(255,255,255,0.1); }
+
+/* ── PAGE HERO (compact) ────────────────── */
+.page-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 55%, #0f3060 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 60px 0 56px;
+}
+
+.page-hero::before {
+  content: '';
+  position: absolute;
+  top: -40%;
+  right: -10%;
+  width: 500px;
+  height: 500px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.07) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.page-hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.4;
+}
+
+.page-hero-accent {
+  position: absolute;
+  top: 0; left: 0;
+  width: 160px; height: 160px;
+  border-left: 1px solid rgba(201,168,76,0.2);
+  border-top: 1px solid rgba(201,168,76,0.2);
+  pointer-events: none;
+}
+
+.page-hero-inner {
+  text-align: center;
+  position: relative;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+}
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  height: 1px;
+  width: 24px;
+  background: var(--gold);
+  opacity: 0.6;
+}
+
+.page-hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: -0.02em;
+  margin-bottom: 14px;
+}
+
+.page-hero h1 em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.page-hero .lead {
+  font-size: 0.98rem;
+  color: rgba(255,255,255,0.62);
+  max-width: 520px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* ── FILTER BAR ─────────────────────────── */
+.filter-bar {
+  background: var(--white);
+  border-bottom: 1px solid rgba(11,31,58,0.07);
+  padding: 18px 0;
+  position: sticky;
+  top: 72px;
+  z-index: 100;
+  box-shadow: var(--shadow-sm);
+}
+
+.filter-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.filter-tabs {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-tab {
+  background: transparent;
+  border: 1.5px solid rgba(11,31,58,0.12);
+  color: var(--muted);
+  padding: 7px 16px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.03em;
+  transition: var(--transition);
+}
+
+.filter-tab:hover {
+  border-color: var(--gold);
+  color: var(--gold-dim);
+}
+
+.filter-tab.active {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+  font-weight: 600;
+}
+
+.event-count {
+  font-size: 0.82rem;
+  color: var(--muted);
+  white-space: nowrap;
+}
+
+.event-count strong {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+/* ── EVENTS GRID ────────────────────────── */
+.events-section {
+  padding: 56px 0 80px;
+}
+
+.events-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 26px;
+}
+
+/* ── EVENT CARD ─────────────────────────── */
+.event-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(11,31,58,0.06);
+  transition: var(--transition);
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+
+.event-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(201,168,76,0.22);
+}
+
+.event-card-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.event-card-media img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s ease;
+}
+
+.event-card:hover .event-card-media img {
+  transform: scale(1.05);
+}
+
+.event-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
+}
+
+.event-badge.conference {
+  background: rgba(11,31,58,0.82);
+  color: var(--gold-light);
+  border: 1px solid rgba(201,168,76,0.3);
+}
+
+.event-badge.seminar {
+  background: rgba(14,80,42,0.82);
+  color: #6ee7a0;
+  border: 1px solid rgba(110,231,160,0.3);
+}
+
+.event-badge.ceremony {
+  background: rgba(120,40,10,0.82);
+  color: #f4c178;
+  border: 1px solid rgba(244,193,120,0.3);
+}
+
+.event-badge.workshop {
+  background: rgba(60,20,100,0.82);
+  color: #d4aaff;
+  border: 1px solid rgba(212,170,255,0.3);
+}
+
+.event-badge.exam {
+  background: rgba(15,50,90,0.82);
+  color: #90caff;
+  border: 1px solid rgba(144,202,255,0.3);
+}
+
+.event-overlay-icon {
+  position: absolute;
+  bottom: 14px;
+  right: 14px;
+  width: 34px;
+  height: 34px;
+  background: rgba(255,255,255,0.15);
+  border: 1px solid rgba(255,255,255,0.3);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  backdrop-filter: blur(6px);
+  opacity: 0;
+  transform: scale(0.8);
+  transition: var(--transition);
+}
+
+.event-card:hover .event-overlay-icon {
+  opacity: 1;
+  transform: scale(1);
+}
+
+.event-card-body {
+  padding: 20px 22px 22px;
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  
+}
+
+.event-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-bottom: 10px;
+}
+
+.event-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gold-dim);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.event-venue-tag {
+  font-size: 0.72rem;
+  color: var(--muted);
+  background: rgba(11,31,58,0.05);
+  padding: 3px 9px;
+  border-radius: 10px;
+  font-weight: 500;
+}
+
+.event-card-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.35;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.event-card:hover .event-card-title {
+  color: var(--gold-dim);
+}
+
+.event-card-excerpt {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.65;
+  flex: 1;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.event-card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(11,31,58,0.06);
+}
+
+.event-attendees {
+  font-size: 0.76rem;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.event-card-cta {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--navy);
+  letter-spacing: 0.04em;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  transition: gap 0.2s, color 0.2s;
+}
+
+.event-card:hover .event-card-cta {
+  color: var(--gold-dim);
+  gap: 8px;
+}
+
+/* ── EMPTY STATE ────────────────────────── */
+.empty-state {
+  text-align: center;
+  padding: 80px 0;
+  display: none;
+}
+
+.empty-state-icon {
+  font-size: 3rem;
+  margin-bottom: 16px;
+  opacity: 0.5;
+}
+
+.empty-state h3 {
+  font-family: var(--font-display);
+  font-size: 1.3rem;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.empty-state p {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* ── EVENT MODAL ────────────────────────── */
+.event-modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8,15,30,0.78);
+  backdrop-filter: blur(10px);
+  z-index: 3000;
+  padding: 20px;
+}
+
+.event-modal.open {
+  display: flex;
+}
+
+.event-modal-content {
+  background: var(--white);
+  width: 100%;
+  max-width: 700px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 40px 100px rgba(8,15,30,0.4);
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+@keyframes popIn {
+  from { transform: scale(0.87) translateY(18px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modal-image-wrap {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+}
+
+.modal-image-wrap img {
+  width: 100%;
+  height: 320px;
+  object-fit: cover;
+  display: block;
+}
+
+.modal-image-wrap::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: linear-gradient(to top, rgba(8,15,30,0.6), transparent);
+  pointer-events: none;
+}
+
+.modal-image-badge {
+  position: absolute;
+  top: 18px;
+  left: 20px;
+  z-index: 1;
+}
+
+.modal-close {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  font-size: 18px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  transition: var(--transition);
+  z-index: 2;
+  line-height: 1;
+}
+
+.modal-close:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.modal-image-title {
+  position: absolute;
+  bottom: 20px;
+  left: 24px;
+  right: 60px;
+  z-index: 1;
+  font-family: var(--font-display);
+  font-size: 1.35rem;
+  font-weight: 700;
+  color: #fff;
+  line-height: 1.25;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.modal-body {
+  padding: 28px 28px 32px;
+}
+
+.modal-meta-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  padding: 5px 12px;
+  border-radius: 20px;
+  background: rgba(11,31,58,0.05);
+  color: var(--text);
+  border: 1px solid rgba(11,31,58,0.08);
+}
+
+.meta-chip.highlight {
+  background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.05));
+  border-color: rgba(201,168,76,0.25);
+  color: var(--gold-dim);
+  font-weight: 600;
+}
+
+.modal-description {
+  font-size: 0.93rem;
+  color: #4a5568;
+  line-height: 1.75;
+  margin-bottom: 22px;
+}
+
+.modal-highlights {
+  border-radius: 10px;
+  background: var(--pearl);
+  border: 1px solid rgba(11,31,58,0.07);
+  padding: 18px 20px;
+  margin-bottom: 24px;
+}
+
+.modal-highlights h4 {
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.modal-highlights ul {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.modal-highlights ul li {
+  font-size: 0.86rem;
+  color: var(--muted);
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  line-height: 1.5;
+}
+
+.modal-highlights ul li::before {
+  content: '✦';
+  color: var(--gold);
+  font-size: 0.7rem;
+  margin-top: 3px;
+  flex-shrink: 0;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.03em;
+  padding: 12px 24px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: #fff;
+  box-shadow: 0 4px 18px rgba(11,31,58,0.22);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(11,31,58,0.3);
+}
+
+.btn-outline {
+  background: transparent;
+  color: var(--navy);
+  border: 1.5px solid rgba(11,31,58,0.2);
+}
+
+.btn-outline:hover {
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+}
+
+/* ── FOOTER ─────────────────────────────── */
+.gtec-footer {
+  background: linear-gradient(180deg, #0d1a2e 0%, #080f1c 100%);
+  color: #9aa0c3;
+  padding-top: 5rem;
+  position: relative;
+  border-top: 1px solid rgba(201,168,76,0.12);
+}
+
+.gtec-footer::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.4;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 28px 3rem;
+}
+
+.footer-col h4 {
+  font-family: var(--font-display);
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.4rem;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.footer-col h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0;
+  width: 28px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.8rem; }
+.footer-col ul li a {
+  color: #8a90b0;
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: color 0.2s;
+}
+.footer-col ul li a:hover { color: var(--gold-light); }
+.footer-col p { font-size: 0.88rem; line-height: 1.65; color: #8a90b0; margin-bottom: 1rem; }
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  text-align: center;
+  padding: 1.4rem 28px;
+  font-size: 0.82rem;
+  color: #5a6080;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.footer-bottom a { color: #9aa0c3; text-decoration: none; }
+.footer-bottom a:hover { color: var(--gold-light); }
+
+/* ── SCROLL TOP ─────────────────────────── */
+#scrollTopBtn {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: var(--navy);
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.3);
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  z-index: 400;
+}
+
+#scrollTopBtn:hover {
+  background: var(--gold);
+  color: var(--navy);
+  transform: translateY(-2px);
+}
+
+/* ── RESPONSIVE ─────────────────────────── */
+@media (max-width: 900px) {
+  .events-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+
+  .nav {
+    position: absolute;
+    top: 72px; left: 0;
+    width: 100%;
+    background: var(--navy);
+    display: none;
+    flex-direction: column;
+    padding: 12px 0;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  .nav a { border-radius: 0; padding: 12px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); }
+  .nav.show { display: flex; }
+  .book-now-btn { display: none; }
+
+  .filter-inner { flex-direction: column; align-items: flex-start; }
+
+  .modal-image-wrap img { height: 220px; }
+  .modal-image-title { font-size: 1.1rem; }
+}
+
+@media (max-width: 600px) {
+  .events-grid { grid-template-columns: 1fr; }
+  .modal-actions { flex-direction: column; }
+  .modal-actions .btn { width: 100%; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ HEADER ════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <a href="index.html" class="brand">
+      <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
+      <div class="brand-name">
+        GTEC
+        <span>Conference Facility</span>
+      </div>
+    </a>
+
+    <div class="menu-toggle" id="menuToggle">☰</div>
+
+    <nav class="nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="halls.html">Halls</a>
+      <a href="events.html" class="active">Events</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="policies.html">Policies</a>
+    </nav>
+
+    <a href="halls.html" class="book-now-btn" onclick="event.preventDefault(); window.location='index.html#bookingModal'">Book Now</a>
+  </div>
+</header>
+
+<!-- ════════════════ PAGE HERO ════════════ -->
+<section class="page-hero">
+  <div class="page-hero-accent"></div>
+  <div class="container">
+    <div class="page-hero-inner">
+      <p class="hero-eyebrow">GTEC Conference Facility</p>
+      <h1>Events &amp; <em>Highlights</em></h1>
+      <p class="lead">A showcase of the conferences, seminars, ceremonies and gatherings that have brought professionals together within our halls.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FILTER BAR ═══════════ -->
+<div class="filter-bar">
+  <div class="container">
+    <div class="filter-inner">
+      <div class="filter-tabs">
+        <button class="filter-tab active" data-filter="all">All Events</button>
+        <button class="filter-tab" data-filter="conference">Conference</button>
+        <button class="filter-tab" data-filter="seminar">Seminar</button>
+        <button class="filter-tab" data-filter="ceremony">Ceremony</button>
+        <button class="filter-tab" data-filter="workshop">Workshop</button>
+        <button class="filter-tab" data-filter="exam">Examination</button>
+      </div>
+      <p class="event-count">Showing <strong id="visibleCount">0</strong> events</p>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ EVENTS GRID ══════════ -->
+<section class="events-section">
+  <div class="container">
+    <div class="events-grid" id="eventsGrid">
+
+     <!-- ─── Card 1 ─── -->
+<div class="event-card" data-category="ceremony" onclick="openEventModal(0)">
+  <div class="event-card-media">
+    <img src="events/ecole_ronsard_program.png.jpeg" alt="9th Graduation & 10th Speech and Prize-Giving Day">
+    <div class="event-badge graduation">Graduation</div>
+    <div class="event-overlay-icon">↗</div>
+  </div>
+
+  <div class="event-card-body">
+    <div class="event-meta-row">
+      <span class="event-date">June 24, 2026</span>
+      <span class="event-venue-tag">Paul Effah Hall</span>
+      
+      
+    </div>
+
+    <div class="event-school-tag">
+    </div>
+
+    <h3 class="event-card-title">
+      9th Graduation & 10th Speech and Prize-Giving Day
+    </h3>
+
+    <p class="event-card-excerpt">
+      Celebrating the achievements of the graduating class while recognizing excellence in academics, leadership, culture, and extracurricular activities under the theme "Shaping Ghana's Future Through Culture and Learning."
+    </p>
+
+    <div class="event-card-footer">
+      <span class="event-attendees">🎓École Ronsard Bilingual School</span>
+      <span class="event-card-cta">View Details →</span>
+    </div>
+  </div>
+</div>
+
+    </div>
+
+    <div class="empty-state" id="emptyState">
+      <div class="empty-state-icon">📅</div>
+      <h3>No events in this category</h3>
+      <p>Try selecting a different filter above.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ FOOTER ════════════════ -->
+<footer class="gtec-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>About Us</h4>
+      <ul>
+        <li><a href="index.html">General Overview</a></li>
+        <li><a href="about.html">Vision / Mission / Core Values</a></li>
+        <li><a href="events.html">Events</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>What We Do</h4>
+      <ul>
+        <li><a href="halls.html">Book Events</a></li>
+        <li><a href="https://guesthousesystem-86fdc.web.app/roomsui.html">Reserve a Room</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>QA Guidelines</h4>
+      <ul>
+        <li><a href="policies.html">QA Guidelines</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Quick Links</h4>
+      <ul>
+        <li><a href="index.html">Home</a></li>
+        <li><a href="halls.html">Conference Halls</a></li>
+        <li><a href="events.html">Events</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
+    <p style="margin-top:8px;">Powered by <a href="https://myportfolio-theta-topaz-43.vercel.app/" target="_blank"><strong>TrevorMiles</strong></a></p>
+  </div>
+</footer>
+
+<button id="scrollTopBtn" title="Back to top">↑</button>
+
+<!-- ════════════════ EVENT MODAL ══════════ -->
+<div class="event-modal" id="eventModal">
+  <div class="event-modal-content">
+    <div class="modal-image-wrap">
+      <img id="modalImage" src="" alt="">
+      <div class="modal-image-badge">
+        <span id="modalBadge" class="event-badge"></span>
+        
+      </div>
+      <button class="modal-close" id="modalClose" aria-label="Close">✕</button>
+      <div class="modal-image-title" id="modalTitle"></div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-meta-row" id="modalMeta"></div><b><a href="https://ecole-ronsard.com/" target="_blank" style="color: #007bff; text-decoration: underline;">École Ronsard Bilingual School</a></b>
+      <p class="modal-description" id="modalDescription"></p>
+      <div class="modal-highlights" id="modalHighlights">
+        
+        <h4>Event Highlights</h4>
+        <ul id="modalHighlightsList"></ul>
+      </div>
+      <div class="modal-actions">
+        <a href="halls.html" class="btn btn-primary">Book a Hall for Your Event</a>
+        <button class="btn btn-outline" onclick="closeEventModal()">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+/* ── Year ──────────────────────────────── */
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ── Scroll top ──────────────────────── */
+const scrollBtn = document.getElementById("scrollTopBtn");
+window.addEventListener("scroll", () => {
+  scrollBtn.style.display = window.scrollY > 300 ? "flex" : "none";
+});
+scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+/* ── Mobile nav ──────────────────────── */
+const menuToggle = document.getElementById("menuToggle");
+const mobileNav  = document.getElementById("mobileNav");
+menuToggle.addEventListener("click", () => {
+  mobileNav.classList.toggle("show");
+  menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
+});
+
+/* ── Event data ──────────────────────── */
+const events = [
+  {
+    title: "9th Graduation & 10th Speech and Prize-Giving Day",
+    category: "graduation",
+    categoryLabel: "Graduation",
+    image: "events/ecole_ronsard_program.png.jpeg",
+    date: "June 23-24, 2026",
+    venue: "Paul Effah Hall",
+    attendees: "~580 guests",
+    theme: "Shaping Ghana's Future Through Culture and Learning",
+    description: "The 9th Graduation and 10th Speech & Prize-Giving Day celebrated the achievements of graduating students while recognizing outstanding academic performance, leadership, and excellence across all levels. Parents, educators, distinguished guests, and members of the school community gathered to honour the accomplishments of students and their contributions to the school's legacy of excellence.",
+    highlights: [
+      "Graduation ceremony for the Class of 2026",
+      "Presentation of academic excellence awards and special recognitions",
+      "Speech by the Guest of Honour and school leadership",
+      "Cultural performances by students",
+      "Recognition of outstanding achievements in academics, leadership, and extracurricular activities",
+      "Class photographs and networking session with families and guests"
+    ]
+  },
+
+];
+
+/* ── Filter logic ─────────────────────── */
+const filterTabs  = document.querySelectorAll(".filter-tab");
+const cards       = document.querySelectorAll(".event-card");
+const countEl     = document.getElementById("visibleCount");
+const emptyState  = document.getElementById("emptyState");
+const eventsGrid  = document.getElementById("eventsGrid");
+
+function updateCount() {
+  const visible = document.querySelectorAll(".event-card:not(.hidden)").length;
+  countEl.textContent = visible;
+  emptyState.style.display = visible === 0 ? "block" : "none";
+  eventsGrid.style.display = visible === 0 ? "none" : "grid";
+}
+
+filterTabs.forEach(tab => {
+  tab.addEventListener("click", () => {
+    filterTabs.forEach(t => t.classList.remove("active"));
+    tab.classList.add("active");
+
+    const filter = tab.dataset.filter;
+    cards.forEach(card => {
+      const match = filter === "all" || card.dataset.category === filter;
+      card.classList.toggle("hidden", !match);
+      card.style.display = match ? "" : "none";
+    });
+
+    updateCount();
+  });
+});
+
+// Initial count
+updateCount();
+
+/* ── Modal open/close ─────────────────── */
+function openEventModal(index) {
+  const ev = events[index];
+  if (!ev) return;
+
+  document.getElementById("modalImage").src = ev.image;
+  document.getElementById("modalImage").alt = ev.title;
+  document.getElementById("modalTitle").textContent = ev.title;
+
+  const badge = document.getElementById("modalBadge");
+  badge.textContent = ev.categoryLabel;
+  badge.className = "event-badge " + ev.category;
+
+  // Meta chips
+  const metaRow = document.getElementById("modalMeta");
+  metaRow.innerHTML = `
+    <span class="meta-chip highlight">📅 ${ev.date}</span>
+    <span class="meta-chip">📍 ${ev.venue}</span>
+    <span class="meta-chip">🎟 ${ev.attendees}</span>
+  `;
+
+  document.getElementById("modalDescription").textContent = ev.description;
+
+  // Highlights
+  const list = document.getElementById("modalHighlightsList");
+  list.innerHTML = ev.highlights.map(h => `<li>${h}</li>`).join("");
+
+  const modal = document.getElementById("eventModal");
+  modal.classList.add("open");
+  modal.style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function closeEventModal() {
+  const modal = document.getElementById("eventModal");
+  modal.classList.remove("open");
+  modal.style.display = "none";
+  document.body.style.overflow = "";
+}
+
+document.getElementById("modalClose").addEventListener("click", closeEventModal);
+
+document.getElementById("eventModal").addEventListener("click", function(e) {
+  if (e.target === this) closeEventModal();
+});
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeEventModal();
+});
+</script>
+
+</body>
+</html>
