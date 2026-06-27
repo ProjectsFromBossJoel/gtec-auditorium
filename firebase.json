@@ -1,7 +1,9 @@
 {
   "hosting": {
+    "404": "404.html",
     "public": ".",
     "cleanUrls": true,
+    "trailingSlash": false,
 
     "ignore": [
       "firebase.json",
