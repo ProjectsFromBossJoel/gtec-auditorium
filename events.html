@@ -430,6 +430,12 @@ body::before {
   border: 1px solid rgba(144,202,255,0.3);
 }
 
+.event-badge.graduation {
+  background: rgba(120,60,0,0.82);
+  color: #fde68a;
+  border: 1px solid rgba(253,230,138,0.3);
+}
+
 .event-overlay-icon {
   position: absolute;
   bottom: 14px;
@@ -953,7 +959,7 @@ body::before {
       <a href="policies.html">Policies</a>
     </nav>
 
-    <a href="halls.html" class="book-now-btn" onclick="event.preventDefault(); window.location='index.html#bookingModal'">Book Now</a>
+    <a href="halls.html" class="book-now-btn">Book Now</a>
   </div>
 </header>
 
@@ -980,6 +986,7 @@ body::before {
         <button class="filter-tab" data-filter="ceremony">Ceremony</button>
         <button class="filter-tab" data-filter="workshop">Workshop</button>
         <button class="filter-tab" data-filter="exam">Examination</button>
+        <button class="filter-tab" data-filter="graduation">Graduation</button>
       </div>
       <p class="event-count">Showing <strong id="visibleCount">0</strong> events</p>
     </div>
@@ -992,7 +999,7 @@ body::before {
     <div class="events-grid" id="eventsGrid">
 
      <!-- ─── Card 1 ─── -->
-<div class="event-card" data-category="ceremony" onclick="openEventModal(0)">
+<div class="event-card" data-category="graduation" onclick="openEventModal(0)">
   <div class="event-card-media">
     <img src="events/ecole_ronsard_program.png.jpeg" alt="9th Graduation & 10th Speech and Prize-Giving Day">
     <div class="event-badge graduation">Graduation</div>
@@ -1090,7 +1097,8 @@ body::before {
       <div class="modal-image-title" id="modalTitle"></div>
     </div>
     <div class="modal-body">
-      <div class="modal-meta-row" id="modalMeta"></div><b><a href="https://ecole-ronsard.com/" target="_blank" style="color: #007bff; text-decoration: underline;">École Ronsard Bilingual School</a></b>
+      <div class="modal-meta-row" id="modalMeta"></div>
+      <p id="modalOrganiser" style="margin-bottom:12px; font-size:0.88rem; font-weight:600;"></p>
       <p class="modal-description" id="modalDescription"></p>
       <div class="modal-highlights" id="modalHighlights">
         
@@ -1135,6 +1143,7 @@ const events = [
     venue: "Paul Effah Hall",
     attendees: "~580 guests",
     theme: "Shaping Ghana's Future Through Culture and Learning",
+    organiserLink: '<a href="https://ecole-ronsard.com/" target="_blank" style="color:#007bff;text-decoration:underline;">École Ronsard Bilingual School</a>',
     description: "The 9th Graduation and 10th Speech & Prize-Giving Day celebrated the achievements of graduating students while recognizing outstanding academic performance, leadership, and excellence across all levels. Parents, educators, distinguished guests, and members of the school community gathered to honour the accomplishments of students and their contributions to the school's legacy of excellence.",
     highlights: [
       "Graduation ceremony for the Class of 2026",
@@ -1202,6 +1211,9 @@ function openEventModal(index) {
     <span class="meta-chip">🎟 ${ev.attendees}</span>
   `;
 
+  const organiserEl = document.getElementById("modalOrganiser");
+  organiserEl.innerHTML = ev.organiserLink || "";
+  organiserEl.style.display = ev.organiserLink ? "block" : "none";
   document.getElementById("modalDescription").textContent = ev.description;
 
   // Highlights

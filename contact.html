@@ -528,6 +528,21 @@ body::before {
 .submit-btn:hover:not(:disabled) { transform: translateY(-1px); box-shadow: 0 8px 24px rgba(11,31,58,0.3); }
 .submit-btn:disabled { opacity: 0.45; cursor: not-allowed; }
 
+.warning-text {
+  font-size: 0.78rem; color: #b45309;
+  background: rgba(251,191,36,0.1);
+  border: 1px solid rgba(251,191,36,0.25);
+  border-radius: 6px; padding: 8px 12px;
+  margin-top: 6px; line-height: 1.5;
+}
+
+.form-section-title {
+  font-family: var(--font-display);
+  font-size: 1rem; font-weight: 600; color: var(--navy);
+  margin: 24px 0 14px; padding-bottom: 8px;
+  border-bottom: 1px solid rgba(11,31,58,0.08);
+}
+
 /* ── FOOTER ─────────────────────────────── */
 .gtec-footer {
   background: linear-gradient(180deg, #0d1a2e 0%, #080f1c 100%);
@@ -938,6 +953,51 @@ document.addEventListener('DOMContentLoaded', () => {
           </div>
         </div>
 
+        <p class="form-section-title">Live Streaming Options</p>
+
+        <label>Live Streaming</label>
+        <select name="streaming" required>
+          <option value="">Select...</option>
+          <option value="None">No streaming</option>
+          <option value="Zoom">Zoom</option>
+          <option value="YouTube">YouTube</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Google Meet">Google Meet</option>
+        </select>
+
+        <label>Internet for Streaming</label>
+        <select name="internetChoice" required>
+          <option value="">Select...</option>
+          <option value="None">None</option>
+          <option value="Use Own Wi-Fi">Using own internet (No extra cost)</option>
+          <option value="Use GTEC's Wi-Fi">Use GTEC internet (Extra cost applies)</option>
+        </select>
+        <p class="warning-text">⚠️ Institutions can bring their own router to avoid extra charges. Selecting "Use GTEC internet" comes with an additional cost.</p>
+
+        <p class="form-section-title">Additional Options</p>
+
+        <label>Event Promotion</label>
+        <select name="eventPromotion" required>
+          <option value="">Select...</option>
+          <option value="Yes">Yes — promote my event</option>
+          <option value="No">No</option>
+        </select>
+
+        <label>Stage Lighting</label>
+        <select name="stageLighting" required>
+          <option value="">Select...</option>
+          <option value="None">None</option>
+          <option value="Yes, GTEC Provided">Yes — GTEC Provided</option>
+          <option value="Yes, Own Equipment">Yes — Own Equipment</option>
+        </select>
+
+        <label>VIP Lounge</label>
+        <select name="vipLounge" required>
+          <option value="">Select...</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+
         <label>Event Description</label>
         <textarea name="eventDescription" rows="3" placeholder="Describe your event..." required></textarea>
 
@@ -1082,4 +1142,4 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
 <script src="js/main.js"></script>
 
 </body>
-</html>s
+</html>
