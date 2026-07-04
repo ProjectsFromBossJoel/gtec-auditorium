@@ -759,6 +759,121 @@ body::before {
 }
 
 /* ══════════════════════════════════════════════
+   RECENT EVENTS PREVIEW
+══════════════════════════════════════════════ */
+.events-preview {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.events-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+}
+
+.event-preview-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(11,31,58,0.06);
+  transition: var(--transition);
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+
+.event-preview-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(201,168,76,0.22);
+}
+
+.event-preview-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.event-preview-media img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s ease;
+}
+
+.event-preview-card:hover .event-preview-media img {
+  transform: scale(1.05);
+}
+
+.event-preview-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: rgba(120,60,0,0.82);
+  color: #fde68a;
+  border: 1px solid rgba(253,230,138,0.3);
+  backdrop-filter: blur(6px);
+}
+
+.event-preview-body {
+  padding: 20px 22px 22px;
+}
+
+.event-preview-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gold-dim);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.event-preview-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.35;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.event-preview-card:hover .event-preview-title {
+  color: var(--gold-dim);
+}
+
+.event-preview-excerpt {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.event-preview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(11,31,58,0.06);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+@media (max-width: 900px) {
+  .events-preview-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════
    REVIEWS
 ══════════════════════════════════════════════ */
 .reviews-section {
@@ -1919,6 +2034,53 @@ body::before {
 
     <div class="center">
       <a href="halls.html" class="view-all-btn" style="text-decoration:none; padding: 12px 28px; font-size: 0.9rem;">View All Halls →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ RECENT EVENTS ═══════════ -->
+<section class="events-preview">
+  <div class="container">
+    <span class="section-eyebrow">What's Been Happening</span>
+    <h2 class="section-title">Recent Events</h2>
+    <p class="section-sub">A look at some of the conferences, ceremonies and gatherings hosted at our facility</p>
+
+    <div class="events-preview-grid">
+      <a href="events.html" class="event-preview-card">
+        <div class="event-preview-media">
+          <img src="events/ecole_ronsard_program.png.jpeg" alt="9th Graduation & 10th Speech and Prize-Giving Day">
+          <div class="event-preview-badge">Graduation</div>
+        </div>
+        <div class="event-preview-body">
+          <span class="event-preview-date">June 23–24, 2026</span>
+          <h3 class="event-preview-title">9th Graduation & 10th Speech and Prize-Giving Day</h3>
+          <p class="event-preview-excerpt">Celebrating graduating students and recognizing excellence in academics, leadership and culture.</p>
+          <div class="event-preview-footer">
+            <span>🎓 École Ronsard Bilingual School</span>
+            <span>View →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="events.html" class="event-preview-card">
+        <div class="event-preview-media">
+          <img src="events/countryintsch1.jpg" alt="Awards & Recognition Ceremony 2026">
+          <div class="event-preview-badge">Graduation</div>
+        </div>
+        <div class="event-preview-body">
+          <span class="event-preview-date">July 2, 2026</span>
+          <h3 class="event-preview-title">Awards & Recognition Ceremony, 2026</h3>
+          <p class="event-preview-excerpt">An evening honouring outstanding achievement under the theme "Towards the Dynamic Future."</p>
+          <div class="event-preview-footer">
+            <span>🎓 Country International School</span>
+            <span>View →</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="center">
+      <a href="events.html" class="view-all-btn" style="text-decoration:none; padding: 12px 28px; font-size: 0.9rem;">View All Events →</a>
     </div>
   </div>
 </section>

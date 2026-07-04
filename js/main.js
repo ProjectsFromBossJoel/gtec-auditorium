@@ -112,8 +112,22 @@ function openBookingModal(defaultHall = "") {
     }
   }
 
+  function syncEndDateMin() {
+    if (startDateInput && endDateInput && startDateInput.value) {
+      endDateInput.min = startDateInput.value;
+      // If an already-chosen end date is now before the new start date, clear it
+      if (endDateInput.value && endDateInput.value < startDateInput.value) {
+        endDateInput.value = "";
+        if (daysInput) daysInput.value = "";
+      }
+    }
+  }
+
   if (startDateInput && endDateInput) {
-    startDateInput.addEventListener('change', calculateDays);
+    startDateInput.addEventListener('change', function () {
+      syncEndDateMin();
+      calculateDays();
+    });
     endDateInput.addEventListener('change', calculateDays);
   }
 
@@ -166,7 +180,10 @@ function openBookingModal(defaultHall = "") {
         invoiceName: formData.get('invoiceName'),
         invoiceEmail: formData.get('invoiceEmail'),
         streaming: formData.get('streaming'),
-        internetChoice: formData.get('internetChoice')
+        internetChoice: formData.get('internetChoice'),
+        eventPromotion: formData.get('eventPromotion'),
+        stageLighting: formData.get('stageLighting'),
+        vipLounge: formData.get('vipLounge')
       };
 
       saveLocal(booking);
