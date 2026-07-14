@@ -1790,7 +1790,7 @@ body::before {
 }
 
 /* Doc modal */
-/* #docModal now used for in-page guidelines preview — no longer force-hidden */
+#docModal { display: none !important; }
 
 /* ══════════════════════════════════════════════
    MOBILE
@@ -2456,9 +2456,9 @@ body::before {
         <div class="guidelines-box">
           <h3>📄 Booking Guidelines (Mandatory)</h3>
           <p>Please download and read the booking guidelines before submitting your request.</p>
-          <a href="#" id="downloadGuidelines" class="guidelines-download">
-  ⬇ View Guidelines
-</a>
+          <a href="2026 Guidelines/Guidelines -2026.pdf" download id="downloadGuidelines" class="guidelines-download">
+            ⬇ Download Guidelines
+          </a>
           <div class="guidelines-confirm-row">
             <input type="checkbox" id="guidelinesConfirm" disabled>
             <label for="guidelinesConfirm" style="margin:0; text-transform:none; font-size:0.84rem; letter-spacing:0; font-weight:600;">
@@ -2598,9 +2598,7 @@ bookingForm.addEventListener("submit", function(e) {
   setTimeout(() => {
     submissionOverlay.style.display = "none";
     bookingForm.reset();
-    confirmCheckbox.disabled = true;
-    submitBtn.disabled = true;
-}, 10000);
+  }, 10000);
 });
 
 /* ── Guidelines logic ──────── */
@@ -2608,10 +2606,8 @@ const downloadBtn       = document.getElementById("downloadGuidelines");
 const confirmCheckbox   = document.getElementById("guidelinesConfirm");
 const submitBtn         = document.getElementById("submitBooking");
 
-downloadBtn.addEventListener("click", (e) => {
-  e.preventDefault();
-  document.getElementById("docModal").style.display = "flex";
-  confirmCheckbox.disabled = false;
+downloadBtn.addEventListener("click", () => {
+  setTimeout(() => { confirmCheckbox.disabled = false; }, 500);
 });
 
 confirmCheckbox.addEventListener("change", () => {
