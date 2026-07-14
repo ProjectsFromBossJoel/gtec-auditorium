@@ -567,7 +567,7 @@ body::before {
         <div class="guidelines-box">
           <h3>📄 Booking Guidelines (Mandatory)</h3>
           <p>Please download and read the booking guidelines before submitting your request.</p>
-          <a href="2026 Guidelines/Guidelines -2026.pdf" download id="downloadGuidelines" class="guidelines-download">⬇ Download Guidelines</a>
+          <a href="#" id="downloadGuidelines" class="guidelines-download">⬇ View Guidelines</a>
           <div class="guidelines-confirm-row">
             <input type="checkbox" id="guidelinesConfirm" disabled>
             <label for="guidelinesConfirm" style="margin:0;text-transform:none;font-size:0.84rem;letter-spacing:0;font-weight:600;">I have downloaded and read the booking guidelines</label>
@@ -575,6 +575,19 @@ body::before {
         </div>
         <button type="submit" class="submit-btn" id="submitBooking" disabled>Submit Booking Request</button>
       </form>
+    </div>
+  </div>
+</div>
+
+<!-- DOC MODAL -->
+<div id="docModal" class="modal">
+  <div class="modal-content" style="max-width:900px;">
+    <div class="modal-header">
+      <span class="close-btn" onclick="closeDocumentPreview()">&times;</span>
+      <h2>Booking Guidelines</h2>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://drive.google.com/file/d/18kiEfEUvJkxh2XupyiTZA6Z76sGI3O2C/preview" width="100%" height="500px" style="border:none;border-radius:8px;"></iframe>
     </div>
   </div>
 </div>
@@ -652,15 +665,26 @@ bookingForm.addEventListener("submit", function(e) {
   spinner.style.display = "block";
   successCard.style.display = "none";
   setTimeout(() => { spinner.style.display = "none"; successCard.style.display = "block"; }, 2000);
-  setTimeout(() => { submissionOverlay.style.display = "none"; bookingForm.reset(); }, 10000);
+  setTimeout(() => {
+    submissionOverlay.style.display = "none";
+    bookingForm.reset();
+    document.getElementById("guidelinesConfirm").disabled = true;
+    document.getElementById("submitBooking").disabled = true;
+  }, 10000);
 });
 
-document.getElementById("downloadGuidelines").addEventListener("click", () => {
-  setTimeout(() => { document.getElementById("guidelinesConfirm").disabled = false; }, 500);
+document.getElementById("downloadGuidelines").addEventListener("click", (e) => {
+  e.preventDefault();
+  document.getElementById("docModal").style.display = "flex";
+  document.getElementById("guidelinesConfirm").disabled = false;
 });
 document.getElementById("guidelinesConfirm").addEventListener("change", function() {
   document.getElementById("submitBooking").disabled = !this.checked;
 });
+
+function closeDocumentPreview() {
+  document.getElementById("docModal").style.display = "none";
+}
 
 document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
   e.preventDefault();
