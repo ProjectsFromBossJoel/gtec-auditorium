@@ -11,6 +11,14 @@
       "**/node_modules/**"
     ],
 
+    "redirects": [
+      {
+        "source": "**",
+        "destination": "https://gtec.edu.gh/book-conference-facility/",
+        "type": 301
+      }
+    ],
+
     "headers": [
       {
         "source": "**",
