@@ -1508,6 +1508,100 @@ body::before {
   line-height: 1.5;
 }
 
+.appliance-dropdown {
+  position: relative;
+  margin-top: 0;
+}
+
+.appliance-dropdown-btn {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 11px 14px;
+  border: 1.5px solid rgba(11,31,58,0.12);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--pearl);
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.appliance-dropdown-btn:hover,
+.appliance-dropdown-btn.active {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  background: #fff;
+}
+
+.appliance-dropdown-arrow {
+  color: var(--muted);
+  transition: transform 0.2s;
+}
+
+.appliance-dropdown-btn.active .appliance-dropdown-arrow {
+  transform: rotate(180deg);
+}
+
+.appliance-dropdown-panel {
+  display: none;
+  margin-top: 8px;
+  border: 1.5px solid rgba(11,31,58,0.1);
+  border-radius: 8px;
+  background: var(--pearl);
+  padding: 6px 14px;
+  max-height: 200px;
+  overflow-y: auto;
+}
+
+.appliance-dropdown-panel.show { display: block; }
+
+.appliance-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(11,31,58,0.05);
+  font-size: 0.88rem;
+  color: var(--text);
+  cursor: pointer;
+  text-transform: none;
+  font-weight: 400;
+  letter-spacing: normal;
+}
+
+.appliance-option:last-child { border-bottom: none; }
+
+.appliance-option input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--navy);
+  flex-shrink: 0;
+}
+
+.appliance-other-input {
+  display: none;
+  width: 100%;
+  padding: 9px 12px;
+  margin: 0 0 10px;
+  border: 1.5px solid rgba(11,31,58,0.15);
+  border-radius: 6px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  color: var(--text);
+  background: #fff;
+  outline: none;
+}
+
+.appliance-other-input.show { display: block; }
+
+.appliance-other-input:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+}
+
 /* Additional services */
 .additional-services-container {
   border: 1.5px solid rgba(11,31,58,0.1);
@@ -1539,6 +1633,19 @@ body::before {
   width: 18px;
   height: 18px;
   accent-color: var(--navy);
+}
+
+.dining-service-wrap {
+  display: none;
+  margin-top: 12px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(11,31,58,0.08);
+}
+
+.dining-service-wrap.show { display: block; }
+
+.dining-service-wrap label {
+  margin-top: 0 !important;
 }
 
 /* Rentals */
@@ -1766,6 +1873,194 @@ body::before {
 
 .main-lightbox-close:hover { color: #fff; }
 
+/* ══════════════════════════════════════════════
+   PROMO POPUP (auto-show on load)
+══════════════════════════════════════════════ */
+.promo-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(8,15,30,0.4);
+  backdrop-filter: blur(6px);
+  z-index: 6000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.promo-modal.show {
+  display: flex;
+}
+
+.promo-content {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(8,15,30,0.5);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.promo-eyebrow-bar {
+  background: rgba(11,31,58,0.55);
+  backdrop-filter: blur(6px);
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.promo-eyebrow-bar span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+
+.promo-close {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  line-height: 1;
+}
+
+.promo-close:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.promo-media {
+  position: relative;
+  height: 350px;
+  overflow: hidden;
+}
+
+.promo-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+
+.promo-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.promo-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1);
+}
+
+.promo-slide.active img {
+  animation: kenburns 3.8s ease-in-out forwards;
+}
+
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+.promo-slide::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to top, rgba(8,15,30,0.85), transparent);
+  pointer-events: none;
+}
+
+.promo-caption {
+  position: absolute;
+  bottom: 16px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+.promo-caption .school {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  margin-bottom: 4px;
+}
+
+.promo-caption .tagline {
+  font-size: 0.78rem;
+  color: var(--gold-light);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.promo-dots {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 2;
+}
+
+.promo-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.promo-dots span.active {
+  background: var(--gold-light);
+  transform: scale(1.3);
+}
+
+.promo-footer {
+  padding: 18px 22px 22px;
+  text-align: center;
+  background: rgba(250,248,244,0.94);
+  backdrop-filter: blur(10px);
+}
+
+.promo-footer p {
+  font-size: 0.86rem;
+  color: var(--text);
+  font-weight: 500;
+  margin-bottom: 14px;
+  line-height: 1.55;
+}
+
+.promo-footer .btn {
+  width: 100%;
+}
+
 /* Gallery overlay (hall details) */
 #galleryOverlay {
   position: fixed;
@@ -1838,6 +2133,28 @@ body::before {
   .footer-grid { gap: 2rem; }
   .gallery-grid { grid-template-columns: repeat(2,1fr); }
 }
+
+@media (max-width: 640px) {
+  .promo-modal { padding: 16px; align-items: center; justify-content: center; }
+
+  .promo-content {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 14px;
+    max-height: calc(100vh - 32px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .promo-media { height: 38vh; flex-shrink: 0; }
+
+  .promo-caption { left: 14px; right: 14px; bottom: 12px; }
+  .promo-caption .school { font-size: 1rem; }
+  .promo-caption .tagline { font-size: 0.72rem; }
+
+  .promo-footer { padding: 14px 16px 18px; overflow-y: auto; }
+  .promo-footer p { font-size: 0.82rem; margin-bottom: 12px; }
+}
 </style>
 </head>
 <body>
@@ -1854,6 +2171,24 @@ body::before {
     </div>
     <h3>Booking Received</h3>
     <p>Thank you. We have received your booking.<br><br>Our team will review the details and contact you shortly via phone or email.</p>
+  </div>
+</div>
+
+<!-- ════════════════ PROMO POPUP ════════════ -->
+<div class="promo-modal" id="promoModal">
+  <div class="promo-content">
+    <div class="promo-eyebrow-bar">
+      <span>Recent Events</span>
+      <button class="promo-close" id="promoClose" aria-label="Close">✕</button>
+    </div>
+    <div class="promo-media">
+      <div class="promo-dots" id="promoDots"></div>
+      <div class="promo-track" id="promoTrack"></div>
+    </div>
+    <div class="promo-footer">
+      <p>See more graduations, ceremonies and conferences hosted at our facility.</p>
+      <a href="events.html" class="btn btn-primary">View All Events →</a>
+    </div>
   </div>
 </div>
 
@@ -2374,8 +2709,19 @@ body::before {
             <input type="checkbox" name="additionalServices[]" value="Rehearsals">
           </div>
           <div class="checkbox-item">
-            <span>Dining Area</span>
-            <input type="checkbox" name="additionalServices[]" value="Dining Area">
+            <span>Dining Area (Pergola)</span>
+            <input type="checkbox" name="additionalServices[]" value="Dining Area" id="diningAreaCheckbox">
+          </div>
+
+          <div class="dining-service-wrap" id="diningServiceWrap">
+            <label>Dining Service Type</label>
+            <select name="diningServiceType" id="diningServiceType">
+              <option value="">Select...</option>
+              <option value="Buffet only">Buffet only</option>
+              <option value="Cocktail only">Cocktail only</option>
+              <option value="Buffet & Cocktail only">Buffet & Cocktail only</option>
+              <option value="Buffet & Cocktail with music">Buffet & Cocktail with music</option>
+            </select>
           </div>
         </div>
 
@@ -2410,7 +2756,7 @@ body::before {
         <label>Event Promotion</label>
         <select name="eventPromotion" required>
           <option value="">Select...</option>
-          <option value="Yes">Yes — promote my event</option>
+          <option value="Yes">Yes, promote my event</option>
           <option value="No">No</option>
         </select>
 
@@ -2418,8 +2764,8 @@ body::before {
         <select name="stageLighting" required>
           <option value="">Select...</option>
           <option value="None">None</option>
-          <option value="Yes, GTEC Provided">Yes — GTEC Provided</option>
-          <option value="Yes, Own Equipment">Yes — Own Equipment</option>
+          <option value="Yes, GTEC Provided">Yes, GTEC Provided</option>
+          <option value="Yes, Own Equipment">Yes, Own Equipment</option>
         </select>
 
         <label>VIP Lounge</label>
@@ -2428,6 +2774,26 @@ body::before {
           <option value="Yes">Yes</option>
           <option value="No">No</option>
         </select>
+
+        <label>Electrical Appliances</label>
+        <div class="appliance-dropdown" id="applianceDropdown">
+          <button type="button" class="appliance-dropdown-btn" id="applianceDropdownBtn">
+            <span id="applianceDropdownLabel">Select appliances...</span>
+            <span class="appliance-dropdown-arrow">▾</span>
+          </button>
+                    <div class="appliance-dropdown-panel" id="applianceDropdownPanel">
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="None" id="applianceNone"> None</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="LED/TV Screen"> LED / TV Screen</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Iron"> Iron</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Rice Cooker"> Rice Cooker</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Electric Stove"> Electric Stove</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Kettle"> Kettle</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Blender"> Blender</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Other" id="applianceOther"> Other</label>
+            <input type="text" name="applianceOtherText" id="applianceOtherText" class="appliance-other-input" placeholder="Please specify...">
+          </div>
+        </div>
+        <p class="warning-text">⚠️ Bringing electrical appliances (LED, iron, kitchen appliances, etc.) incurs an additional cost.</p>
 
         <label>Event Description</label>
         <textarea name="eventDescription" rows="3" placeholder="Describe your event..." required></textarea>
@@ -2575,6 +2941,71 @@ function calcDays() {
 startDateInput.addEventListener("change", calcDays);
 endDateInput.addEventListener("change", calcDays);
 
+/* ── Dining service type (shows only if Dining Area is checked) ───── */
+const diningAreaCheckbox = document.getElementById("diningAreaCheckbox");
+const diningServiceWrap  = document.getElementById("diningServiceWrap");
+const diningServiceType  = document.getElementById("diningServiceType");
+
+diningAreaCheckbox.addEventListener("change", () => {
+  const show = diningAreaCheckbox.checked;
+  diningServiceWrap.classList.toggle("show", show);
+  diningServiceType.required = show;
+  if (!show) diningServiceType.value = "";
+});
+
+/* ── Appliance dropdown ───── */
+const applianceBtn   = document.getElementById("applianceDropdownBtn");
+const appliancePanel = document.getElementById("applianceDropdownPanel");
+const applianceLabel = document.getElementById("applianceDropdownLabel");
+
+applianceBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  appliancePanel.classList.toggle("show");
+  applianceBtn.classList.toggle("active");
+});
+
+document.addEventListener("click", (e) => {
+  if (!document.getElementById("applianceDropdown").contains(e.target)) {
+    appliancePanel.classList.remove("show");
+    applianceBtn.classList.remove("active");
+  }
+});
+
+const applianceNoneBox = document.getElementById("applianceNone");
+const applianceOtherBox = document.getElementById("applianceOther");
+const applianceOtherText = document.getElementById("applianceOtherText");
+const applianceCheckboxes = Array.from(appliancePanel.querySelectorAll("input[type='checkbox']"));
+
+appliancePanel.addEventListener("change", (e) => {
+  if (e.target === applianceNoneBox) {
+    if (applianceNoneBox.checked) {
+      applianceCheckboxes.forEach(cb => { if (cb !== applianceNoneBox) cb.checked = false; });
+      applianceOtherText.value = "";
+    }
+  } else if (e.target.checked) {
+    applianceNoneBox.checked = false;
+  }
+
+  applianceOtherText.classList.toggle("show", applianceOtherBox.checked);
+  applianceOtherText.required = applianceOtherBox.checked;
+  if (!applianceOtherBox.checked) applianceOtherText.value = "";
+
+  const checked = applianceCheckboxes.filter(cb => cb.checked).map(cb =>
+    cb === applianceOtherBox && applianceOtherText.value.trim()
+      ? `Other (${applianceOtherText.value.trim()})`
+      : cb.value
+  );
+  applianceLabel.textContent = checked.length ? checked.join(", ") : "Select appliances...";
+});
+
+applianceOtherText.addEventListener("input", () => {
+  const checked = applianceCheckboxes.filter(cb => cb.checked).map(cb =>
+    cb === applianceOtherBox && applianceOtherText.value.trim()
+      ? `Other (${applianceOtherText.value.trim()})`
+      : cb.value
+  );
+  applianceLabel.textContent = checked.length ? checked.join(", ") : "Select appliances...";
+});
 /* ── Booking form submit ───── */
 const bookingForm       = document.getElementById("bookingForm");
 const bookingModal      = document.getElementById("bookingModal");
@@ -2763,6 +3194,68 @@ document.getElementById("subscribeForm").addEventListener("submit", async functi
 function closeDocumentPreview() {
   document.getElementById("docModal").style.display = "none";
 }
+
+
+/* ── Promo popup ─────────────── */
+const promoSlides = [
+  { image: "events/ncuk2.jpg", school: "NCUK Accra", tagline: "Graduation Ceremony, 2026" },
+  { image: "events/countryintschool2.jpeg", school: "Country International School", tagline: "Awards & Recognition Ceremony" },
+  { image: "events/ecole-ronsard_113.jpg", school: "École Ronsard Bilingual School", tagline: "9th Graduation & Prize-Giving Day" }
+];
+
+function initPromoPopup() {
+  const track = document.getElementById("promoTrack");
+  const dotsWrap = document.getElementById("promoDots");
+
+  promoSlides.forEach((s, i) => {
+    const slide = document.createElement("div");
+    slide.className = "promo-slide" + (i === 0 ? " active" : "");
+    slide.innerHTML = `
+      <img src="${s.image}" alt="${s.school}">
+      <div class="promo-caption">
+        <div class="school">${s.school}</div>
+        <div class="tagline">${s.tagline}</div>
+      </div>
+    `;
+    track.appendChild(slide);
+
+    const dot = document.createElement("span");
+    if (i === 0) dot.className = "active";
+    dotsWrap.appendChild(dot);
+  });
+
+  let current = 0;
+  setInterval(() => {
+    const slides = track.querySelectorAll(".promo-slide");
+    const dots = dotsWrap.querySelectorAll("span");
+    slides[current].classList.remove("active");
+    dots[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    slides[current].classList.add("active");
+    dots[current].classList.add("active");
+  }, 3800);
+
+  const modal = document.getElementById("promoModal");
+  setTimeout(() => {
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }, 600);
+}
+
+document.getElementById("promoClose").addEventListener("click", () => {
+  document.getElementById("promoModal").classList.remove("show");
+  document.body.style.overflow = "";
+});
+
+document.getElementById("promoModal").addEventListener("click", function(e) {
+  if (e.target === this) {
+    this.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+});
+
+initPromoPopup();
 </script>
 
 <script src="js/main.js"></script>

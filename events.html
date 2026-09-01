@@ -492,6 +492,19 @@ body::before {
   font-weight: 500;
 }
 
+.meta-chip.visit-link {
+  text-decoration: none;
+  cursor: pointer;
+  color: var(--gold-dim);
+  border-color: rgba(201,168,76,0.3);
+}
+
+.meta-chip.visit-link:hover {
+  background: var(--gold);
+  color: var(--navy);
+  border-color: var(--gold);
+}
+
 .event-card-title {
   font-family: var(--font-display);
   font-size: 1.05rem;
@@ -613,13 +626,37 @@ body::before {
   position: relative;
   overflow: hidden;
   border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  height: 320px;
 }
 
-.modal-image-wrap img {
+.modal-gallery-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+
+.modal-gallery-track .gallery-slide {
+  flex: 0 0 100%;
   width: 100%;
-  height: 320px;
+  height: 100%;
+  overflow: hidden;
+}
+
+.modal-gallery-track .gallery-slide img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   display: block;
+  transform: scale(1);
+}
+
+.modal-gallery-track .gallery-slide.active img {
+  animation: kenburns 4s ease-in-out forwards;
+}
+
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.1); }
 }
 
 .modal-image-wrap::after {
@@ -631,13 +668,22 @@ body::before {
   height: 100px;
   background: linear-gradient(to top, rgba(8,15,30,0.6), transparent);
   pointer-events: none;
+  z-index: 1;
 }
+
+
 
 .modal-image-badge {
   position: absolute;
-  top: 18px;
-  left: 20px;
+  top: 0;
+  left: 0;
   z-index: 1;
+}
+
+.modal-image-badge .event-badge {
+  border-radius: 0 0 10px 0;
+  font-size: 0.62rem;
+  padding: 4px 10px;
 }
 
 .modal-close {
@@ -998,39 +1044,36 @@ body::before {
   <div class="container">
     <div class="events-grid" id="eventsGrid">
 
-     <!-- ─── Card 1 ─── -->
-<div class="event-card" data-category="graduation" onclick="openEventModal(0)">
+
+               <!-- ─── Card 1 ─── -->
+<div class="event-card" data-category="graduation" onclick="openEventModal(2)">
   <div class="event-card-media">
-    <img src="events/ecole_ronsard_program.png.jpeg" alt="9th Graduation & 10th Speech and Prize-Giving Day">
+    <img src="events/ncuk4.jpg" alt="NCUK Accra Graduation Ceremony 2026">
     <div class="event-badge graduation">Graduation</div>
     <div class="event-overlay-icon">↗</div>
   </div>
 
   <div class="event-card-body">
     <div class="event-meta-row">
-      <span class="event-date">June 24, 2026</span>
+      <span class="event-date">August 15, 2026</span>
       <span class="event-venue-tag">Paul Effah Hall</span>
-      
-      
-    </div>
-
-    <div class="event-school-tag">
     </div>
 
     <h3 class="event-card-title">
-      9th Graduation & 10th Speech and Prize-Giving Day
+      NCUK Accra Graduation Ceremony, 2026
     </h3>
 
     <p class="event-card-excerpt">
-      Celebrating the achievements of the graduating class while recognizing excellence in academics, leadership, culture, and extracurricular activities under the theme "Shaping Ghana's Future Through Culture and Learning."
+      Honouring students who completed their International Foundation Year and progressed on to partner universities abroad, marking another successful cohort for NCUK Accra.
     </p>
 
     <div class="event-card-footer">
-      <span class="event-attendees">🎓École Ronsard Bilingual School</span>
+      <span class="event-attendees">🎓NCUK Accra</span>
       <span class="event-card-cta">View Details →</span>
     </div>
   </div>
 </div>
+
 
      <!-- ─── Card 2 ─── -->
 <div class="event-card" data-category="graduation" onclick="openEventModal(1)">
@@ -1060,6 +1103,42 @@ body::before {
     </div>
   </div>
 </div>
+
+     <!-- ─── Card 3 ─── -->
+<div class="event-card" data-category="graduation" onclick="openEventModal(0)">
+  <div class="event-card-media">
+    <img src="events/ecole_ronsard_program.png.jpeg" alt="9th Graduation & 10th Speech and Prize-Giving Day">
+    <div class="event-badge graduation">Graduation</div>
+    <div class="event-overlay-icon">↗</div>
+  </div>
+
+  <div class="event-card-body">
+    <div class="event-meta-row">
+      <span class="event-date">June 24, 2026</span>
+      <span class="event-venue-tag">Paul Effah Hall</span>
+    </div>
+
+    <div class="event-school-tag">
+    </div>
+
+    <h3 class="event-card-title">
+      9th Graduation & 10th Speech and Prize-Giving Day
+    </h3>
+
+    <p class="event-card-excerpt">
+      Celebrating the achievements of the graduating class while recognizing excellence in academics, leadership, culture, and extracurricular activities under the theme "Shaping Ghana's Future Through Culture and Learning."
+    </p>
+
+    <div class="event-card-footer">
+      <span class="event-attendees">🎓École Ronsard Bilingual School</span>
+      <span class="event-card-cta">View Details →</span>
+    </div>
+  </div>
+</div>
+
+
+
+
 
     </div>
 
@@ -1116,8 +1195,8 @@ body::before {
 <!-- ════════════════ EVENT MODAL ══════════ -->
 <div class="event-modal" id="eventModal">
   <div class="event-modal-content">
-    <div class="modal-image-wrap">
-      <img id="modalImage" src="" alt="">
+    <div class="modal-image-wrap" id="modalImageWrap">
+      <div class="modal-gallery-track" id="modalTrack"></div>
       <div class="modal-image-badge">
         <span id="modalBadge" class="event-badge"></span>
         
@@ -1167,11 +1246,12 @@ const events = [
     title: "9th Graduation & 10th Speech and Prize-Giving Day",
     category: "graduation",
     categoryLabel: "Graduation",
-    image: "events/ecole_ronsard_program.png.jpeg",
+    images: ["events/ecole_ronsard_program.png.jpeg", "events/ecole-ronsard_113.jpg", "events/ecole-ronsard_112.jpg", "events/ecole-ronsard_114.jpg",],
     date: "June 23-24, 2026",
     venue: "Paul Effah Hall",
     attendees: "~580 guests",
     theme: "Shaping Ghana's Future Through Culture and Learning",
+    website: "https://ecole-ronsard.com/",
     organiserLink: '<a href="https://ecole-ronsard.com/" target="_blank" style="color:#007bff;text-decoration:underline;">École Ronsard Bilingual School</a>',
     description: "The 9th Graduation and 10th Speech & Prize-Giving Day celebrated the achievements of graduating students while recognizing outstanding academic performance, leadership, and excellence across all levels. Parents, educators, distinguished guests, and members of the school community gathered to honour the accomplishments of students and their contributions to the school's legacy of excellence.",
     highlights: [
@@ -1187,11 +1267,12 @@ const events = [
     title: "Awards & Recognition Ceremony, 2026",
     category: "graduation",
     categoryLabel: "Graduation",
-    image: "events/countryintsch1.jpg",
+    images: ["events/countryintschool2.jpeg", "events/countryintschool3.jpeg", "events/countryintsch.jpg", "events/countryintschool04.jpeg", "events/countryintschool7.jpeg",],
     date: "July 2, 2026",
     venue: "Paul Effah Hall - Ground Floor",
     attendees: "~320 guests",
     theme: "Towards the Dynamic Future",
+    website: "https://countryinternational.edu.gh/",
     organiserLink: '<a href="https://countryinternational.edu.gh/" target="_blank" style="color:#007bff;text-decoration:underline;">Country International School</a>',
     description: "The Awards & Recognition Ceremony brought together students, staff, families, and community partners to celebrate excellence under the theme 'Towards the Dynamic Future.' The evening honoured outstanding achievement across academics, leadership, and service, with special recognition given to sponsors and partners who supported the school's mission throughout the year.",
     highlights: [
@@ -1200,6 +1281,27 @@ const events = [
       "Remarks from school leadership on the theme 'Towards the Dynamic Future'",
       "Certificate and trophy presentations to honourees",
       "Group photographs and networking reception"
+    ]
+  },
+
+    {
+    title: "NCUK Accra Graduation Ceremony, 2026",
+    category: "graduation",
+    categoryLabel: "Graduation",
+    images: ["events/ncuk2.jpg", "events/ncuk1.jpg", "events/ncuk4.jpg", "events/ncuk_accra_valedictorian1.jpg"],
+    date: "August 15, 2026",
+    venue: "Paul Effah Hall - Full Capacity",
+    attendees: "600 guests",
+    theme: "Global Pathways, Local Pride",
+    website: "https://ncukaccra.com/",
+    organiserLink: '<a href="https://ncukaccra.com/" target="_blank" style="color:#007bff;text-decoration:underline;">NCUK Accra</a>',
+    description: "The NCUK Accra Graduation Ceremony celebrated students who successfully completed their International Foundation Year, marking the milestone that opens the door to degree programmes at NCUK's partner universities in the UK, Canada, Australia, and beyond. Families, faculty, and NCUK partner representatives filled Paul Effah Hall to full capacity to celebrate the graduates' achievements and the pathways now open to them.",
+    highlights: [
+      "Graduation ceremony for the International Foundation Year cohort",
+      "Presentation of certificates and academic distinction awards",
+      "Remarks from NCUK Accra leadership and partner university representatives",
+      "Recognition of top-performing students by subject area",
+      "Photo sessions with graduates, families, and faculty"
     ]
   },
 
@@ -1243,8 +1345,7 @@ function openEventModal(index) {
   const ev = events[index];
   if (!ev) return;
 
-  document.getElementById("modalImage").src = ev.image;
-  document.getElementById("modalImage").alt = ev.title;
+  startGallery(ev.images && ev.images.length ? ev.images : [ev.image], ev.title);
   document.getElementById("modalTitle").textContent = ev.title;
 
   const badge = document.getElementById("modalBadge");
@@ -1257,6 +1358,7 @@ function openEventModal(index) {
     <span class="meta-chip highlight">📅 ${ev.date}</span>
     <span class="meta-chip">📍 ${ev.venue}</span>
     <span class="meta-chip">🎟 ${ev.attendees}</span>
+    ${ev.website ? `<a href="${ev.website}" target="_blank" rel="noopener" class="meta-chip visit-link">🌐 Visit Website</a>` : ""}
   `;
 
   const organiserEl = document.getElementById("modalOrganiser");
@@ -1274,11 +1376,50 @@ function openEventModal(index) {
   document.body.style.overflow = "hidden";
 }
 
+let galleryInterval = null;
+
+function startGallery(images, title) {
+  const track = document.getElementById("modalTrack");
+  if (galleryInterval) clearInterval(galleryInterval);
+
+  track.innerHTML = "";
+  track.style.transform = "translateX(0)";
+
+  images.forEach((src, i) => {
+    const slide = document.createElement("div");
+    slide.className = "gallery-slide" + (i === 0 ? " active" : "");
+    const img = document.createElement("img");
+    img.src = src;
+    img.alt = title;
+    slide.appendChild(img);
+    track.appendChild(slide);
+  });
+
+  if (images.length <= 1) return;
+
+  let current = 0;
+  galleryInterval = setInterval(() => {
+    const slides = track.querySelectorAll(".gallery-slide");
+    slides[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    slides[current].classList.add("active");
+  }, 4000);
+}
+
+function stopGallery() {
+  if (galleryInterval) {
+    clearInterval(galleryInterval);
+    galleryInterval = null;
+  }
+}
+
 function closeEventModal() {
   const modal = document.getElementById("eventModal");
   modal.classList.remove("open");
   modal.style.display = "none";
   document.body.style.overflow = "";
+  stopGallery();
 }
 
 document.getElementById("modalClose").addEventListener("click", closeEventModal);

@@ -155,6 +155,12 @@ function openBookingModal(defaultHall = "") {
     const formData = new FormData(form);
     const services = formData.getAll("additionalServices[]");
 
+    const appliances = formData.getAll("appliances[]");
+    const applianceOtherText = (formData.get("applianceOtherText") || "").trim();
+    const electricalAppliances = appliances.length
+      ? appliances.map(a => a === "Other" && applianceOtherText ? `Other (${applianceOtherText})` : a).join(", ")
+      : "None";
+
       const booking = {
         id: Date.now(),
         applicantName: formData.get('applicantName'),
@@ -183,7 +189,9 @@ function openBookingModal(defaultHall = "") {
         internetChoice: formData.get('internetChoice'),
         eventPromotion: formData.get('eventPromotion'),
         stageLighting: formData.get('stageLighting'),
-        vipLounge: formData.get('vipLounge')
+        vipLounge: formData.get('vipLounge'),
+        electricalAppliances: electricalAppliances,
+        diningServiceType: formData.get('diningServiceType') || ""
       };
 
       saveLocal(booking);

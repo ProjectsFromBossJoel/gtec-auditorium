@@ -1,0 +1,3061 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>GTEC Auditorium</title>
+  <link rel="icon" type="image/png" href="images/favicon.png">
+  <meta name="msvalidate.01" content="C6C7939437317A6813CE5CC441EF2826" />
+  <meta name="google-site-verification" content="sxUiIAYgzU0zYl7MRwU9D3HEjV-fWfHuaQ_gNVU7Ob8" />
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.11.0/firebase-firestore-compat.js"></script>
+  <meta name="description" content="GTEC - Professional conference halls available for booking.">
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700;900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════════════════════
+   GTEC — Luxury Redesign
+   Theme: Refined Corporate Prestige
+   Palette: Deep Navy · Warm Gold · Pearl White
+═══════════════════════════════════════════ */
+
+:root {
+  --navy:       #0b1f3a;
+  --navy-mid:   #122952;
+  --navy-light: #1a3a6b;
+  --gold:       #c9a84c;
+  --gold-light: #e8c97a;
+  --gold-dim:   #8a6b28;
+  --pearl:      #faf8f4;
+  --cream:      #f3ede2;
+  --white:      #ffffff;
+  --muted:      #6b7a8d;
+  --text:       #1c2b3d;
+  --border:     rgba(201,168,76,0.18);
+
+  --shadow-sm: 0 2px 12px rgba(11,31,58,0.08);
+  --shadow-md: 0 8px 32px rgba(11,31,58,0.12);
+  --shadow-lg: 0 20px 60px rgba(11,31,58,0.18);
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 22px;
+
+  --font-display: 'Playfair Display', Georgia, serif;
+  --font-body: 'DM Sans', sans-serif;
+
+  --transition: 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  background: var(--pearl);
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+}
+
+.container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+/* ── DECORATIVE GRAIN OVERLAY ────────────────── */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.4;
+}
+
+/* ══════════════════════════════════════════════
+   HEADER
+══════════════════════════════════════════════ */
+.site-header {
+  background: var(--navy);
+  position: sticky;
+  top: 0;
+  z-index: 500;
+  border-bottom: 1px solid rgba(201,168,76,0.15);
+  backdrop-filter: blur(12px);
+}
+
+.site-header::after {
+  content: '';
+  display: block;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.6;
+}
+
+.header-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  height: 72px;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  text-decoration: none;
+}
+
+.logo {
+  width: 46px;
+  height: 46px;
+  object-fit: contain;
+  border-radius: 8px;
+  border: 1.5px solid rgba(201,168,76,0.4);
+}
+
+.brand-name {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: #fff;
+  letter-spacing: 0.02em;
+  line-height: 1.2;
+}
+
+.brand-name span {
+  display: block;
+  font-family: var(--font-body);
+  font-weight: 400;
+  font-size: 0.7rem;
+  color: var(--gold-light);
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.nav a {
+  font-family: var(--font-body);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: rgba(255,255,255,0.78);
+  text-decoration: none;
+  padding: 8px 14px;
+  border-radius: 8px;
+  letter-spacing: 0.02em;
+  transition: var(--transition);
+  position: relative;
+}
+
+.nav a::after {
+  content: '';
+  position: absolute;
+  bottom: 4px;
+  left: 14px;
+  right: 14px;
+  height: 1px;
+  background: var(--gold);
+  transform: scaleX(0);
+  transition: transform 0.25s ease;
+  transform-origin: right;
+}
+
+.nav a:hover {
+  color: #fff;
+  background: rgba(255,255,255,0.06);
+}
+
+.nav a:hover::after {
+  transform: scaleX(1);
+  transform-origin: left;
+}
+
+.book-now-btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.book-now-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+  background: linear-gradient(135deg, var(--gold-light), var(--gold));
+}
+
+.view-all-btn {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.04em;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 22px;
+  cursor: pointer;
+  transition: var(--transition);
+  box-shadow: 0 4px 16px rgba(201,168,76,0.3);
+  display: inline-block;
+}
+
+.view-all-btn:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(201,168,76,0.4);
+}
+
+/* HAMBURGER */
+.menu-toggle {
+  display: none;
+  font-size: 22px;
+  cursor: pointer;
+  color: #fff;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.2s;
+}
+.menu-toggle:hover { background: rgba(255,255,255,0.1); }
+
+/* ══════════════════════════════════════════════
+   HERO
+══════════════════════════════════════════════ */
+.hero {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-mid) 55%, #0f3060 100%);
+  position: relative;
+  overflow: hidden;
+  padding: 90px 0 80px;
+}
+
+.hero::before {
+  content: '';
+  position: absolute;
+  top: -60%;
+  right: -20%;
+  width: 700px;
+  height: 700px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+
+.hero::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.4;
+}
+
+/* Decorative corner accent */
+.hero-accent {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 220px;
+  height: 220px;
+  border-left: 1px solid rgba(201,168,76,0.2);
+  border-top: 1px solid rgba(201,168,76,0.2);
+  pointer-events: none;
+}
+
+.hero-accent::after {
+  content: '';
+  display: block;
+  width: 60px;
+  height: 60px;
+  margin: 20px;
+  border-left: 1px solid rgba(201,168,76,0.35);
+  border-top: 1px solid rgba(201,168,76,0.35);
+}
+
+.hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 20px;
+}
+
+.hero-eyebrow::before,
+.hero-eyebrow::after {
+  content: '';
+  height: 1px;
+  width: 28px;
+  background: var(--gold);
+  opacity: 0.6;
+}
+
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(2rem, 3.5vw, 2.9rem);
+  font-weight: 700;
+  line-height: 1.18;
+  color: #ffffff;
+  margin-bottom: 20px;
+  letter-spacing: -0.02em;
+}
+
+.hero h1 em {
+  font-style: italic;
+  color: var(--gold-light);
+}
+
+.hero .lead {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.68);
+  max-width: 480px;
+  margin-bottom: 36px;
+  line-height: 1.7;
+}
+
+.hero-actions {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.btn {
+  font-family: var(--font-body);
+  font-weight: 600;
+  font-size: 0.875rem;
+  letter-spacing: 0.03em;
+  padding: 12px 26px;
+  border-radius: 10px;
+  border: none;
+  cursor: pointer;
+  transition: var(--transition);
+  text-decoration: none;
+  display: inline-block;
+}
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--gold), var(--gold-light));
+  color: var(--navy);
+  box-shadow: 0 4px 18px rgba(201,168,76,0.35);
+}
+
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(201,168,76,0.45);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: #fff;
+  border: 1.5px solid rgba(255,255,255,0.35);
+  backdrop-filter: blur(4px);
+}
+
+.btn-secondary:hover {
+  background: rgba(255,255,255,0.1);
+  border-color: rgba(255,255,255,0.6);
+  transform: translateY(-1px);
+}
+
+/* Video play button */
+.video-action {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+.play-btn {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  border: 1.5px solid rgba(255,255,255,0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  backdrop-filter: blur(6px);
+  transition: var(--transition);
+}
+
+.play-btn:hover {
+  background: rgba(255,255,255,0.2);
+  border-color: var(--gold);
+}
+
+.play-btn .icon {
+  font-size: 14px;
+  color: #fff;
+  margin-left: 2px;
+}
+
+.play-btn .pulse {
+  position: absolute;
+  inset: -7px;
+  border-radius: 50%;
+  border: 1.5px solid rgba(201,168,76,0.4);
+  animation: pulse 2s ease-out infinite;
+}
+
+@keyframes pulse {
+  0%   { transform: scale(0.85); opacity: 1; }
+  100% { transform: scale(1.5);  opacity: 0; }
+}
+
+.play-text {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: rgba(255,255,255,0.75);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* Hero image */
+.hero-image {
+  position: relative;
+}
+
+.hero-image::before {
+  content: '';
+  position: absolute;
+  inset: -12px;
+  border: 1px solid rgba(201,168,76,0.2);
+  border-radius: 18px;
+  pointer-events: none;
+}
+
+.hero-image img {
+  width: 100%;
+  border-radius: 14px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.4);
+  display: block;
+  position: relative;
+}
+
+.hero-badge {
+  position: absolute;
+  bottom: -18px;
+  left: 24px;
+  background: var(--gold);
+  color: var(--navy);
+  padding: 10px 18px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  letter-spacing: 0.04em;
+  box-shadow: 0 8px 24px rgba(201,168,76,0.5);
+  white-space: nowrap;
+}
+
+/* ══════════════════════════════════════════════
+   STATS STRIP
+══════════════════════════════════════════════ */
+.stats-strip {
+  background: var(--white);
+  border-bottom: 1px solid rgba(11,31,58,0.06);
+  padding: 36px 0;
+}
+
+.stats-inner {
+  display: grid;
+  grid-template-columns: repeat(4,1fr);
+  gap: 0;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 28px;
+}
+
+.stat-item {
+  text-align: center;
+  padding: 0 20px;
+  border-right: 1px solid rgba(11,31,58,0.08);
+}
+
+.stat-item:last-child { border-right: none; }
+
+.stat-number {
+  font-family: var(--font-display);
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: var(--navy);
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.stat-number span {
+  color: var(--gold);
+}
+
+.stat-label {
+  font-size: 0.78rem;
+  font-weight: 500;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+/* ══════════════════════════════════════════════
+   FEATURES / WHY US
+══════════════════════════════════════════════ */
+.features {
+  padding: 80px 0;
+}
+
+.section-eyebrow {
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  text-align: center;
+  margin-bottom: 12px;
+  display: block;
+}
+
+.section-title {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  font-weight: 700;
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 12px;
+  letter-spacing: -0.02em;
+}
+
+.section-sub {
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.95rem;
+  margin-bottom: 52px;
+}
+
+.grid-3 {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 24px;
+}
+
+.feature-card {
+  background: var(--white);
+  border: 1px solid rgba(11,31,58,0.07);
+  border-radius: var(--radius-md);
+  padding: 32px 28px;
+  position: relative;
+  overflow: hidden;
+  transition: var(--transition);
+  box-shadow: var(--shadow-sm);
+}
+
+.feature-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, var(--gold), var(--gold-light));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.4s ease;
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-md);
+  border-color: rgba(201,168,76,0.2);
+}
+
+.feature-card:hover::before {
+  transform: scaleX(1);
+}
+
+.feature-icon {
+  width: 48px;
+  height: 48px;
+  background: linear-gradient(135deg, rgba(201,168,76,0.12), rgba(201,168,76,0.05));
+  border: 1px solid rgba(201,168,76,0.25);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 20px;
+  font-size: 20px;
+}
+
+.feature-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 10px;
+}
+
+.feature-card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* ══════════════════════════════════════════════
+   HALLS SHOWCASE
+══════════════════════════════════════════════ */
+.showcase {
+  padding: 80px 0;
+  background: var(--cream);
+  position: relative;
+}
+
+.showcase::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%230b1f3a' fill-opacity='0.025'%3E%3Cpath d='M0 38.59l2.83-2.83 1.41 1.41L1.41 40H0v-1.41zM0 1.4l2.83 2.83 1.41-1.41L1.41 0H0v1.41zM38.59 40l-2.83-2.83 1.41-1.41L40 38.59V40h-1.41zM40 1.41l-2.83 2.83-1.41-1.41L38.59 0H40v1.41z'/%3E%3C/g%3E%3C/svg%3E");
+  pointer-events: none;
+}
+
+.hall-grid {
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 26px;
+  position: relative;
+}
+
+.hall-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  border: 1px solid rgba(11,31,58,0.05);
+}
+
+.hall-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-lg);
+}
+
+.hall-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.hall-media img {
+  width: 100%;
+  height: 210px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.hall-card:hover .hall-media img {
+  transform: scale(1.04);
+}
+
+.hall-media .capacity {
+  position: absolute;
+  top: 14px;
+  right: 14px;
+  background: var(--navy);
+  color: var(--gold-light);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-weight: 700;
+  font-size: 0.78rem;
+  letter-spacing: 0.04em;
+  border: 1px solid rgba(201,168,76,0.3);
+  backdrop-filter: blur(4px);
+}
+
+.hall-body {
+  padding: 22px 22px 24px;
+}
+
+.hall-body h3 {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 8px;
+  text-decoration: none;
+}
+
+.hall-card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+}
+
+.hall-card-link:hover h3 {
+  color: var(--gold-dim);
+}
+
+.hall-meta {
+  color: var(--muted);
+  font-size: 0.82rem;
+  margin-bottom: 18px;
+  line-height: 1.5;
+}
+
+.hall-actions {
+  display: flex;
+  gap: 10px;
+}
+
+.hall-actions .btn {
+  flex: 1;
+  text-align: center;
+  font-size: 0.82rem;
+  padding: 10px 14px;
+}
+
+.hall-actions .btn-secondary {
+  color: var(--navy);
+  border-color: rgba(11,31,58,0.25);
+}
+
+.hall-actions .btn-secondary:hover {
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+}
+
+.center {
+  text-align: center;
+  margin-top: 40px;
+}
+
+/* ══════════════════════════════════════════════
+   RECENT EVENTS PREVIEW
+══════════════════════════════════════════════ */
+.events-preview {
+  padding: 80px 0;
+  background: var(--white);
+}
+
+.events-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 26px;
+}
+
+.event-preview-card {
+  background: var(--white);
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  border: 1px solid rgba(11,31,58,0.06);
+  transition: var(--transition);
+  text-decoration: none;
+  display: block;
+  color: inherit;
+}
+
+.event-preview-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(201,168,76,0.22);
+}
+
+.event-preview-media {
+  position: relative;
+  overflow: hidden;
+}
+
+.event-preview-media img {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.55s ease;
+}
+
+.event-preview-card:hover .event-preview-media img {
+  transform: scale(1.05);
+}
+
+.event-preview-badge {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  padding: 5px 12px;
+  border-radius: 20px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  background: rgba(120,60,0,0.82);
+  color: #fde68a;
+  border: 1px solid rgba(253,230,138,0.3);
+  backdrop-filter: blur(6px);
+}
+
+.event-preview-body {
+  padding: 20px 22px 22px;
+}
+
+.event-preview-date {
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: var(--gold-dim);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.event-preview-title {
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 600;
+  color: var(--navy);
+  line-height: 1.35;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.event-preview-card:hover .event-preview-title {
+  color: var(--gold-dim);
+}
+
+.event-preview-excerpt {
+  font-size: 0.86rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+.event-preview-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(11,31,58,0.06);
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--navy);
+}
+
+@media (max-width: 900px) {
+  .events-preview-grid { grid-template-columns: 1fr; }
+}
+
+/* ══════════════════════════════════════════════
+   REVIEWS
+══════════════════════════════════════════════ */
+.reviews-section {
+  padding: 80px 0;
+  background: var(--white);
+  overflow: hidden;
+}
+
+.reviews-section > .container > h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  color: var(--navy);
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.reviews-wrapper {
+  position: relative;
+  max-width: 1160px;
+  margin: 40px auto 0;
+  padding: 0 56px;
+}
+
+.reviews-container {
+  display: flex;
+  gap: 20px;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+  padding: 8px 4px 16px;
+}
+
+.review-card {
+  min-width: 320px;
+  max-width: 360px;
+  flex: 0 0 320px;
+  background: var(--pearl);
+  padding: 28px 26px 24px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(11,31,58,0.07);
+  box-shadow: var(--shadow-sm);
+  transition: var(--transition);
+  position: relative;
+  flex-shrink: 0;
+}
+
+.review-card::before {
+  content: '\201C';
+  position: absolute;
+  top: 16px;
+  right: 22px;
+  font-family: var(--font-display);
+  font-size: 4rem;
+  color: rgba(201,168,76,0.15);
+  line-height: 1;
+  pointer-events: none;
+}
+
+.review-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-3px);
+  border-color: rgba(201,168,76,0.25);
+}
+
+.review-avatar {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: var(--gold-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 0.95rem;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.review-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.review-header-text h4 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--navy);
+  margin-bottom: 3px;
+}
+
+.stars {
+  font-size: 0.8rem;
+  letter-spacing: 1px;
+  color: #f4b400;
+  margin-bottom: 0;
+}
+
+.review-card p {
+  font-size: 0.875rem;
+  line-height: 1.7;
+  color: #4a5568;
+  margin-bottom: 0;
+}
+
+.review-card .source {
+  display: block;
+  margin-top: 14px;
+  font-size: 0.72rem;
+  color: var(--muted);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+}
+
+.nav-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--white);
+  border: 1px solid rgba(11,31,58,0.12);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  font-size: 16px;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--navy);
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.nav-btn:hover {
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+  transform: translateY(-50%) scale(1.05);
+}
+
+.nav-btn.left { left: 4px; }
+.nav-btn.right { right: 4px; }
+
+/* ══════════════════════════════════════════════
+   GALLERY
+══════════════════════════════════════════════ */
+.gallery-section {
+  padding: 80px 0;
+  background: var(--navy);
+}
+
+.gallery-section > .container > h2 {
+  font-family: var(--font-display);
+  font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+  color: var(--white);
+  text-align: center;
+  margin-bottom: 8px;
+  letter-spacing: -0.02em;
+}
+
+.gallery-section > .container > h2 span {
+  color: var(--gold);
+  font-style: italic;
+}
+
+.gallery-subtitle {
+  text-align: center;
+  color: rgba(255,255,255,0.5);
+  font-size: 0.9rem;
+  margin-bottom: 36px;
+}
+
+/* Gallery filters */
+.gallery-filters {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 36px;
+}
+
+.gallery-filters button {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.12);
+  color: rgba(255,255,255,0.65);
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.8rem;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  transition: var(--transition);
+}
+
+.gallery-filters button.active,
+.gallery-filters button:hover {
+  background: var(--gold);
+  border-color: var(--gold);
+  color: var(--navy);
+  font-weight: 600;
+}
+
+/* Gallery grid */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 16px;
+}
+
+.gallery-item {
+  border-radius: 10px;
+  overflow: hidden;
+  aspect-ratio: 4/3;
+  position: relative;
+}
+
+.gallery-item img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.5s ease;
+  cursor: pointer;
+}
+
+.gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+.gallery-item::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(11,31,58,0.5) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+
+.gallery-item:hover::after {
+  opacity: 1;
+}
+
+.gallery-item.hide { display: none; }
+
+/* ══════════════════════════════════════════════
+   FOOTER
+══════════════════════════════════════════════ */
+.gtec-footer {
+  background: linear-gradient(180deg, #0d1a2e 0%, #080f1c 100%);
+  color: #9aa0c3;
+  padding-top: 5rem;
+  position: relative;
+  border-top: 1px solid rgba(201,168,76,0.12);
+}
+
+.gtec-footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  opacity: 0.4;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 3rem;
+  padding-bottom: 3rem;
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 28px 3rem;
+}
+
+.footer-col h4 {
+  font-family: var(--font-display);
+  color: var(--white);
+  font-size: 1rem;
+  font-weight: 600;
+  margin-bottom: 1.4rem;
+  position: relative;
+  padding-bottom: 12px;
+}
+
+.footer-col h4::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 28px;
+  height: 2px;
+  background: var(--gold);
+  border-radius: 2px;
+}
+
+.footer-col ul {
+  list-style: none;
+}
+
+.footer-col ul li {
+  margin-bottom: 0.8rem;
+}
+
+.footer-col ul li a {
+  color: #8a90b0;
+  text-decoration: none;
+  font-size: 0.88rem;
+  transition: color 0.2s;
+}
+
+.footer-col ul li a:hover {
+  color: var(--gold-light);
+}
+
+.footer-col p {
+  font-size: 0.88rem;
+  line-height: 1.65;
+  margin-bottom: 1rem;
+  color: #8a90b0;
+}
+
+/* Subscribe form */
+.subscribe-formm {
+  display: flex;
+  border-radius: 8px;
+  overflow: hidden;
+  border: 1px solid rgba(255,255,255,0.1);
+  max-width: 280px;
+}
+
+.subscribe-formm input {
+  flex: 1;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  border: none;
+  padding: 10px 14px;
+  font-family: var(--font-body);
+  font-size: 0.85rem;
+  outline: none;
+}
+
+.subscribe-formm input::placeholder {
+  color: rgba(255,255,255,0.4);
+}
+
+.subscribe-formm button {
+  background: var(--gold);
+  color: var(--navy);
+  border: none;
+  padding: 10px 16px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: 700;
+  transition: var(--transition);
+}
+
+.subscribe-formm button:hover {
+  background: var(--gold-light);
+}
+
+.footer-bottom {
+  border-top: 1px solid rgba(255,255,255,0.06);
+  text-align: center;
+  padding: 1.4rem 28px;
+  font-size: 0.82rem;
+  color: #5a6080;
+  max-width: 1160px;
+  margin: 0 auto;
+}
+
+.footer-bottom a {
+  color: #9aa0c3;
+  text-decoration: none;
+}
+
+.footer-bottom a:hover {
+  color: var(--gold-light);
+}
+
+/* Scroll to top */
+#scrollTopBtn {
+  position: fixed;
+  bottom: 32px;
+  right: 32px;
+  background: var(--navy);
+  color: var(--gold);
+  border: 1px solid rgba(201,168,76,0.3);
+  width: 44px;
+  height: 44px;
+  font-size: 18px;
+  cursor: pointer;
+  border-radius: 10px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: var(--shadow-md);
+  transition: var(--transition);
+  z-index: 400;
+}
+
+#scrollTopBtn:hover {
+  background: var(--gold);
+  color: var(--navy);
+  transform: translateY(-2px);
+}
+
+/* ══════════════════════════════════════════════
+   VIDEO MODAL
+══════════════════════════════════════════════ */
+.video-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.82);
+  backdrop-filter: blur(8px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.video-box {
+  background: #000;
+  padding: 4px;
+  position: relative;
+  width: 90%;
+  max-width: 820px;
+  border-radius: 12px;
+  overflow: hidden;
+  box-shadow: 0 32px 80px rgba(0,0,0,0.6);
+}
+
+.video-box video { width: 100%; display: block; }
+
+.video-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255,255,255,0.12);
+  color: #fff;
+  font-size: 20px;
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  line-height: 36px;
+  border-radius: 50%;
+  cursor: pointer;
+  border: 1px solid rgba(255,255,255,0.25);
+  backdrop-filter: blur(4px);
+  transition: var(--transition);
+  z-index: 2;
+}
+
+.video-close:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+/* ══════════════════════════════════════════════
+   BOOKING MODAL
+══════════════════════════════════════════════ */
+.modal {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(8,15,30,0.75);
+  backdrop-filter: blur(8px);
+  z-index: 3000;
+  padding: 20px;
+}
+
+.modal-content {
+  background: var(--white);
+  width: 100%;
+  max-width: 620px;
+  border-radius: var(--radius-lg);
+  box-shadow: 0 32px 80px rgba(8,15,30,0.3);
+  max-height: 90vh;
+  overflow-y: auto;
+  animation: popIn 0.35s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+@keyframes popIn {
+  from { transform: scale(0.85) translateY(20px); opacity: 0; }
+  to   { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+.modal-header {
+  background: linear-gradient(135deg, var(--navy), var(--navy-mid));
+  padding: 24px 28px 20px;
+  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+
+.modal-header h2 {
+  font-family: var(--font-display);
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--white);
+  margin: 0;
+}
+
+.modal-header p {
+  font-size: 0.8rem;
+  color: rgba(255,255,255,0.55);
+  margin-top: 4px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 18px;
+  right: 22px;
+  font-size: 24px;
+  cursor: pointer;
+  color: rgba(255,255,255,0.6);
+  line-height: 1;
+  transition: color 0.2s;
+  background: none;
+  border: none;
+  font-family: inherit;
+}
+
+.close-btn:hover { color: #fff; }
+
+.modal-body {
+  padding: 28px;
+}
+
+/* Form elements */
+#bookingForm {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.modal-body label, .form-label {
+  display: block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--navy);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  margin-top: 18px;
+  margin-bottom: 6px;
+}
+
+.modal-body input,
+.modal-body select,
+.modal-body textarea {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid rgba(11,31,58,0.12);
+  border-radius: 8px;
+  font-family: var(--font-body);
+  font-size: 0.9rem;
+  color: var(--text);
+  background: var(--pearl);
+  transition: border-color 0.2s, box-shadow 0.2s;
+  outline: none;
+}
+
+.modal-body input:focus,
+.modal-body select:focus,
+.modal-body textarea:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(201,168,76,0.12);
+  background: #fff;
+}
+
+.modal-body textarea { resize: vertical; min-height: 80px; }
+
+.submit-btn {
+  width: 100%;
+  padding: 14px;
+  background: linear-gradient(135deg, var(--navy), var(--navy-light));
+  color: white;
+  border: none;
+  border-radius: 10px;
+  margin-top: 28px;
+  cursor: pointer;
+  font-family: var(--font-body);
+  font-size: 0.95rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  transition: var(--transition);
+  box-shadow: 0 4px 18px rgba(11,31,58,0.25);
+}
+
+.submit-btn:hover:not(:disabled) {
+  background: linear-gradient(135deg, var(--navy-light), var(--navy));
+  transform: translateY(-1px);
+  box-shadow: 0 8px 24px rgba(11,31,58,0.3);
+}
+
+.submit-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* Streaming / additional services */
+.form-section-title {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin: 24px 0 14px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid rgba(11,31,58,0.08);
+}
+
+.warning-text {
+  font-size: 0.8rem;
+  color: #d64b4b;
+  margin-top: 6px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.5;
+}
+
+/* Additional services */
+.additional-services-container {
+  border: 1.5px solid rgba(11,31,58,0.1);
+  border-radius: 10px;
+  padding: 18px;
+  background: var(--pearl);
+  margin-top: 18px;
+}
+
+.additional-services-container > label {
+  font-weight: 700;
+  margin-bottom: 12px;
+  margin-top: 0;
+}
+
+.checkbox-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(11,31,58,0.05);
+  font-size: 0.88rem;
+  color: var(--text);
+}
+
+.checkbox-item:last-child { border-bottom: none; }
+
+.checkbox-item input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--navy);
+}
+
+/* Rentals */
+.rentals-section {
+  border: 1.5px solid rgba(11,31,58,0.1);
+  border-radius: 10px;
+  padding: 18px;
+  background: var(--pearl);
+  margin-top: 18px;
+}
+
+.booking-subtitle {
+  font-family: var(--font-display);
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 14px;
+}
+
+.rentals-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+  gap: 12px;
+}
+
+.rental-card {
+  background: var(--white);
+  border: 1px solid rgba(11,31,58,0.08);
+  border-radius: 10px;
+  padding: 12px;
+  text-align: center;
+}
+
+.rental-card img {
+  width: 100%;
+  height: 100px;
+  object-fit: contain;
+  border-radius: 6px;
+  margin-bottom: 8px;
+  background: var(--cream);
+}
+
+.rental-card h4 {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.rental-card input {
+  width: 100% !important;
+  margin-top: 0 !important;
+  font-size: 0.82rem !important;
+  padding: 7px 10px !important;
+}
+
+/* Guidelines box */
+.guidelines-box {
+  border: 1.5px solid rgba(214,75,75,0.25);
+  background: rgba(214,75,75,0.03);
+  padding: 18px;
+  border-radius: 10px;
+  margin-top: 22px;
+}
+
+.guidelines-box h3 {
+  margin-top: 0;
+  font-size: 0.9rem;
+  color: #c0392b;
+  margin-bottom: 8px;
+}
+
+.guidelines-box p {
+  font-size: 0.84rem;
+  color: #555;
+  margin-bottom: 12px;
+}
+
+.guidelines-download {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 9px 16px;
+  background: var(--navy);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 7px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  margin-bottom: 12px;
+  transition: var(--transition);
+}
+
+.guidelines-download:hover {
+  background: var(--navy-light);
+}
+
+.guidelines-confirm-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 0.84rem;
+  color: var(--text);
+  margin-top: 8px;
+}
+
+.guidelines-confirm-row input {
+  width: 18px !important;
+  height: 18px;
+  accent-color: var(--navy);
+  margin-top: 0 !important;
+}
+
+/* ══════════════════════════════════════════════
+   SUBMISSION OVERLAY
+══════════════════════════════════════════════ */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.75);
+  backdrop-filter: blur(6px);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+
+.spinner {
+  width: 60px;
+  height: 60px;
+  border: 4px solid rgba(255,255,255,0.15);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.85s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.success-card {
+  background: var(--white);
+  padding: 44px 36px;
+  border-radius: 18px;
+  max-width: 440px;
+  width: 90%;
+  text-align: center;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.35);
+  animation: fadeScale 0.45s ease;
+}
+
+@keyframes fadeScale {
+  from { opacity: 0; transform: scale(0.88) translateY(12px); }
+  to   { opacity: 1; transform: scale(1) translateY(0); }
+}
+
+.checkmark-circle svg {
+  width: 72px;
+  height: 72px;
+  stroke: #0a7a3b;
+  stroke-width: 3.5;
+  fill: none;
+  margin-bottom: 16px;
+}
+
+.checkmark-circle circle {
+  stroke-dasharray: 157;
+  stroke-dashoffset: 157;
+  animation: draw 0.9s ease forwards;
+}
+
+.checkmark-circle path {
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  animation: draw 0.55s ease forwards 0.45s;
+}
+
+@keyframes draw { to { stroke-dashoffset: 0; } }
+
+.success-card h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+}
+
+.success-card p {
+  font-size: 0.9rem;
+  color: var(--muted);
+  line-height: 1.65;
+}
+
+/* Main gallery lightbox */
+.main-lightbox {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.92);
+  backdrop-filter: blur(10px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 5000;
+  cursor: zoom-out;
+  padding: 24px;
+}
+
+.main-lightbox img {
+  max-width: 90%;
+  max-height: 90%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+  cursor: default;
+}
+
+.main-lightbox-close {
+  position: absolute;
+  top: 24px;
+  right: 28px;
+  color: rgba(255,255,255,0.75);
+  font-size: 30px;
+  cursor: pointer;
+  transition: color 0.2s;
+  z-index: 1;
+}
+
+.main-lightbox-close:hover { color: #fff; }
+
+/* ══════════════════════════════════════════════
+   PROMO POPUP (auto-show on load)
+══════════════════════════════════════════════ */
+.promo-modal {
+  position: fixed;
+  inset: 0;
+  background: rgba(8,15,30,0.4);
+  backdrop-filter: blur(6px);
+  z-index: 6000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.promo-modal.show {
+  display: flex;
+}
+
+.promo-content {
+  position: relative;
+  width: 100%;
+  max-width: 680px;
+  background: rgba(255,255,255,0.14);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(255,255,255,0.25);
+  border-radius: 6px;
+  overflow: hidden;
+  box-shadow: 0 40px 100px rgba(8,15,30,0.5);
+  animation: popIn 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.promo-eyebrow-bar {
+  background: rgba(11,31,58,0.55);
+  backdrop-filter: blur(6px);
+  padding: 14px 22px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+}
+
+.promo-eyebrow-bar span {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--gold-light);
+}
+
+.promo-close {
+  background: rgba(255,255,255,0.12);
+  border: 1px solid rgba(255,255,255,0.25);
+  color: #fff;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  font-size: 15px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition);
+  line-height: 1;
+}
+
+.promo-close:hover {
+  background: rgba(255,255,255,0.25);
+}
+
+.promo-media {
+  position: relative;
+  height: 350px;
+  overflow: hidden;
+}
+
+.promo-track {
+  display: flex;
+  height: 100%;
+  transition: transform 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+
+.promo-slide {
+  flex: 0 0 100%;
+  min-width: 100%;
+  width: 100%;
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  flex-shrink: 0;
+}
+
+.promo-slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transform: scale(1);
+}
+
+.promo-slide.active img {
+  animation: kenburns 3.8s ease-in-out forwards;
+}
+
+@keyframes kenburns {
+  from { transform: scale(1); }
+  to   { transform: scale(1.08); }
+}
+
+.promo-slide::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  height: 120px;
+  background: linear-gradient(to top, rgba(8,15,30,0.85), transparent);
+  pointer-events: none;
+}
+
+.promo-caption {
+  position: absolute;
+  bottom: 16px;
+  left: 20px;
+  right: 20px;
+  z-index: 2;
+}
+
+.promo-caption .school {
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: #fff;
+  text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  margin-bottom: 4px;
+}
+
+.promo-caption .tagline {
+  font-size: 0.78rem;
+  color: var(--gold-light);
+  font-weight: 600;
+  letter-spacing: 0.03em;
+}
+
+.promo-dots {
+  position: absolute;
+  top: 16px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+  gap: 6px;
+  z-index: 2;
+}
+
+.promo-dots span {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.4);
+  transition: background 0.3s, transform 0.3s;
+}
+
+.promo-dots span.active {
+  background: var(--gold-light);
+  transform: scale(1.3);
+}
+
+.promo-footer {
+  padding: 18px 22px 22px;
+  text-align: center;
+  background: rgba(250,248,244,0.94);
+  backdrop-filter: blur(10px);
+}
+
+.promo-footer p {
+  font-size: 0.86rem;
+  color: var(--text);
+  font-weight: 500;
+  margin-bottom: 14px;
+  line-height: 1.55;
+}
+
+.promo-footer .btn {
+  width: 100%;
+}
+
+/* Gallery overlay (hall details) */
+#galleryOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.88);
+  backdrop-filter: blur(8px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 4000;
+}
+
+#galleryImage {
+  max-width: 80%;
+  max-height: 80%;
+  object-fit: contain;
+  border-radius: 10px;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.6);
+}
+
+/* Doc modal */
+/* #docModal now used for in-page guidelines preview — no longer force-hidden */
+
+/* ══════════════════════════════════════════════
+   MOBILE
+══════════════════════════════════════════════ */
+@media (max-width: 900px) {
+  .grid-3 { grid-template-columns: 1fr; }
+  .hall-grid { grid-template-columns: 1fr; }
+  .hero-inner { grid-template-columns: 1fr; gap: 36px; }
+  .hero { padding: 60px 0 50px; }
+  .hero-image { display: block; margin-top: 20px; }
+  .hero-image img { width: 100%; }
+  .stats-inner { grid-template-columns: repeat(2,1fr); gap: 20px; }
+  .stat-item { border-right: none; }
+}
+
+@media (max-width: 768px) {
+  .menu-toggle { display: block; }
+
+  .nav {
+    position: absolute;
+    top: 72px;
+    left: 0;
+    width: 100%;
+    background: var(--navy);
+    display: none;
+    flex-direction: column;
+    padding: 12px 0;
+    border-top: 1px solid rgba(201,168,76,0.15);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.2);
+  }
+
+  .nav a {
+    border-radius: 0;
+    padding: 12px 24px;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+  }
+
+  .nav.show { display: flex; }
+
+  .book-now-btn { display: none; }
+}
+
+@media (max-width: 600px) {
+  .stats-inner { grid-template-columns: repeat(2,1fr); }
+  .footer-grid { gap: 2rem; }
+  .gallery-grid { grid-template-columns: repeat(2,1fr); }
+}
+
+@media (max-width: 640px) {
+  .promo-modal { padding: 16px; align-items: center; justify-content: center; }
+
+  .promo-content {
+    max-width: 100%;
+    width: 100%;
+    border-radius: 14px;
+    max-height: calc(100vh - 32px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .promo-media { height: 38vh; flex-shrink: 0; }
+
+  .promo-caption { left: 14px; right: 14px; bottom: 12px; }
+  .promo-caption .school { font-size: 1rem; }
+  .promo-caption .tagline { font-size: 0.72rem; }
+
+  .promo-footer { padding: 14px 16px 18px; overflow-y: auto; }
+  .promo-footer p { font-size: 0.82rem; margin-bottom: 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════════ SUBMISSION OVERLAY ════════════ -->
+<div id="submissionOverlay" class="overlay" style="display:none;">
+  <div class="spinner" id="spinner"></div>
+  <div id="successCard" class="success-card" style="display:none;">
+    <div class="checkmark-circle">
+      <svg viewBox="0 0 52 52">
+        <circle cx="26" cy="26" r="25" fill="none"/>
+        <path fill="none" d="M14 27l7 7 17-17"/>
+      </svg>
+    </div>
+    <h3>Booking Received</h3>
+    <p>Thank you. We have received your booking.<br><br>Our team will review the details and contact you shortly via phone or email.</p>
+  </div>
+</div>
+
+<!-- ════════════════ PROMO POPUP ════════════ -->
+<div class="promo-modal" id="promoModal">
+  <div class="promo-content">
+    <div class="promo-eyebrow-bar">
+      <span>Recent Events</span>
+      <button class="promo-close" id="promoClose" aria-label="Close">✕</button>
+    </div>
+    <div class="promo-media">
+      <div class="promo-dots" id="promoDots"></div>
+      <div class="promo-track" id="promoTrack"></div>
+    </div>
+    <div class="promo-footer">
+      <p>See more graduations, ceremonies and conferences hosted at our facility.</p>
+      <a href="events.html" class="btn btn-primary">View All Events →</a>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ HEADER ════════════════════ -->
+<header class="site-header">
+  <div class="header-inner">
+    <div class="brand">
+      <img src="images/logo1.jpg" alt="GTEC logo" class="logo">
+      <div class="brand-name">
+        GTEC
+        <span>Conference Facility</span>
+      </div>
+    </div>
+
+    <div class="menu-toggle" id="menuToggle">☰</div>
+
+    <nav class="nav" id="mobileNav">
+      <a href="index.html">Home</a>
+      <a href="halls.html">Halls</a>
+      <a href="events.html">Events</a>
+      <a href="about.html">About Us</a>
+      <a href="contact.html">Contact Us</a>
+      <a href="policies.html">Policies</a>
+    </nav>
+
+    <button class="book-now-btn" onclick="openBookingModal(' ')">Book Now</button>
+  </div>
+</header>
+
+<!-- ════════════════ HERO ════════════════════ -->
+<section class="hero">
+  <div class="hero-accent"></div>
+
+  <div class="container">
+    <div class="hero-inner">
+      <div>
+        <p class="hero-eyebrow">GTEC Conference Facility</p>
+        <h1>Professional Conference Halls for <em>Every</em> Event</h1>
+        <p class="lead">Modern, fully-equipped venues with configurable seating and optional services. Book with ease for corporate events, seminars, exams and special occasions.</p>
+
+        <div class="hero-actions">
+          <a href="https://drive.google.com/file/d/1dcAUQvnBytkOHEyEQsSDld8idSxn84cy/preview" target="_blank">
+            <button class="btn btn-primary">View Guidelines</button>
+          </a>
+          <button class="btn btn-secondary" onclick="openBookingModal(' ')">Book a Hall</button>
+          <div class="video-action" onclick="openVideo()">
+            <div class="play-btn">
+              <span class="pulse"></span>
+              <span class="icon">▶</span>
+            </div>
+            <span class="play-text">Play Tour</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="hero-image">
+        <img src="images/GTEC Conference Facility_(Front View).jpg" alt="GTEC Conference Facility">
+        <div class="hero-badge">📍 Accra, Ghana</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ STATS STRIP ═══════════════ -->
+<div class="stats-strip">
+  <div class="stats-inner">
+    <div class="stat-item">
+      <div class="stat-number">4<span>•</span></div>
+      <div class="stat-label">Conference Halls</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">600<span>+</span></div>
+      <div class="stat-label">Max Capacity</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">70<span>+</span></div>
+      <div class="stat-label">Events Hosted</div>
+    </div>
+    <div class="stat-item">
+      <div class="stat-number">4.8<span>★</span></div>
+      <div class="stat-label">Average Rating</div>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ FEATURES ═══════════════ -->
+<section class="features">
+  <div class="container">
+    <span class="section-eyebrow">Why Choose Us</span>
+    <h2 class="section-title">The Premier Venue Choice in Ghana</h2>
+    <p class="section-sub">Everything you need for a seamless, professional event experience</p>
+
+    <div class="grid-3">
+      <div class="feature-card">
+        <div class="feature-icon">🎙️</div>
+        <h3>Professional Support</h3>
+        <p>Experienced on-site staff and AV technicians to ensure your event runs smoothly from start to finish.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🪑</div>
+        <h3>Flexible Layouts</h3>
+        <p>Configurable seating in theatre, classroom, boardroom and banquet arrangements to suit any occasion.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔒</div>
+        <h3>Secure &amp; Accessible</h3>
+        <p>Secure premises with accessible facilities, ample parking, and reliable infrastructure for all attendees.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ HALLS ════════════════════ -->
+<section class="showcase">
+  <div class="container">
+    <span class="section-eyebrow">Our Spaces</span>
+    <h2 class="section-title">Featured Conference Halls</h2>
+    <p class="section-sub">World-class facilities equipped for every type of professional gathering</p>
+
+    <div class="hall-grid">
+      <article class="hall-card">
+        <div class="hall-media">
+          <a href="paul_effah-full_capacity.html" class="hall-card-link">
+            <img src="images/Paul_Effah-Full_Capacity.jpeg" alt="Paul Effah Hall Full Capacity">
+          </a>
+          <div class="capacity">600 pax</div>
+        </div>
+        <div class="hall-body">
+          <a href="paul_effah-full_capacity.html" class="hall-card-link">
+            <h3>Paul Effah Hall — Full Capacity</h3>
+          </a>
+          <p class="hall-meta">• Theatre seating • LED &amp; Mini Screens • PA System</p>
+          <div class="hall-actions">
+            <button class="btn btn-primary" onclick="openHallDetails('paul-effah')">View Details</button>
+            <button class="btn btn-secondary" onclick="openBookingModal('Paul Effah Hall- Full Capacity')">Book</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="hall-card">
+        <div class="hall-media">
+          <a href="paul_effah-ground_floor.html" class="hall-card-link">
+            <img src="images/Paul_Effah-Ground_Floor.jpeg" alt="Paul Effah Hall Ground Floor">
+          </a>
+          <div class="capacity">320 pax</div>
+        </div>
+        <div class="hall-body">
+          <a href="paul_effah-ground_floor.html" class="hall-card-link">
+            <h3>Paul Effah Hall — Ground Floor</h3>
+          </a>
+          <p class="hall-meta">• Theatre seating • LED &amp; Mini Screens • PA System</p>
+          <div class="hall-actions">
+            <button class="btn btn-primary" onclick="openHallDetails('paul-effah-gf')">View Details</button>
+            <button class="btn btn-secondary" onclick="openBookingModal('Paul Effah Hall- Ground Floor')">Book</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="hall-card">
+        <div class="hall-media">
+          <a href="jinapor-hall.html" class="hall-card-link">
+            <img src="jinapor/jinapor_101.jpg" alt="Ahmed Jinapor Hall">
+          </a>
+          <div class="capacity">100 pax</div>
+        </div>
+        <div class="hall-body">
+          <a href="jinapor-hall.html" class="hall-card-link">
+            <h3>Ahmed Jinapor Hall</h3>
+          </a>
+          <p class="hall-meta">• Projection Screen • PA System</p>
+          <div class="hall-actions">
+            <button class="btn btn-primary" onclick="openHallDetails('jinapor-hall')">View Details</button>
+            <button class="btn btn-secondary" onclick="openBookingModal('Ahmed Jinapor Hall')">Book</button>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    <div class="center">
+      <a href="halls.html" class="view-all-btn" style="text-decoration:none; padding: 12px 28px; font-size: 0.9rem;">View All Halls →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ RECENT EVENTS ═══════════ -->
+<section class="events-preview">
+  <div class="container">
+    <span class="section-eyebrow">What's Been Happening</span>
+    <h2 class="section-title">Recent Events</h2>
+    <p class="section-sub">A look at some of the conferences, ceremonies and gatherings hosted at our facility</p>
+
+    <div class="events-preview-grid">
+      <a href="events.html" class="event-preview-card">
+        <div class="event-preview-media">
+          <img src="events/ecole_ronsard_program.png.jpeg" alt="9th Graduation & 10th Speech and Prize-Giving Day">
+          <div class="event-preview-badge">Graduation</div>
+        </div>
+        <div class="event-preview-body">
+          <span class="event-preview-date">June 23–24, 2026</span>
+          <h3 class="event-preview-title">9th Graduation & 10th Speech and Prize-Giving Day</h3>
+          <p class="event-preview-excerpt">Celebrating graduating students and recognizing excellence in academics, leadership and culture.</p>
+          <div class="event-preview-footer">
+            <span>🎓 École Ronsard Bilingual School</span>
+            <span>View →</span>
+          </div>
+        </div>
+      </a>
+
+      <a href="events.html" class="event-preview-card">
+        <div class="event-preview-media">
+          <img src="events/countryintsch1.jpg" alt="Awards & Recognition Ceremony 2026">
+          <div class="event-preview-badge">Graduation</div>
+        </div>
+        <div class="event-preview-body">
+          <span class="event-preview-date">July 2, 2026</span>
+          <h3 class="event-preview-title">Awards & Recognition Ceremony, 2026</h3>
+          <p class="event-preview-excerpt">An evening honouring outstanding achievement under the theme "Towards the Dynamic Future."</p>
+          <div class="event-preview-footer">
+            <span>🎓 Country International School</span>
+            <span>View →</span>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <div class="center">
+      <a href="events.html" class="view-all-btn" style="text-decoration:none; padding: 12px 28px; font-size: 0.9rem;">View All Events →</a>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ REVIEWS ═════════════════ -->
+<section class="reviews-section">
+  <div class="container">
+    <span class="section-eyebrow">Client Testimonials</span>
+    <h2>What Our Clients Say</h2>
+
+    <div class="reviews-wrapper">
+      <button class="nav-btn left" onclick="scrollReviews(-1)">&#10094;</button>
+
+      <div class="reviews-container" id="reviewsContainer">
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">AP</div>
+            <div class="review-header-text">
+              <h4>Antwi Prince</h4>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+          <p>"Paul Effah Hall at GTEC Conference Facility provided an excellent experience. The sound, lighting and seating arrangement were all top class. Highly recommended."</p>
+          <span class="source">4 Aug 2025</span>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">JA</div>
+            <div class="review-header-text">
+              <h4>Jessica Armah</h4>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+          <p>"The Jinapor Hall is a well-organized and comfortable venue. The acoustics were clear, the environment was welcoming and the seating layout worked perfectly for our event."</p>
+          <span class="source">10 Aug 2025</span>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">IS</div>
+            <div class="review-header-text">
+              <h4>Isaac Smith</h4>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+          <p>"Thanks to its dedicated technical support team, GTEC Conference Facility handles even the most complex conferences effortlessly."</p>
+          <span class="source">14 Aug 2025</span>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">KA</div>
+            <div class="review-header-text">
+              <h4>Kwame Asare</h4>
+              <div class="stars">★★★★</div>
+            </div>
+          </div>
+          <p>"Kwame Dattey Hall was an excellent choice for our seminar. The hall was spacious, well-arranged, and created a focused environment that supported smooth presentations."</p>
+          <span class="source">23 Sep 2025</span>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">RA</div>
+            <div class="review-header-text">
+              <h4>Richard D. Anim</h4>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+          <p>"Paul Effah Hall is the perfect venue for large academic conferences — spacious, modern and fully equipped to host unforgettable events."</p>
+          <span class="source">18 Dec 2025</span>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">NA</div>
+            <div class="review-header-text">
+              <h4>Nana Akua</h4>
+              <div class="stars">★★★★</div>
+            </div>
+          </div>
+          <p>"Very spacious and professional environment. The booking process was smooth and the staff were incredibly helpful throughout."</p>
+          <span class="source">25 Dec 2025</span>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">SO</div>
+            <div class="review-header-text">
+              <h4>Samuel Owusu</h4>
+              <div class="stars">★★★★</div>
+            </div>
+          </div>
+          <p>"With ample parking, top-notch security, and a well-organized layout, GTEC Conference Facility makes hosting large institutional conferences smooth and hassle-free."</p>
+          <span class="source">9 Jan 2026</span>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">ES</div>
+            <div class="review-header-text">
+              <h4>Edmund Seyram</h4>
+              <div class="stars">★★★★★</div>
+            </div>
+          </div>
+          <p>"A premier venue for big conferences — professional, accessible and designed to impress every attendee."</p>
+          <span class="source">15 Jan 2026</span>
+        </div>
+        <div class="review-card">
+          <div class="review-header">
+            <div class="review-avatar">JA</div>
+            <div class="review-header-text">
+              <h4>Jennifer Appiah</h4>
+              <div class="stars">★★★★</div>
+            </div>
+          </div>
+          <p>"With top-notch security, easy access and comfortable seating, GTEC Conference Facility is the perfect venue for prestigious conferences."</p>
+          <span class="source">21 Jan 2026</span>
+        </div>
+      </div>
+
+      <button class="nav-btn right" onclick="scrollReviews(1)">&#10095;</button>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ GALLERY ═════════════════ -->
+<section class="gallery-section" id="gallery-section">
+  <div class="container">
+    <span class="section-eyebrow" style="color:var(--gold)">Our Spaces</span>
+    <h2>View Our <span>Gallery</span></h2>
+    <p class="gallery-subtitle">A glimpse into our world-class facilities</p>
+
+    <div class="gallery-filters">
+      <button class="active" data-filter="all">All Halls</button>
+      <button data-filter="photos">Ahmed Jinapor Hall</button>
+      <button data-filter="campus">Paul Effah Hall</button>
+      <button data-filter="students">Kwame Dattey</button>
+      <button data-filter="teachers">Nikoi Kottey Hall</button>
+    </div>
+
+    <div class="gallery-grid">
+      <div class="gallery-item campus"><img src="gallery/paul-effah_full_auditorium.jpeg" alt="Paul Effah Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_full_auditorium_12.jpeg" alt="Paul Effah Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item students"><img src="gallery/dattey_101.jpeg" alt="Kwame Dattey Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_full_auditorium_11.jpeg" alt="Paul Effah Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_ground-floor_13.jpeg" alt="Paul Effah Ground Floor" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item teachers"><img src="gallery/nikoi_hall-1.jpeg" alt="Nikoi Kotey Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item students"><img src="gallery/dattey_103.jpeg" alt="Kwame Dattey Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor-112.jpeg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_ground-floor_14.jpeg" alt="Paul Effah Ground Floor" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_101.jpeg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul-effah_ground-floor_12.jpeg" alt="Paul Effah Ground Floor" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item campus"><img src="gallery/paul_effah-top_leftwing.jpeg" alt="Paul Effah Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_101.jpg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_102.jpg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_103.jpg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+      <div class="gallery-item photos"><img src="gallery/jinapor_104.jpg" alt="Ahmed Jinapor Hall" onclick="openMainLightbox(this.src)"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════════ MAIN GALLERY LIGHTBOX ════ -->
+<div id="mainLightbox" class="main-lightbox" onclick="closeMainLightbox()">
+  <span class="main-lightbox-close" onclick="closeMainLightbox()">✕</span>
+  <img id="mainLightboxImg" src="" alt="Enlarged view">
+</div>
+
+<!-- ════════════════ FOOTER ══════════════════ -->
+<footer class="gtec-footer">
+  <div class="footer-grid">
+    <div class="footer-col">
+      <h4>About Us</h4>
+      <ul>
+        <li><a href="index.html">General Overview</a></li>
+        <li><a href="about.html">Vision / Mission / Core Values</a></li>
+        <li><a href="#">Gallery</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>What We Do</h4>
+      <ul>
+        <li><a href="halls.html">Book Events</a></li>
+        <li><a href="https://guesthousesystem-86fdc.web.app/roomsui.html">Reserve a Room</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>QA Guidelines</h4>
+      <ul>
+        <li><a href="policies.html">QA Guidelines</a></li>
+        <li><a href="contact.html">Contact Us</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Stay Updated</h4>
+      <p>Stay informed about hall availability, bookings and official updates.</p>
+      <form class="subscribe-formm" id="subscribeForm">
+        <input type="email" name="email" placeholder="Your email address" required>
+        <button type="submit">➤</button>
+      </form>
+      <p id="subscribeMessage" style="color:#6ee7b7;display:none;margin-top:8px;font-size:0.82rem;"></p>
+    </div>
+  </div>
+
+  <div class="footer-bottom">
+    <p>© <span id="year"></span> GTEC Conference Facility. All rights reserved.</p>
+    <p style="margin-top:8px;">Powered by <a href="https://myportfolio-theta-topaz-43.vercel.app/" target="_blank"><strong>TrevorMiles</strong></a></p>
+  </div>
+
+  <button id="scrollTopBtn" title="Back to top" style="display:none;">↑</button>
+</footer>
+
+<!-- ════════════════ VIDEO MODAL ════════════ -->
+<div class="video-modal" id="videoModal">
+  <div class="video-box">
+    <span class="video-close" onclick="closeVideo()">✕</span>
+    <video controls>
+      <source src="https://res.cloudinary.com/drs2xpwho/video/upload/q_auto/v1784587650/Conference_Hall_Compressed_xwvqs7.mp4" type="video/mp4">
+      Your browser does not support the video tag.
+    </video>
+  </div>
+</div>
+
+<!-- ════════════════ BOOKING MODAL ══════════ -->
+<div id="bookingModal" class="modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <span class="close-btn" id="closeModal">&times;</span>
+      <h2>Conference Hall Booking</h2>
+      <p>Complete the form below and our team will be in touch shortly</p>
+    </div>
+
+    <div class="modal-body">
+      <form id="bookingForm">
+        <label>Full Name</label>
+        <input type="text" name="applicantName" placeholder="Enter your full name" required>
+
+        <label>Telephone</label>
+        <input type="tel" name="telephone" placeholder="+233 XX XXX XXXX" required>
+
+        <label>Email Address</label>
+        <input type="email" name="email" placeholder="you@example.com" required>
+
+        <label>Booking Type</label>
+        <select name="bookingType" required>
+          <option value="">Select type...</option>
+          <option value="Institution/Organization">Institution / Organization</option>
+          <option value="Personal">Personal</option>
+        </select>
+
+        <label>Institution / Organization / Person</label>
+        <input type="text" name="institutionName" placeholder="Name of institution or person" required>
+
+        <label>Number of Participants</label>
+        <input type="number" name="participants" placeholder="Expected headcount" required>
+
+        <label>Venue (Hall)</label>
+        <select name="venue" id="venueSelect" required>
+          <option value="">Select a hall...</option>
+          <option value="Paul Effah Hall- Full Capacity">Paul Effah Hall — Full Capacity</option>
+          <option value="Paul Effah Hall- Ground Floor">Paul Effah Hall — Ground Floor</option>
+          <option value="Ahmed Jinapor Hall">Ahmed Jinapor Hall</option>
+          <option value="Nikoi Kotey Hall">Nikoi Kotey Hall</option>
+          <option value="Kwame Dattey Hall">Kwame Dattey Hall</option>
+          <option value="VIP">VIP</option>
+        </select>
+
+        <p class="form-section-title">Live Streaming Options</p>
+
+        <label>Live Streaming</label>
+        <select name="streaming" required>
+          <option value="">Select...</option>
+          <option value="None">No streaming</option>
+          <option value="Zoom">Zoom</option>
+          <option value="YouTube">YouTube</option>
+          <option value="Facebook">Facebook</option>
+          <option value="Google Meet">Google Meet</option>
+        </select>
+
+        <label>Internet for Streaming</label>
+        <select name="internetChoice" required>
+          <option value="">Select...</option>
+          <option value="None">None</option>
+          <option value="Use Own Wi-Fi">Using own internet (No extra cost)</option>
+          <option value="Use GTEC's Wi-Fi">Use GTEC internet (Extra cost applies)</option>
+        </select>
+        <p class="warning-text">⚠️ Institutions can bring their own router to avoid extra charges. Selecting "Use GTEC internet" comes with an additional cost.</p>
+
+        <div class="additional-services-container">
+          <label style="margin-top:0; text-transform:uppercase; font-size:0.78rem; letter-spacing:0.1em;">Additional Services (Optional)</label>
+          <div class="checkbox-item">
+            <span>Changing Room</span>
+            <input type="checkbox" name="additionalServices[]" value="Changing Room">
+          </div>
+          <div class="checkbox-item">
+            <span>Rehearsals</span>
+            <input type="checkbox" name="additionalServices[]" value="Rehearsals">
+          </div>
+          <div class="checkbox-item">
+            <span>Dining Area</span>
+            <input type="checkbox" name="additionalServices[]" value="Dining Area">
+          </div>
+        </div>
+
+        <div class="rentals-section" style="margin-top:22px;">
+          <p class="booking-subtitle">Furniture Rentals (Optional)</p>
+          <div class="rentals-cards">
+            <div class="rental-card">
+              <img src="images/standard_chair.jpg" alt="Standard Chair">
+              <h4>Standard Chair</h4>
+              <input type="number" name="standardChair" min="0" placeholder="Qty">
+            </div>
+            <div class="rental-card">
+              <img src="images/executive_chair.jpeg" alt="Executive Chair">
+              <h4>Executive Chair</h4>
+              <input type="number" name="executiveChair" min="0" placeholder="Qty">
+            </div>
+            <div class="rental-card">
+              <img src="images/table.jpeg" alt="Table">
+              <h4>Table</h4>
+              <input type="number" name="tableQty" min="0" placeholder="Qty">
+            </div>
+            <div class="rental-card">
+              <img src="images/table_with_cloth.jpeg" alt="Table with Cloth">
+              <h4>Table + Cloth</h4>
+              <input type="number" name="tableClothQty" min="0" placeholder="Qty">
+            </div>
+          </div>
+        </div>
+
+        <p class="form-section-title">Additional Options</p>
+
+        <label>Event Promotion</label>
+        <select name="eventPromotion" required>
+          <option value="">Select...</option>
+          <option value="Yes">Yes — promote my event</option>
+          <option value="No">No</option>
+        </select>
+
+        <label>Stage Lighting</label>
+        <select name="stageLighting" required>
+          <option value="">Select...</option>
+          <option value="None">None</option>
+          <option value="Yes, GTEC Provided">Yes — GTEC Provided</option>
+          <option value="Yes, Own Equipment">Yes — Own Equipment</option>
+        </select>
+
+        <label>VIP Lounge</label>
+        <select name="vipLounge" required>
+          <option value="">Select...</option>
+          <option value="Yes">Yes</option>
+          <option value="No">No</option>
+        </select>
+
+        <label>Event Description</label>
+        <textarea name="eventDescription" rows="3" placeholder="Describe your event..." required></textarea>
+
+        <label>Event Start Date</label>
+        <input type="date" name="startDate" id="startDate" required>
+
+        <label>Event End Date</label>
+        <input type="date" name="endDate" id="endDate" required>
+
+        <label>Number of Days</label>
+        <input type="number" name="days" id="eventDays" readonly placeholder="Auto-calculated">
+
+        <label>Event Start Time</label>
+        <input type="time" name="startTime" required>
+
+        <label>Event End Time</label>
+        <input type="time" name="endTime" required>
+
+        <label>Recipient Name for Invoice</label>
+        <input type="text" name="invoiceName" placeholder="Invoice recipient name" required>
+
+        <label>Recipient Email for Invoice</label>
+        <input type="email" name="invoiceEmail" placeholder="Invoice email address" required>
+
+        <div class="guidelines-box">
+          <h3>📄 Booking Guidelines (Mandatory)</h3>
+          <p>Please download and read the booking guidelines before submitting your request.</p>
+          <a href="#" id="downloadGuidelines" class="guidelines-download">
+  ⬇ View Guidelines
+</a>
+          <div class="guidelines-confirm-row">
+            <input type="checkbox" id="guidelinesConfirm" disabled>
+            <label for="guidelinesConfirm" style="margin:0; text-transform:none; font-size:0.84rem; letter-spacing:0; font-weight:600;">
+              I have downloaded and read the booking guidelines
+            </label>
+          </div>
+        </div>
+
+        <button type="submit" class="submit-btn" id="submitBooking" disabled>Submit Booking Request</button>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- DOC MODAL (hidden by CSS) -->
+<div id="docModal" class="modal">
+  <div class="modal-content" style="max-width:900px;">
+    <div class="modal-header">
+      <span class="close-btn" onclick="closeDocumentPreview()">&times;</span>
+      <h2>Booking Guidelines</h2>
+    </div>
+    <div class="modal-body">
+      <iframe src="https://drive.google.com/file/d/18kiEfEUvJkxh2XupyiTZA6Z76sGI3O2C/preview" width="100%" height="500px" style="border:none;border-radius:8px;"></iframe>
+    </div>
+  </div>
+</div>
+
+<!-- ════════════════ FIREBASE ══════════════ -->
+<script>
+const firebaseConfig = {
+  apiKey: "AIzaSyA80t2tr136ihN57YQWwD4nYcPhyutACX4",
+  authDomain: "userlogin-44d0a.firebaseapp.com",
+  projectId: "userlogin-44d0a",
+  storageBucket: "userlogin-44d0a.firebasestorage.app",
+  messagingSenderId: "47108256134",
+  appId: "1:47108256134:web:60888fa5f06dfb075d3c07",
+  measurementId: "G-ZCVWTTFT2H"
+};
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+</script>
+
+<!-- ════════════════ SCRIPTS ════════════════ -->
+<script>
+/* ── Year ─────────────── */
+document.getElementById("year").textContent = new Date().getFullYear();
+
+/* ── Scroll to top ─────── */
+const scrollBtn = document.getElementById("scrollTopBtn");
+window.addEventListener("scroll", () => {
+  scrollBtn.style.display = window.scrollY > 300 ? "flex" : "none";
+});
+scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: "smooth" });
+
+/* ── Mobile nav ──────────── */
+const menuToggle = document.getElementById("menuToggle");
+const mobileNav  = document.getElementById("mobileNav");
+menuToggle.addEventListener("click", () => {
+  mobileNav.classList.toggle("show");
+  menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
+});
+
+/* ── Video modal ─────────── */
+function openVideo() {
+  document.getElementById("videoModal").style.display = "flex";
+}
+function closeVideo() {
+  const modal = document.getElementById("videoModal");
+  const video = modal.querySelector("video");
+  video.pause(); video.currentTime = 0;
+  modal.style.display = "none";
+}
+
+/* ── Booking modal ────────── */
+function openBookingModal(hallName) {
+  const modal = document.getElementById("bookingModal");
+  modal.style.display = "flex";
+  if (hallName && hallName.trim() !== '') {
+    const sel = document.getElementById("venueSelect");
+    if (sel) {
+      for (let i = 0; i < sel.options.length; i++) {
+        if (sel.options[i].value === hallName) { sel.selectedIndex = i; break; }
+      }
+    }
+  }
+  document.body.style.overflow = "hidden";
+}
+
+document.getElementById("closeModal").onclick = () => {
+  document.getElementById("bookingModal").style.display = "none";
+  document.body.style.overflow = "";
+};
+
+document.getElementById("bookingModal").addEventListener("click", (e) => {
+  if (e.target === document.getElementById("bookingModal")) {
+    document.getElementById("bookingModal").style.display = "none";
+    document.body.style.overflow = "";
+  }
+});
+
+/* ── Date calculation ─────── */
+const startDateInput = document.getElementById("startDate");
+const endDateInput   = document.getElementById("endDate");
+const eventDaysInput = document.getElementById("eventDays");
+
+function calcDays() {
+  if (startDateInput.value && endDateInput.value) {
+    const s = new Date(startDateInput.value);
+    const e = new Date(endDateInput.value);
+    const diff = Math.round((e - s) / (1000 * 60 * 60 * 24)) + 1;
+    eventDaysInput.value = diff > 0 ? diff : '';
+  }
+}
+startDateInput.addEventListener("change", calcDays);
+endDateInput.addEventListener("change", calcDays);
+
+/* ── Booking form submit ───── */
+const bookingForm       = document.getElementById("bookingForm");
+const bookingModal      = document.getElementById("bookingModal");
+const submissionOverlay = document.getElementById("submissionOverlay");
+const spinner           = document.getElementById("spinner");
+const successCard       = document.getElementById("successCard");
+
+bookingForm.addEventListener("submit", function(e) {
+  e.preventDefault();
+  bookingModal.style.display = "none";
+  document.body.style.overflow = "";
+  submissionOverlay.style.display = "flex";
+  spinner.style.display = "block";
+  successCard.style.display = "none";
+
+  setTimeout(() => {
+    spinner.style.display = "none";
+    successCard.style.display = "block";
+  }, 2000);
+
+  setTimeout(() => {
+    submissionOverlay.style.display = "none";
+    bookingForm.reset();
+    confirmCheckbox.disabled = true;
+    submitBtn.disabled = true;
+}, 10000);
+});
+
+/* ── Guidelines logic ──────── */
+const downloadBtn       = document.getElementById("downloadGuidelines");
+const confirmCheckbox   = document.getElementById("guidelinesConfirm");
+const submitBtn         = document.getElementById("submitBooking");
+
+downloadBtn.addEventListener("click", (e) => {
+  e.preventDefault();
+  document.getElementById("docModal").style.display = "flex";
+  confirmCheckbox.disabled = false;
+});
+
+confirmCheckbox.addEventListener("change", () => {
+  submitBtn.disabled = !confirmCheckbox.checked;
+});
+
+/* ── Reviews auto-scroll ────── */
+const container = document.getElementById("reviewsContainer");
+const scrollAmt = 350;
+let autoScroll;
+
+function scrollReviews(dir) {
+  container.scrollLeft += dir * scrollAmt;
+}
+
+function startAutoScroll() {
+  autoScroll = setInterval(() => {
+    if (container.scrollLeft + container.clientWidth >= container.scrollWidth) {
+      container.scrollLeft = 0;
+    } else {
+      container.scrollLeft += scrollAmt;
+    }
+  }, 5000);
+}
+
+function stopAutoScroll() { clearInterval(autoScroll); }
+
+startAutoScroll();
+container.addEventListener("mouseenter", stopAutoScroll);
+container.addEventListener("mouseleave", startAutoScroll);
+
+/* ── Main gallery lightbox ───── */
+function openMainLightbox(src) {
+  document.getElementById("mainLightboxImg").src = src;
+  document.getElementById("mainLightbox").style.display = "flex";
+  document.body.style.overflow = "hidden";
+}
+
+function closeMainLightbox() {
+  document.getElementById("mainLightbox").style.display = "none";
+  document.body.style.overflow = "";
+}
+
+document.addEventListener("keydown", (e) => {
+  if (e.key === "Escape") closeMainLightbox();
+});
+
+/* ── Gallery filters ─────────── */
+const filterBtns  = document.querySelectorAll(".gallery-filters button");
+const galleryItems = document.querySelectorAll(".gallery-item");
+
+filterBtns.forEach(btn => {
+  btn.addEventListener("click", () => {
+    filterBtns.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    const filter = btn.dataset.filter;
+    galleryItems.forEach(item => {
+      item.classList.toggle("hide", !(filter === "all" || item.classList.contains(filter)));
+    });
+  });
+});
+
+/* ── Hall gallery overlay ─────── */
+const hallGalleries = {
+  "paul-effah": [
+    "paul_effah-full/paul-effah_full_auditorium.jpeg",
+    "paul_effah-full/paul-effah_full_auditorium_11.jpeg",
+    "paul_effah-full/paul-effah_full_auditorium_12.jpeg"
+  ],
+  "paul-effah-gf": [
+    "paul_effah-ground_floor/paul-effah_ground-floor_11.jpeg",
+    "paul_effah-ground_floor/paul-effah_ground-floor_12.jpeg",
+    "paul_effah-ground_floor/paul-effah_ground-floor_13.jpeg"
+  ],
+  "jinapor-hall": [
+    "jinapor/jinapor_213.jpeg",
+    "jinapor/jinapor_214.jpeg",
+    "jinapor/jinapor-112.jpeg"
+  ]
+};
+
+let currentImages = [];
+let currentIndex  = 0;
+
+function openHallDetails(hallName) {
+  if (!hallGalleries[hallName]) return;
+  currentImages = hallGalleries[hallName];
+  currentIndex  = 0;
+
+  let overlay = document.getElementById("galleryOverlay");
+  if (!overlay) {
+    overlay = document.createElement("div");
+    overlay.id = "galleryOverlay";
+    overlay.style.cssText = "position:fixed;inset:0;background:rgba(0,0,0,0.88);backdrop-filter:blur(8px);display:flex;justify-content:center;align-items:center;z-index:4000;";
+    overlay.addEventListener("click", () => overlay.style.display = "none");
+
+    const img = document.createElement("img");
+    img.id = "galleryImage";
+    img.style.cssText = "max-width:80%;max-height:80%;object-fit:contain;border-radius:10px;box-shadow:0 24px 64px rgba(0,0,0,0.6);";
+    overlay.appendChild(img);
+
+    const makeBtn = (dir, label) => {
+      const b = document.createElement("button");
+      b.innerText = label;
+      b.style.cssText = `position:absolute;${dir}:24px;top:50%;transform:translateY(-50%);background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.3);color:#fff;width:48px;height:48px;border-radius:50%;font-size:20px;cursor:pointer;display:flex;align-items:center;justify-content:center;backdrop-filter:blur(4px);transition:background 0.2s;`;
+      b.addEventListener("click", (e) => {
+        e.stopPropagation();
+        showImage(currentIndex + (dir === "left" ? -1 : 1));
+      });
+      overlay.appendChild(b);
+    };
+
+    makeBtn("left", "‹");
+    makeBtn("right", "›");
+    document.body.appendChild(overlay);
+  }
+
+  showImage(0);
+  overlay.style.display = "flex";
+}
+
+function showImage(index) {
+  if (index < 0) index = currentImages.length - 1;
+  if (index >= currentImages.length) index = 0;
+  currentIndex = index;
+  document.getElementById("galleryImage").src = currentImages[currentIndex];
+}
+
+/* ── Subscribe ────────────────── */
+document.getElementById("subscribeForm").addEventListener("submit", async function(e) {
+  e.preventDefault();
+  const email = this.email.value.trim().toLowerCase();
+  const msg = document.getElementById("subscribeMessage");
+  if (!email) return;
+  try {
+    await db.collection("subscriptions").add({
+      email,
+      createdAt: firebase.firestore.FieldValue.serverTimestamp()
+    });
+    msg.style.display = "block";
+    msg.textContent = "✓ Subscribed successfully!";
+    this.reset();
+    setTimeout(() => { msg.style.display = "none"; }, 3500);
+  } catch (error) {
+    alert("Failed to subscribe. Please try again.");
+  }
+});
+
+function closeDocumentPreview() {
+  document.getElementById("docModal").style.display = "none";
+}
+
+
+/* ── Promo popup ─────────────── */
+const promoSlides = [
+  { image: "events/ncuk2.jpg", school: "NCUK Accra", tagline: "Graduation Ceremony, 2026" },
+  { image: "events/countryintschool2.jpeg", school: "Country International School", tagline: "Awards & Recognition Ceremony" },
+  { image: "events/ecole-ronsard_113.jpg", school: "École Ronsard Bilingual School", tagline: "9th Graduation & Prize-Giving Day" }
+];
+
+function initPromoPopup() {
+  const track = document.getElementById("promoTrack");
+  const dotsWrap = document.getElementById("promoDots");
+
+  promoSlides.forEach((s, i) => {
+    const slide = document.createElement("div");
+    slide.className = "promo-slide" + (i === 0 ? " active" : "");
+    slide.innerHTML = `
+      <img src="${s.image}" alt="${s.school}">
+      <div class="promo-caption">
+        <div class="school">${s.school}</div>
+        <div class="tagline">${s.tagline}</div>
+      </div>
+    `;
+    track.appendChild(slide);
+
+    const dot = document.createElement("span");
+    if (i === 0) dot.className = "active";
+    dotsWrap.appendChild(dot);
+  });
+
+  let current = 0;
+  setInterval(() => {
+    const slides = track.querySelectorAll(".promo-slide");
+    const dots = dotsWrap.querySelectorAll("span");
+    slides[current].classList.remove("active");
+    dots[current].classList.remove("active");
+    current = (current + 1) % slides.length;
+    track.style.transform = `translateX(-${current * 100}%)`;
+    slides[current].classList.add("active");
+    dots[current].classList.add("active");
+  }, 3800);
+
+  const modal = document.getElementById("promoModal");
+  setTimeout(() => {
+    modal.classList.add("show");
+    document.body.style.overflow = "hidden";
+  }, 600);
+}
+
+document.getElementById("promoClose").addEventListener("click", () => {
+  document.getElementById("promoModal").classList.remove("show");
+  document.body.style.overflow = "";
+});
+
+document.getElementById("promoModal").addEventListener("click", function(e) {
+  if (e.target === this) {
+    this.classList.remove("show");
+    document.body.style.overflow = "";
+  }
+});
+
+initPromoPopup();
+</script>
+
+<script src="js/main.js"></script>
+
+</body>
+</html>
