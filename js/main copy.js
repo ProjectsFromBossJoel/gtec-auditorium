@@ -68,8 +68,7 @@ document.addEventListener("DOMContentLoaded", function () {
 function openBookingModal(defaultHall = "") {
   if (!bookingModal) return;
 
-  bookingModal.style.display = "flex"; //  MUST be flex
-  document.body.style.overflow = "hidden";
+  bookingModal.style.display = "flex"; // ✅ MUST be flex
 
   const venueSelect = bookingModal.querySelector('select[name="venue"]');
   if (venueSelect && defaultHall) venueSelect.value = defaultHall;
@@ -79,7 +78,6 @@ function openBookingModal(defaultHall = "") {
   function closeBookingModal() {
     if (!bookingModal) return;
     bookingModal.style.display = "none";
-    document.body.style.overflow = "";
   }
 
   window.openBookingModal = openBookingModal;
@@ -199,33 +197,9 @@ function openBookingModal(defaultHall = "") {
       saveLocal(booking);
       await sendToSheet(booking);
 
+      form.reset();
+      if (daysInput) daysInput.value = "";
       closeBookingModal();
-
-      const overlay   = document.getElementById("submissionOverlay");
-      const spinnerEl  = document.getElementById("spinner");
-      const successEl = document.getElementById("successCard");
-
-      if (overlay) {
-        overlay.style.display = "flex";
-        if (spinnerEl) spinnerEl.style.display = "block";
-        if (successEl) successEl.style.display = "none";
-
-        setTimeout(() => {
-          if (spinnerEl) spinnerEl.style.display = "none";
-          if (successEl) successEl.style.display = "block";
-        }, 2000);
-
-        setTimeout(() => {
-          overlay.style.display = "none";
-          form.reset();
-          if (daysInput) daysInput.value = "";
-          if (confirmCheckbox) confirmCheckbox.disabled = true;
-          if (submitBtn) submitBtn.disabled = true;
-        }, 10000);
-      } else {
-        form.reset();
-        if (daysInput) daysInput.value = "";
-      }
     });
   }
 

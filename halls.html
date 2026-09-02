@@ -463,6 +463,25 @@ body::before {
 .checkbox-item:last-child { border-bottom: none; }
 .checkbox-item input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--navy); }
 
+
+.dining-service-wrap { display: none; margin-top: 12px; padding-top: 12px; border-top: 1px solid rgba(11,31,58,0.08); }
+.dining-service-wrap.show { display: block; }
+.dining-service-wrap label { margin-top: 0 !important; }
+.appliance-dropdown { position: relative; margin-top: 0; }
+.appliance-dropdown-btn { width: 100%; display: flex; align-items: center; justify-content: space-between; padding: 11px 14px; border: 1.5px solid rgba(11,31,58,0.12); border-radius: 8px; font-family: var(--font-body); font-size: 0.9rem; color: var(--text); background: var(--pearl); cursor: pointer; transition: border-color 0.2s, box-shadow 0.2s; }
+.appliance-dropdown-btn:hover, .appliance-dropdown-btn.active { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); background: #fff; }
+.appliance-dropdown-arrow { color: var(--muted); transition: transform 0.2s; }
+.appliance-dropdown-btn.active .appliance-dropdown-arrow { transform: rotate(180deg); }
+.appliance-dropdown-panel { display: none; margin-top: 8px; border: 1.5px solid rgba(11,31,58,0.1); border-radius: 8px; background: var(--pearl); padding: 6px 14px; max-height: 200px; overflow-y: auto; }
+.appliance-dropdown-panel.show { display: block; }
+.appliance-option { display: flex; align-items: center; gap: 10px; padding: 8px 0; border-bottom: 1px solid rgba(11,31,58,0.05); font-size: 0.88rem; color: var(--text); cursor: pointer; text-transform: none; font-weight: 400; letter-spacing: normal; }
+.appliance-option:last-child { border-bottom: none; }
+.appliance-option input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--navy); flex-shrink: 0; }
+.appliance-other-input { display: none; width: 100%; padding: 9px 12px; margin: 0 0 10px; border: 1.5px solid rgba(11,31,58,0.15); border-radius: 6px; font-family: var(--font-body); font-size: 0.85rem; color: var(--text); background: #fff; outline: none; }
+.appliance-other-input.show { display: block; }
+.appliance-other-input:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(201,168,76,0.12); }
+
+
 .rentals-section {
   border: 1.5px solid rgba(11,31,58,0.1); border-radius: 10px;
   padding: 18px; background: var(--pearl); margin-top: 18px;
@@ -517,6 +536,16 @@ body::before {
 
 .guidelines-confirm-row input {
   width: 18px !important; height: 18px; accent-color: var(--navy); margin-top: 0 !important;
+}
+
+.warning-text {
+  font-size: 0.8rem;
+  color: #d64b4b;
+  margin-top: 6px;
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+  line-height: 1.5;
 }
 
 .submit-btn {
@@ -940,8 +969,19 @@ body::before {
             <input type="checkbox" name="additionalServices[]" value="Rehearsals">
           </div>
           <div class="checkbox-item">
-            <span>Dining Area</span>
-            <input type="checkbox" name="additionalServices[]" value="Dining Area">
+            <span>Dining Area (Pergola)</span>
+            <input type="checkbox" name="additionalServices[]" value="Dining Area" id="diningAreaCheckbox">
+          </div>
+
+          <div class="dining-service-wrap" id="diningServiceWrap">
+            <label>Dining Service Type</label>
+            <select name="diningServiceType" id="diningServiceType">
+              <option value="">Select...</option>
+              <option value="Buffet only">Buffet only</option>
+              <option value="Cocktail only">Cocktail only</option>
+              <option value="Buffet & Cocktail only">Buffet & Cocktail only</option>
+              <option value="Buffet & Cocktail with music">Buffet & Cocktail with music</option>
+            </select>
           </div>
         </div>
 
@@ -999,6 +1039,26 @@ body::before {
           <option value="Yes">Yes</option>
           <option value="No">No</option>
         </select>
+
+        <label>Electrical Appliances</label>
+        <div class="appliance-dropdown" id="applianceDropdown">
+          <button type="button" class="appliance-dropdown-btn" id="applianceDropdownBtn">
+            <span id="applianceDropdownLabel">Select appliances...</span>
+            <span class="appliance-dropdown-arrow">▾</span>
+          </button>
+          <div class="appliance-dropdown-panel" id="applianceDropdownPanel">
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="None" id="applianceNone"> None</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="LED/TV Screen"> LED / TV Screen</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Iron"> Iron</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Rice Cooker"> Rice Cooker</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Electric Stove"> Electric Stove</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Kettle"> Kettle</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Blender"> Blender</label>
+            <label class="appliance-option"><input type="checkbox" name="appliances[]" value="Other" id="applianceOther"> Other</label>
+            <input type="text" name="applianceOtherText" id="applianceOtherText" class="appliance-other-input" placeholder="Please specify...">
+          </div>
+        </div>
+        <p class="warning-text">⚠️ Bringing electrical appliances (LED, iron, kitchen appliances, etc.) incurs an additional cost.</p>
 
         <label>Event Description</label>
         <textarea name="eventDescription" rows="3" placeholder="Describe your event..." required></textarea>
@@ -1089,31 +1149,70 @@ menuToggle.addEventListener("click", () => {
   menuToggle.textContent = mobileNav.classList.contains("show") ? "✕" : "☰";
 });
 
-/* Booking modal */
-function openBookingModal(hallName) {
-  const modal = document.getElementById("bookingModal");
-  modal.style.display = "flex";
-  if (hallName && hallName.trim() !== '') {
-    const sel = document.getElementById("venueSelect");
-    if (sel) {
-      for (let i = 0; i < sel.options.length; i++) {
-        if (sel.options[i].value === hallName) { sel.selectedIndex = i; break; }
-      }
+/* Dining service type (shows only if Dining Area is checked) */
+const diningAreaCheckbox = document.getElementById("diningAreaCheckbox");
+const diningServiceWrap  = document.getElementById("diningServiceWrap");
+const diningServiceType  = document.getElementById("diningServiceType");
+
+diningAreaCheckbox.addEventListener("change", () => {
+  const show = diningAreaCheckbox.checked;
+  diningServiceWrap.classList.toggle("show", show);
+  diningServiceType.required = show;
+  if (!show) diningServiceType.value = "";
+});
+
+/* Appliance dropdown */
+const applianceBtn   = document.getElementById("applianceDropdownBtn");
+const appliancePanel = document.getElementById("applianceDropdownPanel");
+const applianceLabel = document.getElementById("applianceDropdownLabel");
+
+applianceBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  appliancePanel.classList.toggle("show");
+  applianceBtn.classList.toggle("active");
+});
+
+document.addEventListener("click", (e) => {
+  if (!document.getElementById("applianceDropdown").contains(e.target)) {
+    appliancePanel.classList.remove("show");
+    applianceBtn.classList.remove("active");
+  }
+});
+
+const applianceNoneBox = document.getElementById("applianceNone");
+const applianceOtherBox = document.getElementById("applianceOther");
+const applianceOtherText = document.getElementById("applianceOtherText");
+const applianceCheckboxes = Array.from(appliancePanel.querySelectorAll("input[type='checkbox']"));
+
+appliancePanel.addEventListener("change", (e) => {
+  if (e.target === applianceNoneBox) {
+    if (applianceNoneBox.checked) {
+      applianceCheckboxes.forEach(cb => { if (cb !== applianceNoneBox) cb.checked = false; });
+      applianceOtherText.value = "";
     }
+  } else if (e.target.checked) {
+    applianceNoneBox.checked = false;
   }
-  document.body.style.overflow = "hidden";
-}
 
-document.getElementById("closeModal").onclick = () => {
-  document.getElementById("bookingModal").style.display = "none";
-  document.body.style.overflow = "";
-};
+  applianceOtherText.classList.toggle("show", applianceOtherBox.checked);
+  applianceOtherText.required = applianceOtherBox.checked;
+  if (!applianceOtherBox.checked) applianceOtherText.value = "";
 
-document.getElementById("bookingModal").addEventListener("click", (e) => {
-  if (e.target === document.getElementById("bookingModal")) {
-    document.getElementById("bookingModal").style.display = "none";
-    document.body.style.overflow = "";
-  }
+  const checked = applianceCheckboxes.filter(cb => cb.checked).map(cb =>
+    cb === applianceOtherBox && applianceOtherText.value.trim()
+      ? `Other (${applianceOtherText.value.trim()})`
+      : cb.value
+  );
+  applianceLabel.textContent = checked.length ? checked.join(", ") : "Select appliances...";
+});
+
+applianceOtherText.addEventListener("input", () => {
+  const checked = applianceCheckboxes.filter(cb => cb.checked).map(cb =>
+    cb === applianceOtherBox && applianceOtherText.value.trim()
+      ? `Other (${applianceOtherText.value.trim()})`
+      : cb.value
+  );
+  applianceLabel.textContent = checked.length ? checked.join(", ") : "Select appliances...";
 });
 
 /* Date calculation */
@@ -1129,34 +1228,6 @@ function calcDays() {
 }
 startDateInput.addEventListener("change", calcDays);
 endDateInput.addEventListener("change", calcDays);
-
-/* Booking form submit */
-const bookingForm       = document.getElementById("bookingForm");
-const bookingModal      = document.getElementById("bookingModal");
-const submissionOverlay = document.getElementById("submissionOverlay");
-const spinner           = document.getElementById("spinner");
-const successCard       = document.getElementById("successCard");
-
-bookingForm.addEventListener("submit", function(e) {
-  e.preventDefault();
-  bookingModal.style.display = "none";
-  document.body.style.overflow = "";
-  submissionOverlay.style.display = "flex";
-  spinner.style.display = "block";
-  successCard.style.display = "none";
-
-  setTimeout(() => {
-    spinner.style.display = "none";
-    successCard.style.display = "block";
-  }, 2000);
-
-  setTimeout(() => {
-    submissionOverlay.style.display = "none";
-    bookingForm.reset();
-    document.getElementById("guidelinesConfirm").disabled = true;
-    document.getElementById("submitBooking").disabled = true;
-  }, 10000);
-});
 
 /* Guidelines */
 document.getElementById("downloadGuidelines").addEventListener("click", (e) => {
