@@ -2715,13 +2715,17 @@ body::before {
 
           <div class="dining-service-wrap" id="diningServiceWrap">
             <label>Dining Service Type</label>
-            <select name="diningServiceType" id="diningServiceType">
-              <option value="">Select...</option>
-              <option value="Buffet only">Buffet only</option>
-              <option value="Cocktail only">Cocktail only</option>
-              <option value="Buffet & Cocktail only">Buffet & Cocktail only</option>
-              <option value="Buffet & Cocktail with music">Buffet & Cocktail with music</option>
-            </select>
+            <div class="appliance-dropdown" id="diningDropdown">
+              <button type="button" class="appliance-dropdown-btn" id="diningDropdownBtn">
+                <span id="diningDropdownLabel">Select service type(s)...</span>
+                <span class="appliance-dropdown-arrow">▾</span>
+              </button>
+              <div class="appliance-dropdown-panel" id="diningDropdownPanel">
+                <label class="appliance-option"><input type="checkbox" name="diningServiceType[]" value="Buffet"> Buffet</label>
+                <label class="appliance-option"><input type="checkbox" name="diningServiceType[]" value="Cocktail"> Cocktail</label>
+                <label class="appliance-option"><input type="checkbox" name="diningServiceType[]" value="Music"> Music</label>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -2949,14 +2953,37 @@ endDateInput.addEventListener("change", calcDays);
 /* ── Dining service type (shows only if Dining Area is checked) ───── */
 const diningAreaCheckbox = document.getElementById("diningAreaCheckbox");
 const diningServiceWrap  = document.getElementById("diningServiceWrap");
-const diningServiceType  = document.getElementById("diningServiceType");
 
 diningAreaCheckbox.addEventListener("change", () => {
-  const show = diningAreaCheckbox.checked;
-  diningServiceWrap.classList.toggle("show", show);
-  diningServiceType.required = show;
-  if (!show) diningServiceType.value = "";
+  diningServiceWrap.classList.toggle("show", diningAreaCheckbox.checked);
 });
+
+/* ── Dining service type dropdown (checkbox multi-select) ───── */
+const diningBtn   = document.getElementById("diningDropdownBtn");
+const diningPanel = document.getElementById("diningDropdownPanel");
+const diningLabel = document.getElementById("diningDropdownLabel");
+
+diningBtn.addEventListener("click", (e) => {
+  e.stopPropagation();
+  diningPanel.classList.toggle("show");
+  diningBtn.classList.toggle("active");
+});
+
+document.addEventListener("click", (e) => {
+  if (!document.getElementById("diningDropdown").contains(e.target)) {
+    diningPanel.classList.remove("show");
+    diningBtn.classList.remove("active");
+  }
+});
+
+const diningCheckboxes = Array.from(diningPanel.querySelectorAll("input[type='checkbox']"));
+
+function updateDiningLabel() {
+  const checked = diningCheckboxes.filter(cb => cb.checked).map(cb => cb.value);
+  diningLabel.textContent = checked.length ? checked.join(", ") : "Select service type(s)...";
+}
+
+diningPanel.addEventListener("change", updateDiningLabel);
 
 /* ── Appliance dropdown ───── */
 const applianceBtn   = document.getElementById("applianceDropdownBtn");

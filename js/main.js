@@ -163,6 +163,8 @@ function openBookingModal(defaultHall = "") {
       ? appliances.map(a => a === "Other" && applianceOtherText ? `Other (${applianceOtherText})` : a).join(", ")
       : "None";
 
+    const diningTypes = formData.getAll("diningServiceType[]");
+
       const booking = {
         id: Date.now(),
         applicantName: formData.get('applicantName'),

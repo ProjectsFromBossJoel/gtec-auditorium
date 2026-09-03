@@ -1095,7 +1095,7 @@ body::before {
     </h3>
 
     <p class="event-card-excerpt">
-      An evening celebrating outstanding achievement and excellence, held under the theme "Towards the Dynamic Future," honouring students, staff, and community partners.
+      A program celebrating outstanding achievement and excellence, held under the theme "Towards the Dynamic Future," honouring students, staff, and community partners.
     </p>
 
     <div class="event-card-footer">
@@ -1249,8 +1249,6 @@ const events = [
     categoryLabel: "Graduation",
     images: ["events/ecole_ronsard_program.png.jpeg", "events/ecole-ronsard_113.jpg", "events/ecole-ronsard_112.jpg", "events/ecole-ronsard_114.jpg",],
     date: "June 23-24, 2026",
-    venue: "Paul Effah Hall",
-    attendees: "~580 guests",
     theme: "Shaping Ghana's Future Through Culture and Learning",
     website: "https://ecole-ronsard.com/",
     organiserLink: '<a href="https://ecole-ronsard.com/" target="_blank" style="color:#007bff;text-decoration:underline;">École Ronsard Bilingual School</a>',
@@ -1270,12 +1268,10 @@ const events = [
     categoryLabel: "Graduation",
     images: ["events/countryintschool2.jpeg", "events/countryintschool3.jpeg", "events/countryintsch.jpg", "events/countryintschool04.jpeg", "events/countryintschool7.jpeg",],
     date: "July 2, 2026",
-    venue: "Paul Effah Hall - Ground Floor",
-    attendees: "~320 guests",
     theme: "Towards the Dynamic Future",
     website: "https://countryinternational.edu.gh/",
     organiserLink: '<a href="https://countryinternational.edu.gh/" target="_blank" style="color:#007bff;text-decoration:underline;">Country International School</a>',
-    description: "The Awards & Recognition Ceremony brought together students, staff, families, and community partners to celebrate excellence under the theme 'Towards the Dynamic Future.' The evening honoured outstanding achievement across academics, leadership, and service, with special recognition given to sponsors and partners who supported the school's mission throughout the year.",
+    description: "The Awards & Recognition Ceremony brought together students, staff, families, and community partners to celebrate excellence under the theme 'Towards the Dynamic Future.' The program honoured outstanding achievement across academics, leadership, and service, with special recognition given to sponsors and partners who supported the school's mission throughout the year.",
     highlights: [
       "Presentation of academic and leadership awards",
       "Recognition of sponsors and community partners",
@@ -1291,8 +1287,6 @@ const events = [
     categoryLabel: "Graduation",
     images: ["events/ncuk2.jpg", "events/ncuk1.jpg", "events/ncuk4.jpg", "events/ncuk_accra_valedictorian1.jpg"],
     date: "August 15, 2026",
-    venue: "Paul Effah Hall - Full Capacity",
-    attendees: "600 guests",
     theme: "Global Pathways, Local Pride",
     website: "https://ncukaccra.com/",
     organiserLink: '<a href="https://ncukaccra.com/" target="_blank" style="color:#007bff;text-decoration:underline;">NCUK Accra</a>',
@@ -1357,8 +1351,6 @@ function openEventModal(index) {
   const metaRow = document.getElementById("modalMeta");
   metaRow.innerHTML = `
     <span class="meta-chip highlight">📅 ${ev.date}</span>
-    <span class="meta-chip">📍 ${ev.venue}</span>
-    <span class="meta-chip">🎟 ${ev.attendees}</span>
     ${ev.website ? `<a href="${ev.website}" target="_blank" rel="noopener" class="meta-chip visit-link">🌐 Visit Website</a>` : ""}
   `;
 
